@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useDataStore } from 'app/store/providers/data';
 import { MapBlock, ScrollytellingBlock } from '@lib';
-import { transformToVedaData } from 'app/utils/data';
+import { transformToVedaData } from 'app/utilities/data';
 
 function getDatasetLayers(vedaData: any, datasetId?: string) {
   if (!datasetId) return {};
