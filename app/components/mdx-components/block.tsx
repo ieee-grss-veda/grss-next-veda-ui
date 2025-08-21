@@ -1,3 +1,4 @@
+// @ts-nocheck: the DatasetStatus is currently not exported as type from the veda-ui
 'use client';
 
 import React, { useMemo } from 'react';
@@ -24,6 +25,7 @@ function toVizDatasetSuccess(layer: any) {
   if (!layer) return null;
   return {
     status: 'success',
+    error: null,
     id: layer.id,
     name: layer.name,
     type: layer.type,
