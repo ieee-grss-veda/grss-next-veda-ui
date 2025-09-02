@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-/* eslint-enable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import React, { useMemo } from 'react';
 import { useDataStore } from 'app/store/providers/data';
 import { MapBlock, ScrollytellingBlock } from '@lib';
 import { transformToVedaData } from 'app/utilities/data';
+import { DatasetStatus, type VizDatasetSuccess } from 'app/types/veda-ui';
 
 function getDatasetLayers(vedaData: any, datasetId?: string) {
   if (!datasetId) return {};
@@ -23,10 +21,10 @@ function findLayerById(layersRecord: Record<string, any[]>, layerId?: string) {
   return null;
 }
 
-function toVizDatasetSuccess(layer: any) {
+function toVizDatasetSuccess(layer: any): VizDatasetSuccess | null {
   if (!layer) return null;
   return {
-    status: 'success',
+    status: DatasetStatus.SUCCESS,
     error: null,
     id: layer.id,
     name: layer.name,
