@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck : until veda-ui fixes its types
 'use client';
 
 import {
