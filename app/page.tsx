@@ -1,7 +1,7 @@
+import { Button } from '@trussworks/react-uswds';
 import React from 'react';
 import Link from 'next/link';
 import { getStoriesMetadata } from 'app/content/utils/mdx';
-
 const mainTopSectionData = [
   {
     title: 'Earth scientists',
@@ -35,6 +35,7 @@ export default function HomePage() {
     <section>
       <div className='grid-container'>
         <div className='grid-row margin-top-5'>
+          <Button type='button'>Test</Button>
           <h2>
             VEDA Template is here to help scientists to engage with wider
             audience
