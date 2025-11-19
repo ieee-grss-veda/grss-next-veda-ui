@@ -7,8 +7,6 @@ module.exports = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-    moduleResolution: 'bundler',
-    include: ['app/**/*.ts', 'app/**/*.tsx'],
   },
   async rewrites() {
     return [
