@@ -10,7 +10,7 @@ import {
   STORY_HUB_PATH,
 } from 'app/config';
 import VedaUIConfigProvider from 'app/store/providers/veda-ui-config';
-import MetaNavigation from './meta-navigation.tsx';
+import MetaNavigation from './meta-navigation.jsx';
 
 export const navItems: NavItem[] = [
   {
@@ -57,7 +57,7 @@ export default function Header() {
         subNavItems={subNavItems}
         metaNav={<MetaNavigation />}
         logoSvg={
-          <div id='logo-container-link'> 
+          <div id='logo-container-link'>
             {/*
               USWDS targets only <a> tags for styling links. However when the text is a <span>
               instead of a link, it does not inherit the color styling (it ends up being white).
