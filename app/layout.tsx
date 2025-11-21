@@ -1,6 +1,7 @@
 import './globals.css';
 import Header from './components/common/header';
 import { ThemeProvider } from './components/common/theme-provider';
+import Footer from './components/common/footer';
 
 export const metadata = {
   title: 'Next.js',
@@ -19,6 +20,7 @@ export default function RootLayout({
           <div className='min-h-screen bg-background text-foreground' lang='en'>
             <Header />
             <div>{children}</div>
+            <Footer />
           </div>
         </ThemeProvider>
       </body>
