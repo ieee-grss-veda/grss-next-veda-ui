@@ -1,40 +1,17 @@
-import React from 'react';
-import { MetaNavigation } from './meta-navigation';
+'use client';
+
+import { ArrowRight, Menu, Moon, Sun } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Card } from '../ui/card';
-import { Badge } from '../ui/badge';
-import {
-  ChevronDown,
-  Database,
-  BarChart3,
-  Brain,
-  Layers,
-  Users,
-  Map,
-  Share2,
-  Github,
-  ArrowRight,
-  Moon,
-  Sun,
-  Calendar,
-  Clock,
-  ExternalLink,
-  Cpu,
-} from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { MetaNavigation } from './meta-navigation';
 // import { ImageWithFallback } from './figma/ImageWithFallback';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-// import grssLogo from "figma:asset/884689818f77f15e97314310d167c0ac18ae8406.png";
-// import grssLogoDark from "figma:asset/cf0076235cd0bd0d79d292edbdceace7c657c882.png";
+import { Separator } from '../ui/separator';
+import { useTheme } from './theme-provider';
 
 export default function Header() {
-  const currentMode = 'light';
-  const logo = '';
+  const { theme, setTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
@@ -50,7 +27,15 @@ export default function Header() {
                 className='focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded transition-opacity hover:opacity-80'
                 aria-label='Go to home page'
               >
-                <img src={logo} alt='GRSS IEEE Logo' className='h-12' />
+                <img
+                  src={
+                    theme === 'dark'
+                      ? '/images/GRSS-darkmode-logo.png'
+                      : '/images/GRSS-lightmode-logo.png'
+                  }
+                  alt='GRSS IEEE Logo'
+                  className='h-12'
+                />
               </button>
               <div className='hidden lg:flex items-center gap-6'>
                 <a
@@ -71,41 +56,94 @@ export default function Header() {
                 >
                   Stories
                 </a>
-
-                {/* Story Variation Selector */}
-                {/* <Select
-                  value={storyVariation}
-                  onValueChange={onStoryVariationChange}
-                >
-                  <SelectTrigger className='w-[200px] h-9'>
-                    <SelectValue placeholder='Story Style' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='A'>Featured Stories</SelectItem>
-                    <SelectItem value='D'>Stories Coming Soon</SelectItem>
-                  </SelectContent>
-                </Select> */}
               </div>
             </div>
             <div className='flex items-center gap-3'>
+              {/* Mobile Menu Button */}
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='lg:hidden'
+                    aria-label='Open menu'
+                  >
+                    <Menu className='h-5 w-5' />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side='right' className='w-[300px] sm:w-[400px]'>
+                  <nav className='flex flex-col gap-4 mt-8'>
+                    <a
+                      href='#'
+                      className='text-lg hover:text-primary transition-colors py-2'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Data Catalog
+                    </a>
+                    <a
+                      href='#'
+                      className='text-lg hover:text-primary transition-colors py-2'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Exploration Tools
+                    </a>
+                    <a
+                      href='#'
+                      className='text-lg hover:text-primary transition-colors py-2'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Stories
+                    </a>
+
+                    <Separator className='my-4' />
+
+                    <Button
+                      variant='ghost'
+                      className='justify-start text-lg py-6'
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      About
+                    </Button>
+
+                    <Button
+                      variant='ghost'
+                      className='justify-start text-lg py-6'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign-in
+                    </Button>
+
+                    <Button
+                      className='w-full justify-center'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Contact Us
+                      <ArrowRight className='h-4 w-4 ml-2' />
+                    </Button>
+                  </nav>
+                </SheetContent>
+              </Sheet>
+
+              {/* Desktop Actions */}
               <Button
                 variant='ghost'
                 size='sm'
-                // onClick={() =>
-                //   onModeChange(currentMode === 'light' ? 'dark' : 'light')
-                // }
-                aria-label={`Switch to ${currentMode === 'light' ? 'dark' : 'light'} mode`}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                className='hidden lg:flex'
               >
-                {currentMode === 'light' ? (
+                {theme === 'light' ? (
                   <Moon className='h-4 w-4' />
                 ) : (
                   <Sun className='h-4 w-4' />
                 )}
               </Button>
-              <Button variant='ghost' size='sm'>
+              <Button variant='ghost' size='sm' className='hidden lg:flex'>
                 About
               </Button>
-              <Button variant='ghost' size='sm'>
+              <Button variant='ghost' size='sm' className='hidden lg:flex'>
                 Sign-in
               </Button>
               <Button size='sm' className='gap-2'>

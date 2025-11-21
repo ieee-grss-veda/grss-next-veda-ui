@@ -1,5 +1,6 @@
 import './globals.css';
 import Header from './components/common/header';
+import { ThemeProvider } from './components/common/theme-provider';
 
 export const metadata = {
   title: 'Next.js',
@@ -14,10 +15,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <div className='min-h-screen bg-background text-foreground' lang='en'>
-          <Header />
-          <div>{children}</div>
-        </div>
+        <ThemeProvider>
+          <div className='min-h-screen bg-background text-foreground' lang='en'>
+            <Header />
+            <div>{children}</div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
