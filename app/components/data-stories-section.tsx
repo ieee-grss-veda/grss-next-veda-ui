@@ -1,8 +1,8 @@
 import { BarChart3, Clock, ExternalLink, Map, Users } from 'lucide-react';
 import React from 'react';
+import SectionHeader from './section-header';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-
 const storyFeatures = [
   {
     icon: Map,
@@ -42,20 +42,16 @@ export default function DataStoriesSection() {
             </div>
 
             {/* Content */}
-            <div className='text-center max-w-3xl mx-auto'>
-              <Badge className='mb-6' variant='secondary'>
-                Data Stories
-              </Badge>
-
-              <h2 id='stories-heading' className='text-4xl lg:text-5xl mb-6'>
-                Explore Data Stories
-              </h2>
-
-              <p className='text-xl text-muted-foreground leading-relaxed mb-8'>
-                Transform Earth observation data into interactive narratives
-                that combine compelling storytelling with embedded analytics and
-                collaborative exploration.
-              </p>
+            <div className='max-w-3xl mx-auto text-center'>
+              <SectionHeader
+                badgeText='Data Stories'
+                heading='Explore Data Stories'
+                subheading='Transform Earth observation data into interactive narratives that combine compelling storytelling with embedded analytics and collaborative exploration.'
+                id='stories-heading'
+                className='mb-8'
+                headingClassName='mb-6'
+                subheadingClassName='leading-relaxed'
+              />
 
               {/* Feature Highlights */}
               <div className='grid md:grid-cols-3 gap-6 mb-8'>

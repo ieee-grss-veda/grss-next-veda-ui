@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import SectionHeader from './section-header';
 
 const beneficiaries = [
   {
@@ -37,17 +37,14 @@ export default function WhoBenefitsSection() {
     >
       <div className='max-w-[1400px] mx-auto px-6 lg:px-12'>
         <div className='grid lg:grid-cols-2 gap-16 items-center'>
-          <div>
-            <Badge className='mb-4' variant='secondary'>
-              For Everyone
-            </Badge>
-            <h2 id='who-benefits-heading' className='text-4xl lg:text-5xl mb-6'>
-              Who Can Benefit?
-            </h2>
-            <p className='text-xl text-muted-foreground mb-8'>
-              GRSS VEDA is designed to serve a wide range of GRSS Members
-            </p>
-          </div>
+          <SectionHeader
+            badgeText='For Everyone'
+            heading='Who Can Benefit?'
+            subheading='GRSS VEDA is designed to serve a wide range of GRSS Members'
+            id='who-benefits-heading'
+            className='text-left'
+            subheadingClassName='mx-0'
+          />
 
           <div className='grid sm:grid-cols-2 gap-4'>
             {beneficiaries.map((item, index) => (

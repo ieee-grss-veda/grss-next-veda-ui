@@ -3,6 +3,7 @@
 import { ArrowRight, Database, Users } from 'lucide-react';
 import React from 'react';
 import { useTheme } from './common/theme-provider';
+import SectionHeader from './section-header';
 import { Button } from './ui/button';
 
 const ctaItems = [
@@ -36,20 +37,15 @@ export default function GetStartedSection() {
       aria-labelledby='get-started-heading'
     >
       <div className='max-w-[1400px] mx-auto px-6 lg:px-12'>
-        <div className='text-center mb-16'>
-          <h2
-            id='get-started-heading'
-            className='text-4xl lg:text-5xl mb-6 text-white'
-          >
-            Get Started with GRSS VEDA
-          </h2>
-          <p
-            className='text-xl text-white max-w-2xl mx-auto'
-            style={{ opacity: 0.95 }}
-          >
-            Access powerful tools for Earth observation data analysis
-          </p>
-        </div>
+        <SectionHeader
+          className='mb-16'
+          heading='Get Started with GRSS VEDA'
+          subheading='Access powerful tools for Earth observation data analysis'
+          id='get-started-heading'
+          headingClassName='text-white'
+          subheadingClassName='text-white'
+          subheadingStyle={{ opacity: 0.95 }}
+        />
 
         <div className='grid md:grid-cols-3 gap-8 max-w-5xl mx-auto'>
           {ctaItems.map((item, index) => (

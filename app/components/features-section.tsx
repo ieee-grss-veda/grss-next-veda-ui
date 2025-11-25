@@ -1,8 +1,8 @@
 import { ArrowRight, Brain, Cpu, Map } from 'lucide-react';
 import React from 'react';
-import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
+import SectionHeader from './section-header';
 
 const features = [
   {
@@ -35,18 +35,13 @@ export default function FeaturesSection() {
       aria-labelledby='features-heading'
     >
       <div className='max-w-[1400px] mx-auto px-6 lg:px-12'>
-        <div className='text-center mb-16'>
-          <Badge className='mb-4' variant='secondary'>
-            Platform Capabilities
-          </Badge>
-          <h2 id='features-heading' className='text-4xl lg:text-5xl mb-6'>
-            Key Features
-          </h2>
-          <p className='text-xl text-muted-foreground max-w-3xl mx-auto'>
-            Discover our comprehensive suite of tools designed for modern Earth
-            observation research
-          </p>
-        </div>
+        <SectionHeader
+          className='mb-16'
+          badgeText='Platform Capabilities'
+          heading='Key Features'
+          subheading='Discover our comprehensive suite of tools designed for modern Earth observation research'
+          id='features-heading'
+        />
 
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto'>
           {features.map((feature, index) => (
