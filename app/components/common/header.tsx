@@ -6,12 +6,40 @@ import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { MetaNavigation } from './meta-navigation';
 // import { ImageWithFallback } from './figma/ImageWithFallback';
+import { InternalNavLink } from '@lib';
+import {
+  DATASET_CATALOG_PATH,
+  EXPLORATION_PATH,
+  STORY_HUB_PATH,
+} from 'app/config';
+import Link from 'next/link';
 import { Separator } from '../ui/separator';
 import { useTheme } from './theme-provider';
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems: InternalNavLink[] = [
+    {
+      id: 'data-catalog',
+      title: 'Data Catalog',
+      to: `/${DATASET_CATALOG_PATH}`,
+      type: 'internalLink',
+    },
+    {
+      id: 'exploration',
+      title: 'Exploration',
+      to: `/${EXPLORATION_PATH}`,
+      type: 'internalLink',
+    },
+    {
+      id: 'stories',
+      title: 'Stories',
+      to: `/${STORY_HUB_PATH}`,
+      type: 'internalLink',
+    },
+  ];
 
   return (
     <>
@@ -23,8 +51,9 @@ export default function Header() {
         <div className='max-w-[1400px] mx-auto px-6 lg:px-12'>
           <div className='flex items-center justify-between h-20'>
             <div className='flex items-center gap-8'>
-              <button
-                className='focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded transition-opacity hover:opacity-80'
+              <Link
+                href='/'
+                className='focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded transition-opacity hover:opacity-80 cursor-pointer'
                 aria-label='Go to home page'
               >
                 <img
@@ -36,26 +65,17 @@ export default function Header() {
                   alt='GRSS IEEE Logo'
                   className='h-12'
                 />
-              </button>
+              </Link>
               <div className='hidden lg:flex items-center gap-6'>
-                <a
-                  href='#'
-                  className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
-                >
-                  Data Catalog
-                </a>
-                <a
-                  href='#'
-                  className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded flex items-center gap-1'
-                >
-                  Exploration Tools
-                </a>
-                <a
-                  href='#'
-                  className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
-                >
-                  Stories
-                </a>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.to}
+                    className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
+                  >
+                    {item.title}
+                  </Link>
+                ))}
               </div>
             </div>
             <div className='flex items-center gap-3'>
