@@ -11,6 +11,7 @@
 
 import { InternalNavLink } from '@lib';
 import Link from 'next/link';
+import React from 'react';
 
 export function MetaNavigation() {
   const navItems: InternalNavLink[] = [
@@ -72,7 +73,7 @@ export function MetaNavigation() {
           {/* Left-aligned core site links */}
           <div className='flex flex-wrap items-center gap-1 text-sm'>
             {navItems.map((item, index) => (
-              <>
+              <div key={index} className='flex gap-1'>
                 <Link
                   href={item.to}
                   className='text-foreground dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-foreground dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-[#FBFCFF] dark:focus:ring-offset-black rounded px-0.5 transition-all'
@@ -95,14 +96,14 @@ export function MetaNavigation() {
                     |
                   </span>
                 )}
-              </>
+              </div>
             ))}
           </div>
 
           {/* Right-aligned utility links */}
           <div className='flex flex-wrap items-center gap-1 text-sm'>
             {rightNavItems.map((item, index) => (
-              <>
+              <div key={index} className='flex gap-1'>
                 <Link
                   href={item.to}
                   className='text-foreground dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-foreground dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-[#FBFCFF] dark:focus:ring-offset-black rounded px-0.5 transition-all'
@@ -119,7 +120,7 @@ export function MetaNavigation() {
                     |
                   </span>
                 )}
-              </>
+              </div>
             ))}
           </div>
         </div>

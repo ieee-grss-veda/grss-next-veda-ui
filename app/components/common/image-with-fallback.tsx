@@ -1,5 +1,6 @@
 'use client';
 
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 const ERROR_IMG_SRC =
@@ -41,3 +42,10 @@ export function ImageWithFallback(
     />
   );
 }
+
+ImageWithFallback.propTypes = {
+  src: PropTypes.string,
+  alt: PropTypes.string,
+  style: PropTypes.object,
+  className: PropTypes.string,
+};

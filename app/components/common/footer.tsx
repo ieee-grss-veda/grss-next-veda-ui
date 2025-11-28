@@ -64,7 +64,7 @@ export default function Footer() {
       <div className='max-w-[1400px] mx-auto px-6 lg:px-12 py-12'>
         <div className='flex flex-wrap gap-4 mb-8 text-sm'>
           {navItems.map((item, index) => (
-            <>
+            <div key={index} className='flex gap-4'>
               <Link
                 href={item.to}
                 className='text-muted-foreground hover:text-primary hover:underline focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
@@ -74,14 +74,14 @@ export default function Footer() {
               {index < navItems.length - 1 && (
                 <span className='text-muted-foreground'>|</span>
               )}
-            </>
+            </div>
           ))}
         </div>
         <div className='space-y-2 text-sm text-muted-foreground'>
           <p>
             © Copyright 2025 IEEE – All rights reserved. A public charity. IEEE
-            is the world's largest technical professional organization dedicated
-            to advancing technology for the benefit of humanity.
+            is the world&apos;s largest technical professional organization
+            dedicated to advancing technology for the benefit of humanity.
           </p>
         </div>
       </div>

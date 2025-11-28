@@ -7,6 +7,7 @@ import FeaturesSection from './components/features-section';
 import GetStartedSection from './components/get-started-section';
 import HeroSection from './components/hero-section';
 import WhoBenefitsSection from './components/who-benefits-section';
+import React from 'react';
 
 export default function HomePage() {
   const { theme } = useTheme();
@@ -25,7 +26,7 @@ export default function HomePage() {
           }
           subheading={
             <>
-              The Geoscience and Remote Sensing Society's (GRSS) Visualization,
+              The Geoscience and Remote Sensing Society&apos;s (GRSS) Visualization,
               Exploration, and Data Analysis (VEDA) Platform is a cloud-based,
               collaborative platform for GRSS members, designed to facilitate
               the exploration, analysis, and visualization of Earth observation

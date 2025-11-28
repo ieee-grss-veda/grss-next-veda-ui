@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowRight, Menu, Moon, Sun } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { MetaNavigation } from './meta-navigation';

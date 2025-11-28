@@ -2,6 +2,7 @@ import './globals.css';
 import Header from './components/common/header';
 import { ThemeProvider } from './components/common/theme-provider';
 import Footer from './components/common/footer';
+import React from 'react';
 
 export const metadata = {
   title: 'Next.js',
