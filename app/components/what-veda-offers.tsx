@@ -9,6 +9,7 @@ import {
 import FeatureCard from './feature-card';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import React from 'react';
 
 export default function WhatVedaOffers() {
   const offerings = [

@@ -1,5 +1,6 @@
 import { Badge } from '../components/ui/badge';
 import FeatureCard from './feature-card';
+import React from 'react';
 
 export default function WhoWeServe() {
   const whoWeServe = [
