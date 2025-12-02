@@ -1,8 +1,7 @@
-import { ArrowRight, Brain, Cpu, Map } from 'lucide-react';
+import { Brain, Cpu, Map } from 'lucide-react';
 import React from 'react';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
 import SectionHeader from './section-header';
+import FeatureCard from './feature-card';
 
 const features = [
   {
@@ -44,28 +43,15 @@ export default function FeaturesSection() {
         />
 
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto'>
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className='p-8 hover:shadow-lg transition-all border-2 hover:border-primary/50 flex flex-col'
-            >
-              <feature.icon
-                className='h-12 w-12 mb-4'
-                style={{ color: feature.iconColor }}
-              />
-              <h3 className='mb-3'>{feature.title}</h3>
-              <p className='text-muted-foreground mb-6 flex-1'>
-                {feature.description}
-              </p>
-              <Button
-                variant='outline'
-                className='w-full gap-2'
-                // onClick={() => onNavigateToAboutSection?.('what-veda-offers')}
-              >
-                Learn More
-                <ArrowRight className='h-4 w-4' />
-              </Button>
-            </Card>
+          {features.map((feature) => (
+            <FeatureCard
+              key={feature.title}
+              icon={feature.icon}
+              iconColor={feature.iconColor}
+              title={feature.title}
+              description={feature.description}
+              showButton={true}
+            />
           ))}
         </div>
       </div>

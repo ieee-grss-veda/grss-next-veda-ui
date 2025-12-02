@@ -6,26 +6,31 @@ import { Button } from './ui/button';
 
 interface HeroSectionProps {
   imageSrc: string;
-  badgeText: string;
+  badgeText?: string;
   heading: React.ReactNode;
+  headingStyle?: React.CSSProperties;
   subheading: React.ReactNode;
   primaryButton?: {
     text: string;
     onClick?: () => void;
+    href?: string;
   };
   secondaryButton?: {
     text: string;
     onClick?: () => void;
   };
+  children?: React.ReactNode;
 }
 
 export default function HeroSection({
   imageSrc,
   badgeText,
   heading,
+  headingStyle,
   subheading,
   primaryButton,
   secondaryButton,
+  children,
 }: HeroSectionProps) {
   return (
     <section
@@ -52,12 +57,18 @@ export default function HeroSection({
           <h1
             id='hero-heading'
             className='text-5xl lg:text-6xl mb-6 leading-tight'
+            style={headingStyle}
           >
             {heading}
           </h1>
           <p className='text-xl text-muted-foreground mb-8 leading-relaxed'>
             {subheading}
           </p>
+          {children && (
+            <div className='text-l text-muted-foreground leading-relaxed max-w-4xl mx-auto'>
+              {children}
+            </div>
+          )}
           {(primaryButton || secondaryButton) && (
             <div className='flex flex-wrap gap-4 justify-center'>
               {primaryButton && (

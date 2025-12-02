@@ -118,13 +118,16 @@ export default function Header() {
                     <Separator className='my-4' />
 
                     <Button
+                      asChild
                       variant='ghost'
                       className='justify-start text-lg py-6'
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                      }}
                     >
-                      About
+                      <Link
+                        href='/about'
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        About
+                      </Link>
                     </Button>
 
                     <Button
@@ -160,8 +163,13 @@ export default function Header() {
                   <Sun className='h-4 w-4' />
                 )}
               </Button>
-              <Button variant='ghost' size='sm' className='hidden lg:flex'>
-                About
+              <Button
+                asChild
+                variant='ghost'
+                size='sm'
+                className='hidden lg:flex'
+              >
+                <Link href='/about'>About</Link>
               </Button>
               <Button variant='ghost' size='sm' className='hidden lg:flex'>
                 Sign-in
