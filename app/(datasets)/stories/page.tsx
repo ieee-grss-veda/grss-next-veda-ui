@@ -1,6 +1,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { getStoriesMetadata } from 'app/content/utils/mdx';
+import '../../styles/index.scss';
+import '@teamimpact/veda-ui/lib/main.css';
 
 // @NOTE: Dynamically load to ensure only CSR since these depends on VedaUI ContextProvider for routing...
 const StoriesHub = dynamic(() => import('./hub'), {
