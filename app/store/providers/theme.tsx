@@ -1,10 +1,20 @@
 'use client';
+/**
+ * Theme provider for veda-ui styled-components.
+ * This is REQUIRED for veda-ui components (CatalogContent, StoriesHubContent, PageHero, etc.)
+ * as they depend on styled-components theme context for mediaRanges, breakpoints, etc.
+ *
+ * Note: This is separate from the app's main ThemeProvider (app/components/common/theme-provider.tsx)
+ * which handles light/dark mode. Both providers are needed:
+ * - Main ThemeProvider: light/dark mode for the app shell
+ * - DevseedUIThemeProvider: styled-components context for veda-ui library components
+ */
 import React, { ReactNode } from 'react';
 import { createUITheme } from '@devseed-ui/theme-provider';
 import { DevseedUiThemeProvider } from '@lib';
 
-// Values here should be manually synced until we consolidate all the styles to USWDS
-// Be mindful that these values are used more for VEDA UI component, not for instance
+// Theme values for veda-ui styled-components
+// Be mindful that these values are used for VEDA UI components
 // Use this page to look up the value: https://designsystem.digital.gov/design-tokens/color/system-tokens/
 const VEDA_OVERRIDE_THEME = {
   zIndices: {

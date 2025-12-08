@@ -9,6 +9,11 @@ interface ProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Providers for veda-ui components in the datasets route group.
+ * DevseedUIThemeProvider is required for veda-ui styled-components
+ * (provides mediaRanges, breakpoints, and other theme context).
+ */
 export default function Providers({ datasets, children }: ProviderProps) {
   return (
     <DevseedUIThemeProvider>

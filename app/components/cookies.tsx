@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Banner, Button } from '@uswds/uswds';
+import { Alert, AlertDescription } from './ui/alert';
+import { Button } from './ui/button';
 
 const CookiesBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -23,17 +24,19 @@ const CookiesBanner = () => {
   }
 
   return (
-    <Banner>
-      <div className='grid-container padding-1'>
-        <p className='font-sans-xs'>
-          This website uses cookies to ensure you get the best experience on our
-          website.
-        </p>
-        <Button type='button' size='small' onClick={handleAccept}>
+    <div className='fixed bottom-0 left-0 right-0 z-50 p-4 bg-background border-t border-border'>
+      <div className='max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4'>
+        <Alert className='border-0 bg-transparent p-0'>
+          <AlertDescription className='text-sm text-muted-foreground'>
+            This website uses cookies to ensure you get the best experience on
+            our website.
+          </AlertDescription>
+        </Alert>
+        <Button size='sm' onClick={handleAccept}>
           Accept
         </Button>
       </div>
-    </Banner>
+    </div>
   );
 };
 
