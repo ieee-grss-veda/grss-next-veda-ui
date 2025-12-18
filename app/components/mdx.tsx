@@ -18,8 +18,6 @@ import {
   EnhancedMapBlock,
   EnhancedScrollyTellingBlock,
 } from './mdx-components/block';
-import { getDatasetsMetadata } from 'app/content/utils/mdx';
-import Providers from 'app/(datasets)/providers';
 
 function Table({ data }: { data: any }) {
   const headers = data.headers.map((header, index) => (
@@ -103,10 +101,14 @@ const components = {
   Chart: Chart,
 };
 
+/**
+ * CustomMDX component for rendering MDX content.
+ * IMPORTANT: This component must be wrapped with VedaUIWrapper by its parent.
+ * The parent should pass datasets to VedaUIWrapper for MDX components to work.
+ */
 export function CustomMDX(props: any) {
-  const datasets = getDatasetsMetadata();
   return (
-    <Providers datasets={datasets}>
+    <>
       <LegacyGlobalStyles />
       <MDXRemote
         {...props}
@@ -114,6 +116,6 @@ export function CustomMDX(props: any) {
       >
         {props.children}
       </MDXRemote>
-    </Providers>
+    </>
   );
 }

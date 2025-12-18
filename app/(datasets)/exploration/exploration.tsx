@@ -9,7 +9,7 @@ import {
 } from '@lib';
 import { useSetAtom } from 'jotai';
 import useElementHeight from '@utils/hooks/use-element-height';
-import Providers from '../providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const setExternalDatasets = useSetAtom(externalDatasetsAtom);
@@ -31,7 +31,7 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const offsetHeight = useElementHeight({ queryToSelect: 'header' });
 
   return (
-    <Providers datasets={datasets}>
+    <VedaUIWrapper datasets={datasets}>
       <LegacyGlobalStyles />
       <div
         id='ea-wrapper'
@@ -56,6 +56,6 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
           openDatasetsSelectionModal={openModal}
         />
       </div>
-    </Providers>
+    </VedaUIWrapper>
   );
 }

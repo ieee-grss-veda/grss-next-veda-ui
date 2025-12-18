@@ -1,0 +1,23 @@
+/*
+ * Veda-UI CSS wrapped in the 'uswds' layer.
+ * This gives it the LOWEST cascade priority, allowing
+ * Tailwind and app styles to always override without !important.
+ *
+ * The layer order is defined in globals.css:
+ *   @layer uswds, tailwind, app;
+ */
+
+/* Import veda-ui's pre-compiled CSS into the uswds layer */
+@import '@teamimpact/veda-ui/lib/main.css' layer(uswds);
+
+/*
+ * Import scoped USWDS grid utilities into the uswds layer.
+ * These grid classes ONLY apply within .veda-ui-scope wrapper,
+ * preventing any leakage to the rest of the application.
+ */
+@import './veda-ui-grid-scoped.css' layer(uswds);
+
+/* Scope marker for veda-ui component boundaries */
+.veda-ui-scope {
+  /* Container for veda-ui components - grid styles only work inside this */
+}

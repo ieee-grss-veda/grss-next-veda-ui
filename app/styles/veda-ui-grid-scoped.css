@@ -1,0 +1,199 @@
+/*
+ * Scoped USWDS Grid Utilities for Veda-UI Components
+ * ---------------------------------------------------
+ * These grid classes ONLY apply within .veda-ui-scope wrapper.
+ * This prevents USWDS grid styles from affecting the rest of the app.
+ *
+ * Usage: Wrap veda-ui components with VedaUIWrapper which provides
+ * the .veda-ui-scope container.
+ */
+
+/* Grid Container - scoped */
+.veda-ui-scope .grid-container {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .veda-ui-scope .grid-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .veda-ui-scope .grid-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Grid Row - scoped */
+.veda-ui-scope .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+/* Grid Gap - scoped */
+.veda-ui-scope .grid-gap {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.veda-ui-scope .grid-gap > * {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.veda-ui-scope .grid-gap-sm {
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
+}
+
+.veda-ui-scope .grid-gap-sm > * {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.veda-ui-scope .grid-gap-md {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.veda-ui-scope .grid-gap-md > * {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.veda-ui-scope .grid-gap-lg {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+}
+
+.veda-ui-scope .grid-gap-lg > * {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Grid Columns - Base */
+.veda-ui-scope .grid-col {
+  flex: 1 1 0%;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Grid Columns - Fixed widths (12-column grid) */
+.veda-ui-scope .grid-col-1 { flex: 0 0 auto; width: 8.33333%; max-width: 8.33333%; }
+.veda-ui-scope .grid-col-2 { flex: 0 0 auto; width: 16.66667%; max-width: 16.66667%; }
+.veda-ui-scope .grid-col-3 { flex: 0 0 auto; width: 25%; max-width: 25%; }
+.veda-ui-scope .grid-col-4 { flex: 0 0 auto; width: 33.33333%; max-width: 33.33333%; }
+.veda-ui-scope .grid-col-5 { flex: 0 0 auto; width: 41.66667%; max-width: 41.66667%; }
+.veda-ui-scope .grid-col-6 { flex: 0 0 auto; width: 50%; max-width: 50%; }
+.veda-ui-scope .grid-col-7 { flex: 0 0 auto; width: 58.33333%; max-width: 58.33333%; }
+.veda-ui-scope .grid-col-8 { flex: 0 0 auto; width: 66.66667%; max-width: 66.66667%; }
+.veda-ui-scope .grid-col-9 { flex: 0 0 auto; width: 75%; max-width: 75%; }
+.veda-ui-scope .grid-col-10 { flex: 0 0 auto; width: 83.33333%; max-width: 83.33333%; }
+.veda-ui-scope .grid-col-11 { flex: 0 0 auto; width: 91.66667%; max-width: 91.66667%; }
+.veda-ui-scope .grid-col-12 { flex: 0 0 auto; width: 100%; max-width: 100%; }
+.veda-ui-scope .grid-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+.veda-ui-scope .grid-col-fill { flex: 1 1 0%; width: auto; max-width: 100%; }
+
+/* Mobile-lg breakpoint (480px) */
+@media (min-width: 480px) {
+  .veda-ui-scope .mobile-lg\:grid-col { flex: 1 1 0%; width: auto; max-width: 100%; }
+  .veda-ui-scope .mobile-lg\:grid-col-1 { flex: 0 0 auto; width: 8.33333%; max-width: 8.33333%; }
+  .veda-ui-scope .mobile-lg\:grid-col-2 { flex: 0 0 auto; width: 16.66667%; max-width: 16.66667%; }
+  .veda-ui-scope .mobile-lg\:grid-col-3 { flex: 0 0 auto; width: 25%; max-width: 25%; }
+  .veda-ui-scope .mobile-lg\:grid-col-4 { flex: 0 0 auto; width: 33.33333%; max-width: 33.33333%; }
+  .veda-ui-scope .mobile-lg\:grid-col-5 { flex: 0 0 auto; width: 41.66667%; max-width: 41.66667%; }
+  .veda-ui-scope .mobile-lg\:grid-col-6 { flex: 0 0 auto; width: 50%; max-width: 50%; }
+  .veda-ui-scope .mobile-lg\:grid-col-7 { flex: 0 0 auto; width: 58.33333%; max-width: 58.33333%; }
+  .veda-ui-scope .mobile-lg\:grid-col-8 { flex: 0 0 auto; width: 66.66667%; max-width: 66.66667%; }
+  .veda-ui-scope .mobile-lg\:grid-col-9 { flex: 0 0 auto; width: 75%; max-width: 75%; }
+  .veda-ui-scope .mobile-lg\:grid-col-10 { flex: 0 0 auto; width: 83.33333%; max-width: 83.33333%; }
+  .veda-ui-scope .mobile-lg\:grid-col-11 { flex: 0 0 auto; width: 91.66667%; max-width: 91.66667%; }
+  .veda-ui-scope .mobile-lg\:grid-col-12 { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  .veda-ui-scope .mobile-lg\:grid-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+  .veda-ui-scope .mobile-lg\:grid-col-fill { flex: 1 1 0%; width: auto; max-width: 100%; }
+}
+
+/* Tablet breakpoint (640px) */
+@media (min-width: 640px) {
+  .veda-ui-scope .tablet\:grid-col { flex: 1 1 0%; width: auto; max-width: 100%; }
+  .veda-ui-scope .tablet\:grid-col-1 { flex: 0 0 auto; width: 8.33333%; max-width: 8.33333%; }
+  .veda-ui-scope .tablet\:grid-col-2 { flex: 0 0 auto; width: 16.66667%; max-width: 16.66667%; }
+  .veda-ui-scope .tablet\:grid-col-3 { flex: 0 0 auto; width: 25%; max-width: 25%; }
+  .veda-ui-scope .tablet\:grid-col-4 { flex: 0 0 auto; width: 33.33333%; max-width: 33.33333%; }
+  .veda-ui-scope .tablet\:grid-col-5 { flex: 0 0 auto; width: 41.66667%; max-width: 41.66667%; }
+  .veda-ui-scope .tablet\:grid-col-6 { flex: 0 0 auto; width: 50%; max-width: 50%; }
+  .veda-ui-scope .tablet\:grid-col-7 { flex: 0 0 auto; width: 58.33333%; max-width: 58.33333%; }
+  .veda-ui-scope .tablet\:grid-col-8 { flex: 0 0 auto; width: 66.66667%; max-width: 66.66667%; }
+  .veda-ui-scope .tablet\:grid-col-9 { flex: 0 0 auto; width: 75%; max-width: 75%; }
+  .veda-ui-scope .tablet\:grid-col-10 { flex: 0 0 auto; width: 83.33333%; max-width: 83.33333%; }
+  .veda-ui-scope .tablet\:grid-col-11 { flex: 0 0 auto; width: 91.66667%; max-width: 91.66667%; }
+  .veda-ui-scope .tablet\:grid-col-12 { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  .veda-ui-scope .tablet\:grid-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+  .veda-ui-scope .tablet\:grid-col-fill { flex: 1 1 0%; width: auto; max-width: 100%; }
+}
+
+/* Desktop breakpoint (1024px) */
+@media (min-width: 1024px) {
+  .veda-ui-scope .desktop\:grid-col { flex: 1 1 0%; width: auto; max-width: 100%; }
+  .veda-ui-scope .desktop\:grid-col-1 { flex: 0 0 auto; width: 8.33333%; max-width: 8.33333%; }
+  .veda-ui-scope .desktop\:grid-col-2 { flex: 0 0 auto; width: 16.66667%; max-width: 16.66667%; }
+  .veda-ui-scope .desktop\:grid-col-3 { flex: 0 0 auto; width: 25%; max-width: 25%; }
+  .veda-ui-scope .desktop\:grid-col-4 { flex: 0 0 auto; width: 33.33333%; max-width: 33.33333%; }
+  .veda-ui-scope .desktop\:grid-col-5 { flex: 0 0 auto; width: 41.66667%; max-width: 41.66667%; }
+  .veda-ui-scope .desktop\:grid-col-6 { flex: 0 0 auto; width: 50%; max-width: 50%; }
+  .veda-ui-scope .desktop\:grid-col-7 { flex: 0 0 auto; width: 58.33333%; max-width: 58.33333%; }
+  .veda-ui-scope .desktop\:grid-col-8 { flex: 0 0 auto; width: 66.66667%; max-width: 66.66667%; }
+  .veda-ui-scope .desktop\:grid-col-9 { flex: 0 0 auto; width: 75%; max-width: 75%; }
+  .veda-ui-scope .desktop\:grid-col-10 { flex: 0 0 auto; width: 83.33333%; max-width: 83.33333%; }
+  .veda-ui-scope .desktop\:grid-col-11 { flex: 0 0 auto; width: 91.66667%; max-width: 91.66667%; }
+  .veda-ui-scope .desktop\:grid-col-12 { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  .veda-ui-scope .desktop\:grid-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+  .veda-ui-scope .desktop\:grid-col-fill { flex: 1 1 0%; width: auto; max-width: 100%; }
+}
+
+/* Desktop-lg breakpoint (1200px) */
+@media (min-width: 1200px) {
+  .veda-ui-scope .desktop-lg\:grid-col { flex: 1 1 0%; width: auto; max-width: 100%; }
+  .veda-ui-scope .desktop-lg\:grid-col-1 { flex: 0 0 auto; width: 8.33333%; max-width: 8.33333%; }
+  .veda-ui-scope .desktop-lg\:grid-col-2 { flex: 0 0 auto; width: 16.66667%; max-width: 16.66667%; }
+  .veda-ui-scope .desktop-lg\:grid-col-3 { flex: 0 0 auto; width: 25%; max-width: 25%; }
+  .veda-ui-scope .desktop-lg\:grid-col-4 { flex: 0 0 auto; width: 33.33333%; max-width: 33.33333%; }
+  .veda-ui-scope .desktop-lg\:grid-col-5 { flex: 0 0 auto; width: 41.66667%; max-width: 41.66667%; }
+  .veda-ui-scope .desktop-lg\:grid-col-6 { flex: 0 0 auto; width: 50%; max-width: 50%; }
+  .veda-ui-scope .desktop-lg\:grid-col-7 { flex: 0 0 auto; width: 58.33333%; max-width: 58.33333%; }
+  .veda-ui-scope .desktop-lg\:grid-col-8 { flex: 0 0 auto; width: 66.66667%; max-width: 66.66667%; }
+  .veda-ui-scope .desktop-lg\:grid-col-9 { flex: 0 0 auto; width: 75%; max-width: 75%; }
+  .veda-ui-scope .desktop-lg\:grid-col-10 { flex: 0 0 auto; width: 83.33333%; max-width: 83.33333%; }
+  .veda-ui-scope .desktop-lg\:grid-col-11 { flex: 0 0 auto; width: 91.66667%; max-width: 91.66667%; }
+  .veda-ui-scope .desktop-lg\:grid-col-12 { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  .veda-ui-scope .desktop-lg\:grid-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+  .veda-ui-scope .desktop-lg\:grid-col-fill { flex: 1 1 0%; width: auto; max-width: 100%; }
+}
+
+/* Flex utilities - scoped */
+.veda-ui-scope .display-flex { display: flex; }
+.veda-ui-scope .flex-row { flex-direction: row; }
+.veda-ui-scope .flex-column { flex-direction: column; }
+.veda-ui-scope .flex-wrap { flex-wrap: wrap; }
+.veda-ui-scope .flex-no-wrap { flex-wrap: nowrap; }
+.veda-ui-scope .flex-fill { flex: 1 1 0%; }
+.veda-ui-scope .flex-auto { flex: 1 1 auto; }
+.veda-ui-scope .flex-align-start { align-items: flex-start; }
+.veda-ui-scope .flex-align-center { align-items: center; }
+.veda-ui-scope .flex-align-end { align-items: flex-end; }
+.veda-ui-scope .flex-align-stretch { align-items: stretch; }
+.veda-ui-scope .flex-justify { justify-content: space-between; }
+.veda-ui-scope .flex-justify-center { justify-content: center; }
+.veda-ui-scope .flex-justify-start { justify-content: flex-start; }
+.veda-ui-scope .flex-justify-end { justify-content: flex-end; }

@@ -1,10 +1,9 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
-import { getStories } from 'app/content/utils/mdx';
+import { getStories, getDatasetsMetadata } from 'app/content/utils/mdx';
 import { LegacyGlobalStyles, PageHero } from '@lib';
-import './index.scss';
-import Providers from 'app/(datasets)/providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 async function generateStaticParams() {
   const posts = getStories();
@@ -14,6 +13,7 @@ async function generateStaticParams() {
 
 export default function StoryOverview({ params }: { params: any }) {
   const post = getStories().find((post) => post.slug === params.slug);
+  const datasets = getDatasetsMetadata();
 
   if (!post) {
     notFound();
@@ -36,9 +36,8 @@ export default function StoryOverview({ params }: { params: any }) {
         }}
       />
       <article className='prose'>
-        <Providers>
+        <VedaUIWrapper datasets={datasets}>
           <LegacyGlobalStyles />
-
           <PageHero
             title={post.metadata.name}
             description={post.metadata.description}
@@ -46,7 +45,7 @@ export default function StoryOverview({ params }: { params: any }) {
             coverAlt={post.metadata.media?.alt}
           />
           <CustomMDX source={post.content} />
-        </Providers>
+        </VedaUIWrapper>
       </article>
     </section>
   );

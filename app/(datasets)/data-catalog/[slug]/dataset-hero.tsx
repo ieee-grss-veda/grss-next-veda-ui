@@ -1,11 +1,7 @@
 'use client';
 import React from 'react';
 import { PageHero, LegacyGlobalStyles } from '@lib';
-import Providers from 'app/(datasets)/providers';
-
-// Import USWDS/veda-ui CSS only in this client component
-import '../../../styles/index.scss';
-import '@teamimpact/veda-ui/lib/main.css';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 interface DatasetHeroProps {
   title: string;
@@ -21,16 +17,14 @@ export default function DatasetHero({
   coverAlt,
 }: DatasetHeroProps) {
   return (
-    <div className='veda-ui-scope'>
-      <Providers>
-        <LegacyGlobalStyles />
-        <PageHero
-          title={title}
-          description={description}
-          coverSrc={coverSrc}
-          coverAlt={coverAlt}
-        />
-      </Providers>
-    </div>
+    <VedaUIWrapper>
+      <LegacyGlobalStyles />
+      <PageHero
+        title={title}
+        description={description}
+        coverSrc={coverSrc}
+        coverAlt={coverAlt}
+      />
+    </VedaUIWrapper>
   );
 }
