@@ -28,7 +28,7 @@ export default function FeatureCard({
   buttonHref,
 }: FeatureCardProps) {
   return (
-    <Card className='p-6 hover:shadow-lg transition-all border-2 hover:border-primary/50 flex flex-col'>
+    <Card className='p-6 hover:shadow-lg transition-all border-[2px] hover:border-primary/50 flex flex-col'>
       {(Icon || iconSlot) && (
         <div
           className={

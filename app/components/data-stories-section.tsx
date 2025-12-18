@@ -35,7 +35,7 @@ export default function DataStoriesSection() {
           <div className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/5 via-background to-primary/10 border border-primary/20 p-12 lg:p-16'>
             {/* Coming Soon Badge */}
             <div className='absolute top-6 right-6'>
-              <Badge className='text-sm px-4 py-1.5 bg-primary/90 text-primary-foreground border-2 border-primary shadow-lg'>
+              <Badge className='text-sm px-4 py-1.5 bg-primary/90 text-primary-foreground border-[2px] border-primary shadow-lg'>
                 <Clock className='h-4 w-4 mr-2 inline' />
                 Coming Soon
               </Badge>

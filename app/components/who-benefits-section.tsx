@@ -50,7 +50,7 @@ export default function WhoBenefitsSection() {
             {beneficiaries.map((item, index) => (
               <Card
                 key={index}
-                className='p-6 border-2 hover:border-primary transition-colors'
+                className='p-6 border-[2px] hover:border-primary transition-colors'
               >
                 <div className='w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-ieee-blue-lightest'>
                   <span className='text-2xl'>{item.emoji}</span>

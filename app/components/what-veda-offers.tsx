@@ -82,7 +82,7 @@ export default function WhatVedaOffers() {
               return (
                 <Card
                   key={index}
-                  className='p-8 hover:shadow-lg transition-all hover:border-primary/50 border-2 focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2'
+                  className='p-8 hover:shadow-lg transition-all hover:border-primary/50 border-[2px] focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2'
                 >
                   <div className='flex items-start gap-6'>
                     <div className='h-16 w-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0'>

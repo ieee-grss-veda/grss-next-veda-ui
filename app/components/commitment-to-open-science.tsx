@@ -27,7 +27,7 @@ export default function CommitmentToOpenScience() {
               system science.
             </p>
 
-            <Card className='p-6 bg-card border-2 border-primary/20'>
+            <Card className='p-6 bg-card border-[2px] border-primary/20'>
               <div className='flex items-start gap-4'>
                 <Github className='h-6 w-6 text-primary flex-shrink-0 mt-1' />
                 <div>
