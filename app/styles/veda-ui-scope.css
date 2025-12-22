@@ -1,327 +1,415 @@
 /*
  * Scoped styles for veda-ui components
- * This file protects our Tailwind components from USWDS style leakage
+ * Creates CSS isolation for veda-ui styled-components
+ * Overrides USWDS/veda-ui styles to match Tailwind design system
  */
 
-/* Container for veda-ui components */
+/* =====================================================
+   BASE CONTAINER AND FONT INHERITANCE
+   ===================================================== */
+
+/* Container for veda-ui components - creates stacking context */
 .veda-ui-scope {
   isolation: isolate;
   position: relative;
 }
 
-/*
- * ===========================================
- * BUTTON PROTECTION
- * ===========================================
- */
-button:not(.usa-button):not(.usa-accordion__button):not(.usa-banner__button):not(.usa-nav__link),
-[data-slot='button'] {
+/* Font inheritance for all veda-ui elements */
+.veda-ui-scope,
+.veda-ui-scope * {
   font-family: inherit;
-  appearance: none;
 }
 
-button.bg-primary,
-[data-slot='button'].bg-primary,
-.bg-primary[data-slot='button'] {
-  background-color: var(--primary) !important;
-  color: var(--primary-foreground) !important;
+/* Reset veda-ui/styled-components base styles */
+.veda-ui-scope button,
+.veda-ui-scope a,
+.veda-ui-scope input,
+.veda-ui-scope select,
+.veda-ui-scope textarea,
+.veda-ui-scope h1,
+.veda-ui-scope h2,
+.veda-ui-scope h3,
+.veda-ui-scope h4,
+.veda-ui-scope h5,
+.veda-ui-scope h6,
+.veda-ui-scope p,
+.veda-ui-scope span,
+.veda-ui-scope label {
+  font-family: inherit;
 }
 
-button.bg-secondary,
-[data-slot='button'].bg-secondary {
-  background-color: var(--secondary) !important;
-  color: var(--secondary-foreground) !important;
+/* =====================================================
+   SEARCH BAR STYLING
+   ===================================================== */
+
+.veda-ui-scope form[role='search'],
+.veda-ui-scope .usa-search {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
 }
 
-button.bg-background,
-[data-slot='button'].bg-background {
-  background-color: var(--background) !important;
+.veda-ui-scope .usa-search .usa-input,
+.veda-ui-scope input[type='search'],
+.veda-ui-scope input[type='text'] {
+  height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--input-background, #f3f3f5);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-button.text-primary-foreground,
-[data-slot='button'].text-primary-foreground {
-  color: var(--primary-foreground) !important;
+.veda-ui-scope .usa-search .usa-input:focus,
+.veda-ui-scope input[type='search']:focus,
+.veda-ui-scope input[type='text']:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-color: var(--ring);
 }
 
-button.text-foreground,
-[data-slot='button'].text-foreground {
-  color: var(--foreground) !important;
+.veda-ui-scope .usa-search .usa-button,
+.veda-ui-scope button[type='submit'] {
+  height: 2.75rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius);
+  border: none;
+  padding: 0 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* Button hover states */
-[data-slot='button'].hover\:bg-primary\/90:hover {
-  background-color: color-mix(in srgb, var(--primary) 90%, transparent) !important;
+.veda-ui-scope .usa-search .usa-button:hover,
+.veda-ui-scope button[type='submit']:hover {
+  background-color: var(--ieee-blue-light, #4d9ac8);
 }
 
-[data-slot='button'].hover\:bg-accent:hover {
-  background-color: var(--accent) !important;
+/* =====================================================
+   FILTER/ACCORDION STYLING
+   ===================================================== */
+
+.veda-ui-scope .veda-filter,
+.veda-ui-scope [class*='filter'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--background);
 }
 
-/*
- * ===========================================
- * BADGE PROTECTION
- * ===========================================
- */
-[data-slot='badge'] {
-  font-family: inherit !important;
-  display: inline-flex !important;
+.veda-ui-scope .usa-accordion__button,
+.veda-ui-scope [class*='accordion'] button {
+  height: auto;
+  min-height: 3rem;
+  background-color: var(--background);
+  border: none;
+  font-weight: 500;
+  color: var(--foreground);
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
 }
 
-[data-slot='badge'].bg-primary,
-[data-slot='badge'].bg-primary\/90 {
-  background-color: var(--primary) !important;
-  color: var(--primary-foreground) !important;
+.veda-ui-scope .usa-accordion__button:hover,
+.veda-ui-scope [class*='accordion'] button:hover {
+  background-color: var(--accent);
 }
 
-[data-slot='badge'].bg-secondary {
-  background-color: var(--secondary) !important;
-  color: var(--secondary-foreground) !important;
+.veda-ui-scope .usa-accordion__content,
+.veda-ui-scope [class*='accordion-content'] {
+  background-color: var(--background);
+  padding: 1rem;
+  border-top: 1px solid var(--border);
 }
 
-[data-slot='badge'].border-transparent {
-  border-color: transparent !important;
+.veda-ui-scope .usa-checkbox__label,
+.veda-ui-scope label {
+  font-size: 0.875rem;
+  color: var(--foreground);
+  cursor: pointer;
 }
 
-[data-slot='badge'].border-2 {
-  border-width: 2px !important;
-  border-style: solid !important;
+.veda-ui-scope .usa-checkbox__input,
+.veda-ui-scope input[type='checkbox'] {
+  accent-color: var(--primary);
 }
 
-[data-slot='badge'].border-primary {
-  border-color: var(--primary) !important;
+/* =====================================================
+   CARD STYLING
+   ===================================================== */
+
+.veda-ui-scope .usa-card,
+.veda-ui-scope [class*='card'] {
+  margin: 0 !important;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-[data-slot='badge'].text-primary-foreground {
-  color: var(--primary-foreground) !important;
+.veda-ui-scope .usa-card__container,
+.veda-ui-scope [class*='card-container'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/*
- * ===========================================
- * CARD PROTECTION
- * ===========================================
- */
-[data-slot='card'] {
-  font-family: inherit !important;
-  display: flex !important;
-  flex-direction: column !important;
+.veda-ui-scope .usa-card:hover,
+.veda-ui-scope [class*='card']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-[data-slot='card'].bg-card {
-  background-color: var(--card) !important;
+.veda-ui-scope .usa-card__header,
+.veda-ui-scope [class*='card-header'] {
+  background-color: transparent;
+  padding: 1rem 1rem 0.5rem;
 }
 
-[data-slot='card'].text-card-foreground {
-  color: var(--card-foreground) !important;
+.veda-ui-scope .usa-card__heading,
+.veda-ui-scope [class*='card-title'],
+.veda-ui-scope [class*='card-heading'] {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.4;
+  margin: 0;
 }
 
-[data-slot='card'].border {
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-color: var(--border) !important;
+.veda-ui-scope .usa-card__body,
+.veda-ui-scope [class*='card-body'] {
+  padding: 0.5rem 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  flex-grow: 1;
 }
 
-[data-slot='card'].border-2 {
-  border-width: 2px !important;
-  border-style: solid !important;
+.veda-ui-scope .usa-card__footer,
+.veda-ui-scope [class*='card-footer'] {
+  padding: 0.5rem 1rem 1rem;
+  background-color: transparent;
 }
 
-[data-slot='card'].border-primary\/20 {
-  border-color: color-mix(in srgb, var(--primary) 20%, transparent) !important;
+.veda-ui-scope .usa-card__img,
+.veda-ui-scope [class*='card-img'],
+.veda-ui-scope [class*='card-image'] {
+  border-radius: var(--radius) var(--radius) 0 0;
+  object-fit: cover;
 }
 
-[data-slot='card'].border-primary {
-  border-color: var(--primary) !important;
+/* Card link styling */
+.veda-ui-scope .usa-card a,
+.veda-ui-scope [class*='card'] a {
+  text-decoration: none;
+  color: inherit;
 }
 
-[data-slot='card'].rounded-xl {
-  border-radius: 0.75rem !important;
+.veda-ui-scope .usa-card a:hover,
+.veda-ui-scope [class*='card'] a:hover {
+  text-decoration: none;
 }
 
-[data-slot='card'].hover\:border-primary:hover {
-  border-color: var(--primary) !important;
+/* =====================================================
+   TAG/LABEL STYLING
+   ===================================================== */
+
+.veda-ui-scope .default-veda-tags,
+.veda-ui-scope .card-type-label,
+.veda-ui-scope .veda-tag-labels,
+.veda-ui-scope [class*='tag'],
+.veda-ui-scope [class*='label']:not(label) {
+  color: var(--primary);
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25));
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
 }
 
-[data-slot='card'].hover\:border-primary\/50:hover {
-  border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
+/* =====================================================
+   PAGINATION STYLING
+   ===================================================== */
+
+.veda-ui-scope .usa-pagination,
+.veda-ui-scope [class*='pagination'] {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
-/*
- * ===========================================
- * BORDER WIDTH PROTECTION
- * ===========================================
- */
-.border {
-  border-width: 1px !important;
-  border-style: solid !important;
+.veda-ui-scope .usa-pagination__button,
+.veda-ui-scope [class*='pagination'] button,
+.veda-ui-scope [class*='pagination'] a {
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  background-color: var(--background);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
 }
 
-.border-2 {
-  border-width: 2px !important;
-  border-style: solid !important;
+.veda-ui-scope .usa-pagination__button:hover,
+.veda-ui-scope [class*='pagination'] button:hover,
+.veda-ui-scope [class*='pagination'] a:hover {
+  background-color: var(--accent);
+  border-color: var(--primary);
 }
 
-.border-0 {
-  border-width: 0 !important;
+.veda-ui-scope .usa-pagination__button.usa-current,
+.veda-ui-scope [class*='pagination'] .active,
+.veda-ui-scope [class*='pagination'] [aria-current='page'] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
-.border-transparent {
-  border-color: transparent !important;
+/* =====================================================
+   GRID LAYOUT FOR CARDS
+   ===================================================== */
+
+.veda-ui-scope [class*='grid-row'],
+.veda-ui-scope [class*='card-list'],
+.veda-ui-scope [class*='catalog-list'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
-/*
- * ===========================================
- * BORDER RADIUS PROTECTION
- * ===========================================
- */
-.rounded-md {
-  border-radius: 0.375rem !important;
+/* Topic card specific */
+.veda-ui-scope .usa-card.topic-card,
+.veda-ui-scope [class*='topic-card'] {
+  height: auto;
+  min-height: 320px;
 }
 
-.rounded-lg {
-  border-radius: 0.5rem !important;
+.veda-ui-scope .usa-card.topic-card .usa-card__img,
+.veda-ui-scope [class*='topic-card'] img {
+  height: 180px;
+  object-fit: cover;
 }
 
-.rounded-xl {
-  border-radius: 0.75rem !important;
+/* =====================================================
+   RESULTS COUNT AND HEADER
+   ===================================================== */
+
+.veda-ui-scope [class*='results-count'],
+.veda-ui-scope [class*='catalog-header'] {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
 }
 
-.rounded-full {
-  border-radius: 9999px !important;
+/* =====================================================
+   LOADING STATE
+   ===================================================== */
+
+.veda-ui-scope [class*='loading'],
+.veda-ui-scope [class*='spinner'] {
+  color: var(--muted-foreground);
 }
 
-/*
- * ===========================================
- * BACKGROUND COLOR PROTECTION
- * ===========================================
- */
-.bg-card {
-  background-color: var(--card) !important;
+/* =====================================================
+   DARK MODE OVERRIDES
+   ===================================================== */
+
+.dark .veda-ui-scope .usa-search .usa-input,
+.dark .veda-ui-scope input[type='search'],
+.dark .veda-ui-scope input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
 }
 
-.bg-background {
-  background-color: var(--background) !important;
+.dark .veda-ui-scope .usa-card__container,
+.dark .veda-ui-scope [class*='card-container'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.bg-muted {
-  background-color: var(--muted) !important;
+.dark .veda-ui-scope .usa-card__heading,
+.dark .veda-ui-scope [class*='card-title'],
+.dark .veda-ui-scope [class*='card-heading'] {
+  color: var(--foreground);
 }
 
-.bg-muted\/30 {
-  background-color: color-mix(in srgb, var(--muted) 30%, transparent) !important;
+.dark .veda-ui-scope .usa-card__body,
+.dark .veda-ui-scope [class*='card-body'] {
+  color: var(--muted-foreground);
 }
 
-.bg-primary {
-  background-color: var(--primary) !important;
+.dark .veda-ui-scope .veda-filter,
+.dark .veda-ui-scope [class*='filter'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.bg-primary\/90 {
-  background-color: color-mix(in srgb, var(--primary) 90%, transparent) !important;
+.dark .veda-ui-scope .usa-accordion__button,
+.dark .veda-ui-scope [class*='accordion'] button {
+  background-color: var(--card);
+  color: var(--foreground);
 }
 
-.bg-secondary {
-  background-color: var(--secondary) !important;
+.dark .veda-ui-scope .usa-accordion__button:hover,
+.dark .veda-ui-scope [class*='accordion'] button:hover {
+  background-color: var(--accent);
 }
 
-.bg-accent {
-  background-color: var(--accent) !important;
+.dark .veda-ui-scope .usa-accordion__content,
+.dark .veda-ui-scope [class*='accordion-content'] {
+  background-color: var(--card);
+  border-top-color: var(--border);
 }
 
-/*
- * ===========================================
- * TEXT COLOR PROTECTION
- * ===========================================
- */
-.text-foreground {
-  color: var(--foreground) !important;
+.dark .veda-ui-scope .usa-checkbox__label,
+.dark .veda-ui-scope label {
+  color: var(--foreground);
 }
 
-.text-muted-foreground {
-  color: var(--muted-foreground) !important;
+.dark .veda-ui-scope .usa-pagination__button,
+.dark .veda-ui-scope [class*='pagination'] button,
+.dark .veda-ui-scope [class*='pagination'] a {
+  background-color: var(--card);
+  border-color: var(--border);
+  color: var(--foreground);
 }
 
-.text-card-foreground {
-  color: var(--card-foreground) !important;
+.dark .veda-ui-scope .usa-pagination__button:hover,
+.dark .veda-ui-scope [class*='pagination'] button:hover,
+.dark .veda-ui-scope [class*='pagination'] a:hover {
+  background-color: var(--accent);
 }
 
-.text-primary {
-  color: var(--primary) !important;
+.dark .veda-ui-scope .default-veda-tags,
+.dark .veda-ui-scope .card-type-label,
+.dark .veda-ui-scope .veda-tag-labels,
+.dark .veda-ui-scope [class*='tag'] {
+  color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
-.text-primary-foreground {
-  color: var(--primary-foreground) !important;
+.dark .veda-ui-scope [class*='results-count'],
+.dark .veda-ui-scope [class*='catalog-header'] {
+  color: var(--muted-foreground);
 }
 
-.text-secondary-foreground {
-  color: var(--secondary-foreground) !important;
-}
-
-/*
- * ===========================================
- * BORDER COLOR PROTECTION
- * ===========================================
- */
-.border-border {
-  border-color: var(--border) !important;
-}
-
-.border-primary {
-  border-color: var(--primary) !important;
-}
-
-.border-primary\/20 {
-  border-color: color-mix(in srgb, var(--primary) 20%, transparent) !important;
-}
-
-.border-primary\/50 {
-  border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
-}
-
-.hover\:border-primary:hover {
-  border-color: var(--primary) !important;
-}
-
-.hover\:border-primary\/50:hover {
-  border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
-}
-
-/*
- * ===========================================
- * SHADOW PROTECTION
- * ===========================================
- */
-.shadow-lg {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
-}
-
-.hover\:shadow-lg:hover {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
-}
-
-/*
- * ===========================================
- * FLEX LAYOUT PROTECTION
- * ===========================================
- */
-.flex {
-  display: flex !important;
-}
-
-.flex-col {
-  flex-direction: column !important;
-}
-
-.flex-row {
-  flex-direction: row !important;
-}
-
-.items-center {
-  align-items: center !important;
-}
-
-.justify-center {
-  justify-content: center !important;
-}
-
-.gap-6 {
-  gap: 1.5rem !important;
+/* Dark mode card hover */
+.dark .veda-ui-scope .usa-card:hover,
+.dark .veda-ui-scope [class*='card']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
