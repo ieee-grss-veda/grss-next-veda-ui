@@ -39,77 +39,123 @@
 }
 
 /* =====================================================
+   CATALOG SIDEBAR / FILTER CONTAINER
+   ===================================================== */
+
+/* Main filter sidebar container */
+.veda-ui-scope #dataset__search {
+  background-color: var(--background) !important;
+  border-radius: var(--radius);
+  padding: 1.5rem !important;
+}
+
+/* Hide the redundant "Search and Filter" mobile heading on desktop */
+.veda-ui-scope #dataset__search > div:first-child h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* =====================================================
    SEARCH BAR STYLING
    ===================================================== */
 
 .veda-ui-scope form[role='search'],
 .veda-ui-scope .usa-search {
   display: flex;
-  gap: 0.5rem;
+  gap: 0;
   align-items: stretch;
+  margin-bottom: 1.5rem !important;
 }
 
+/* Search section header */
+.veda-ui-scope .usa-search::before {
+  content: 'Search';
+  display: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* Search input - rounded left corners only, no right border */
 .veda-ui-scope .usa-search .usa-input,
-.veda-ui-scope input[type='search'],
-.veda-ui-scope input[type='text'] {
+.veda-ui-scope .usa-search input[type='search'],
+.veda-ui-scope .usa-search input[type='text'] {
   height: 2.75rem;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
   background-color: var(--input-background, #f3f3f5);
   font-size: 1rem;
   padding: 0.5rem 1rem;
   color: var(--foreground);
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .veda-ui-scope .usa-search .usa-input:focus,
-.veda-ui-scope input[type='search']:focus,
-.veda-ui-scope input[type='text']:focus {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+.veda-ui-scope .usa-search input[type='search']:focus,
+.veda-ui-scope .usa-search input[type='text']:focus {
+  outline: none;
   border-color: var(--ring);
+  box-shadow: 0 0 0 2px var(--ring);
+  z-index: 1;
+  position: relative;
 }
 
+/* Search button - rounded right corners only, attached to input */
 .veda-ui-scope .usa-search .usa-button,
-.veda-ui-scope button[type='submit'] {
+.veda-ui-scope .usa-search button[type='submit'],
+.veda-ui-scope .usa-search .usa-search__submit-text {
   height: 2.75rem;
   background-color: var(--primary);
   color: var(--primary-foreground);
-  border-radius: var(--radius);
-  border: none;
-  padding: 0 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: 1px solid var(--primary);
+  border-left: none;
+  padding: 0 1.25rem;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin: 0;
 }
 
 .veda-ui-scope .usa-search .usa-button:hover,
-.veda-ui-scope button[type='submit']:hover {
+.veda-ui-scope .usa-search button[type='submit']:hover,
+.veda-ui-scope .usa-search .usa-search__submit-text:hover {
   background-color: var(--ieee-blue-light, #4d9ac8);
+  border-color: var(--ieee-blue-light, #4d9ac8);
 }
 
 /* =====================================================
-   FILTER/ACCORDION STYLING
+   FILTER SECTION STYLING (Taxonomy Accordions)
    ===================================================== */
 
-.veda-ui-scope .veda-filter,
-.veda-ui-scope [class*='filter'] {
+/* Filter section title - before accordion */
+.veda-ui-scope .usa-accordion {
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  margin-bottom: 1rem !important;
   overflow: hidden;
   background-color: var(--background);
 }
 
+/* Taxonomy category header (accordion button) */
 .veda-ui-scope .usa-accordion__button,
-.veda-ui-scope [class*='accordion'] button {
+.veda-ui-scope .usa-accordion > button,
+.veda-ui-scope [class*='accordion'] > button:first-child {
   height: auto;
   min-height: 3rem;
-  background-color: var(--background);
+  background-color: var(--accent);
   border: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9375rem;
   color: var(--foreground);
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   width: 100%;
   text-align: left;
   cursor: pointer;
@@ -119,28 +165,105 @@
   transition: background-color 0.2s ease;
 }
 
-.veda-ui-scope .usa-accordion__button:hover,
-.veda-ui-scope [class*='accordion'] button:hover {
-  background-color: var(--accent);
+/* Category header with expansion indicator */
+.veda-ui-scope .usa-accordion__button::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--foreground);
+  border-bottom: 2px solid var(--foreground);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
 }
 
+.veda-ui-scope .usa-accordion__button[aria-expanded='true']::after {
+  transform: rotate(-135deg);
+}
+
+.veda-ui-scope .usa-accordion__button:hover,
+.veda-ui-scope [class*='accordion'] button:hover {
+  background-color: var(--ieee-blue-25);
+}
+
+/* Accordion content panel - contains subcategories */
 .veda-ui-scope .usa-accordion__content,
 .veda-ui-scope [class*='accordion-content'] {
   background-color: var(--background);
-  padding: 1rem;
+  padding: 1rem 1.25rem !important;
   border-top: 1px solid var(--border);
 }
 
-.veda-ui-scope .usa-checkbox__label,
-.veda-ui-scope label {
-  font-size: 0.875rem;
-  color: var(--foreground);
-  cursor: pointer;
+/* =====================================================
+   SUBCATEGORY CHECKBOX ITEMS (veda-filter)
+   ===================================================== */
+
+/* Individual filter checkbox container */
+.veda-ui-scope .veda-filter,
+.veda-ui-scope #veda-checkbox-container {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  background-color: var(--background) !important;
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 0.625rem !important;
+  transition: all 0.2s ease;
 }
 
-.veda-ui-scope .usa-checkbox__input,
-.veda-ui-scope input[type='checkbox'] {
+.veda-ui-scope .veda-filter:last-child,
+.veda-ui-scope #veda-checkbox-container:last-child {
+  margin-bottom: 0 !important;
+}
+
+.veda-ui-scope .veda-filter:hover,
+.veda-ui-scope #veda-checkbox-container:hover {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
+/* Selected filter state */
+.veda-ui-scope .veda-filter.border-primary-light,
+.veda-ui-scope #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
+/* Checkbox styling inside filter items */
+.veda-ui-scope .usa-checkbox,
+.veda-ui-scope .usa-checkbox__input-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 !important;
+}
+
+.veda-ui-scope .usa-checkbox__label,
+.veda-ui-scope .veda-filter label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Checkbox input styling */
+.veda-ui-scope .usa-checkbox__input .veda-ui-scope input[type='checkbox'] {
+  width: 1.125rem;
+  height: 1.125rem;
   accent-color: var(--primary);
+  cursor: pointer;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* USWDS checkbox label - remove default before pseudo */
+.veda-ui-scope .usa-checkbox__label::before,
+.veda-ui-scope .usa-sr-only,
+svg.usa-icon.usa-icon--size-3 {
+  display: none !important;
 }
 
 /* =====================================================
@@ -152,7 +275,9 @@
   margin: 0 !important;
   border-radius: var(--radius);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .veda-ui-scope .usa-card__container,
@@ -260,7 +385,9 @@
   padding: 0.5rem 1rem;
   background-color: var(--background);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
   text-decoration: none;
 }
 
@@ -328,6 +455,12 @@
    DARK MODE OVERRIDES
    ===================================================== */
 
+/* Dark mode - Filter sidebar container */
+.dark .veda-ui-scope #dataset__search {
+  background-color: var(--card) !important;
+}
+
+/* Dark mode - Search input */
 .dark .veda-ui-scope .usa-search .usa-input,
 .dark .veda-ui-scope input[type='search'],
 .dark .veda-ui-scope input[type='text'] {
@@ -336,6 +469,7 @@
   color: var(--foreground);
 }
 
+/* Dark mode - Cards */
 .dark .veda-ui-scope .usa-card__container,
 .dark .veda-ui-scope [class*='card-container'] {
   background-color: var(--card);
@@ -353,21 +487,21 @@
   color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope .veda-filter,
-.dark .veda-ui-scope [class*='filter'] {
+/* Dark mode - Filter accordion */
+.dark .veda-ui-scope .usa-accordion {
   background-color: var(--card);
   border-color: var(--border);
 }
 
 .dark .veda-ui-scope .usa-accordion__button,
 .dark .veda-ui-scope [class*='accordion'] button {
-  background-color: var(--card);
+  background-color: var(--accent);
   color: var(--foreground);
 }
 
 .dark .veda-ui-scope .usa-accordion__button:hover,
 .dark .veda-ui-scope [class*='accordion'] button:hover {
-  background-color: var(--accent);
+  background-color: var(--ieee-blue-25);
 }
 
 .dark .veda-ui-scope .usa-accordion__content,
@@ -376,11 +510,32 @@
   border-top-color: var(--border);
 }
 
+/* Dark mode - Checkbox filter items */
+.dark .veda-ui-scope .veda-filter,
+.dark .veda-ui-scope #veda-checkbox-container {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope .veda-filter:hover,
+.dark .veda-ui-scope #veda-checkbox-container:hover {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
+.dark .veda-ui-scope .veda-filter.border-primary-light,
+.dark .veda-ui-scope #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
 .dark .veda-ui-scope .usa-checkbox__label,
+.dark .veda-ui-scope .veda-filter label,
 .dark .veda-ui-scope label {
   color: var(--foreground);
 }
 
+/* Dark mode - Pagination */
 .dark .veda-ui-scope .usa-pagination__button,
 .dark .veda-ui-scope [class*='pagination'] button,
 .dark .veda-ui-scope [class*='pagination'] a {
@@ -395,12 +550,18 @@
   background-color: var(--accent);
 }
 
+/* Dark mode - Tags */
 .dark .veda-ui-scope .default-veda-tags,
-.dark .veda-ui-scope .card-type-label,
 .dark .veda-ui-scope .veda-tag-labels,
 .dark .veda-ui-scope [class*='tag'] {
-  color: var(--primary);
-  background-color: var(--ieee-blue-25);
+  color: var(--foreground);
+  background-color: var(--muted);
+  border-color: var(--border);
+}
+
+.dark .veda-ui-scope .card-type-label {
+  color: var(--foreground);
+  background-color: rgba(30, 30, 30, 0.95);
 }
 
 .dark .veda-ui-scope [class*='results-count'],
@@ -408,8 +569,49 @@
   color: var(--muted-foreground);
 }
 
-/* Dark mode card hover */
+/* Dark mode - Card hover */
 .dark .veda-ui-scope .usa-card:hover,
 .dark .veda-ui-scope [class*='card']:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================================
+   ADDITIONAL FILTER LABEL IMPROVEMENTS
+   ===================================================== */
+
+/* Add "Filter by" section header - shown before first accordion */
+.veda-ui-scope #dataset__search .usa-accordion:first-of-type::before {
+  content: 'Filter by Category';
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Ensure proper stacking and spacing */
+.veda-ui-scope #dataset__search > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile filter header styling */
+@media (max-width: 768px) {
+  .veda-ui-scope #dataset__search {
+    padding: 1rem !important;
+  }
+
+  .veda-ui-scope #dataset__search > div:first-child {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .veda-ui-scope #dataset__search > div:first-child h1 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
 }
