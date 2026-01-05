@@ -44,8 +44,6 @@
     "@radix-ui/react-toggle-group": "1.1.2",
     "@radix-ui/react-tooltip": "1.1.8",
     "@teamimpact/veda-ui": "6.17.1",
-    "@trussworks/react-uswds": "^10.2.0",
-    "@uswds/uswds": "^3.10.0",
     "class-variance-authority": "0.7.1",
     "cmdk": "1.1.1",
     "embla-carousel-react": "8.6.0",

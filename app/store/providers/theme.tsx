@@ -46,6 +46,9 @@ const VEDA_OVERRIDE_THEME = {
       leadSize: '1.25rem',
       extrabold: '800',
       line: 'inherit',
+      // Override default "Open Sans" to match app's Frutiger font stack
+      family:
+        "'Frutiger', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
       // Increments to the type.base.size for each media breakpoint.
       sizeIncrement: {
         small: '0rem',

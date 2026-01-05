@@ -1,4 +1,24 @@
-# Styling and theming
+# Styling and Theming
+
+> **DEPRECATED**: This documentation references the legacy USWDS-based styling approach which has been removed. Please refer to [CSS_ARCHITECTURE.md](./CSS_ARCHITECTURE.md) for the current Tailwind CSS-based approach.
+
+## Current Approach
+
+The application now uses:
+
+- **Tailwind CSS** - Primary styling framework
+- **CSS Variables** - Design tokens shared across the app
+- **veda-ui-scope.css** - Scoped overrides for veda-ui components
+
+See [CSS_ARCHITECTURE.md](./CSS_ARCHITECTURE.md) for complete documentation.
+
+---
+
+## Legacy Documentation (USWDS - No Longer Used)
+
+The following documentation is preserved for historical reference only. USWDS has been removed from this project.
+
+---
 
 This guide explains how to set up and customize styles for the application which uses the U.S. Web Design System (USWDS) as a foundation. The application can integrate with `veda-ui` for core feature components styled with USWDS or use `react-uswds` for standalone UI elements like grid, buttons, inputs, modals, etc.
 
