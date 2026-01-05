@@ -106,6 +106,7 @@
 .veda-ui-scope .usa-search .usa-input,
 .veda-ui-scope .usa-search input[type='search'],
 .veda-ui-scope .usa-search input[type='text'] {
+  width: 100%;
   height: 2.75rem;
   border: 1px solid var(--border);
   border-right: none;
@@ -267,8 +268,13 @@
 
 /* USWDS checkbox label - remove default before pseudo */
 .veda-ui-scope .usa-checkbox__label::before,
-.veda-ui-scope .usa-sr-only,
-svg.usa-icon.usa-icon--size-3 {
+.veda-ui-scope .usa-sr-only {
+  display: none !important;
+}
+
+/* Hide USWDS icons only in data catalog (not stories) */
+.veda-ui-scope #dataset__search svg.usa-icon.usa-icon--size-3,
+.veda-ui-scope .usa-search svg.usa-icon.usa-icon--size-3 {
   display: none !important;
 }
 
@@ -1140,4 +1146,368 @@ svg.usa-icon.usa-icon--size-3 {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding-top: 0 !important;
+}
+
+/* =====================================================
+   STORIES HUB PAGE STYLING
+   ===================================================== */
+
+.khRCIa::before {
+  box-shadow: none !important;
+}
+/* Remove default margins/padding from veda-ui fold and constrainer */
+.veda-ui-scope [class*='fold__FoldBase'],
+.veda-ui-scope [class*='fold__Fold-sc'],
+.veda-ui-scope [class*='hub-content__FoldWithTopMargin'] {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.veda-ui-scope [class*='constrainer__Constrainer'],
+.veda-ui-scope [class*='fold__FoldInner'] {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* Browse header alignment */
+.veda-ui-scope [class*='fold__FoldHeader'],
+.veda-ui-scope [class*='BrowseFoldHeader'] {
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+/* Browse title styling */
+.veda-ui-scope [class*='fold__FoldTitle'] {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: var(--foreground) !important;
+  margin: 0 0 1rem 0 !important;
+}
+
+/* Hide the red accent line under Browse */
+.veda-ui-scope [class*='fold__FoldHeadline']::after,
+.veda-ui-scope [class*='FoldHeadline']::after {
+  display: none !important;
+}
+
+/* Story count text */
+.veda-ui-scope [class*='StoryCount'],
+.veda-ui-scope [class*='Heading__Subtitle'] {
+  font-size: 0.875rem !important;
+  color: var(--muted-foreground) !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* =====================================================
+   STORIES HUB - BROWSE CONTROLS (Search & Topics)
+   ===================================================== */
+
+.veda-ui-scope [class*='BrowseControlsWrapper'] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+  align-items: flex-start !important;
+}
+
+/* Search wrapper */
+.veda-ui-scope [class*='SearchWrapper'] {
+  flex: 1 1 -10px !important;
+  max-width: 400px !important;
+}
+
+/* Search field container */
+.veda-ui-scope [class*='SearchFieldWrapper'],
+.veda-ui-scope [class*='search-field'] {
+  width: 100% !important;
+}
+
+.veda-ui-scope [class*='SearchFieldContainer'] {
+  display: flex !important;
+  align-items: stretch !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  background-color: var(--input-background, #f3f3f5) !important;
+  overflow: hidden !important;
+}
+
+/* Search icon button */
+.veda-ui-scope [class*='SearchFieldContainer'] > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 0.75rem !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--muted-foreground) !important;
+  cursor: pointer !important;
+}
+
+.veda-ui-scope [class*='SearchFieldContainer'] > button:hover {
+  color: var(--foreground) !important;
+}
+
+/* Search input */
+.veda-ui-scope [class*='SearchFieldClearable'] {
+  flex: 1 !important;
+}
+
+.veda-ui-scope [class*='FormInputSearch'],
+.veda-ui-scope [class*='SearchFieldClearable'] input {
+  width: 100% !important;
+  height: 2.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  border: none !important;
+  background-color: transparent !important;
+  font-size: 0.9375rem !important;
+  color: var(--foreground) !important;
+  outline: none !important;
+}
+
+.veda-ui-scope [class*='FormInputSearch']::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Helper message */
+.veda-ui-scope [class*='SearchFieldMessage'] {
+  font-size: 0.75rem !important;
+  color: var(--muted-foreground) !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Topics dropdown button */
+.veda-ui-scope [class*='FilterOptionsWrapper'] {
+  flex: 0 0 auto !important;
+}
+
+.veda-ui-scope [class*='DropButton'],
+.veda-ui-scope [class*='MainDropButton'] {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  height: 2.5rem !important;
+  padding: 0 1rem !important;
+  background-color: var(--background) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.9375rem !important;
+  color: var(--foreground) !important;
+  cursor: pointer !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.veda-ui-scope [class*='DropButton']:hover {
+  border-color: var(--primary) !important;
+}
+
+.veda-ui-scope [class*='ButtonPrefix'] {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--muted-foreground) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* =====================================================
+   STORIES HUB - CARD GRID
+   ===================================================== */
+
+.veda-ui-scope [class*='CardListGrid'] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+  gap: 1.5rem !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* =====================================================
+   STORIES HUB - CARD STYLING
+   ===================================================== */
+
+/* Card container */
+.veda-ui-scope [class*='CardItem'],
+.veda-ui-scope [class*='ClassicCardItem'] {
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease !important;
+}
+
+.veda-ui-scope [class*='CardItem']:hover,
+.veda-ui-scope [class*='ClassicCardItem']:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Card figure/image - MUST be first and fixed height */
+.veda-ui-scope [class*='CardItem'] [class*='CardFigure'],
+.veda-ui-scope [class*='CardItem'] figure {
+  order: -1 !important;
+  width: 100% !important;
+  height: 240px !important;
+  min-height: 240px !important;
+  max-height: 240px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+.veda-ui-scope [class*='CardItem'] [class*='CardFigure'] img,
+.veda-ui-scope [class*='CardItem'] figure img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Card header */
+.veda-ui-scope [class*='CardItem'] [class*='CardHeader'],
+.veda-ui-scope [class*='CardItem'] header {
+  order: 0 !important;
+  padding: 1rem 1rem 0.5rem !important;
+}
+
+/* Card title */
+.veda-ui-scope [class*='CardItem'] [class*='CardTitle'],
+.veda-ui-scope [class*='CardItem'] h3 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  color: var(--foreground) !important;
+  margin: 0 !important;
+}
+
+/* Hide the overline/meta section with vertical divider */
+.veda-ui-scope [class*='CardItem'] [class*='CardOverline'],
+.veda-ui-scope [class*='CardItem'] [class*='CardMeta'] {
+  display: none !important;
+}
+
+/* Card body/description */
+.veda-ui-scope [class*='CardItem'] [class*='CardBody'] {
+  order: 1 !important;
+  padding: 0 1rem 0.75rem !important;
+  flex-grow: 1 !important;
+}
+
+.veda-ui-scope [class*='CardItem'] [class*='CardBody'] p {
+  font-size: 0.875rem !important;
+  color: var(--muted-foreground) !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Card footer with tags */
+.veda-ui-scope [class*='CardItem'] [class*='CardFooter'] {
+  order: 2 !important;
+  padding: 0.75rem 1rem 1rem !important;
+  margin-top: auto !important;
+}
+
+/* Topics list */
+.veda-ui-scope [class*='CardTopicsList'] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide "Topics" label */
+.veda-ui-scope [class*='CardTopicsList'] dt {
+  display: none !important;
+}
+
+/* Topic pills/tags */
+.veda-ui-scope [class*='CardTopicsList'] dd {
+  margin: 0 !important;
+}
+
+.veda-ui-scope [class*='pill__Pill'],
+.veda-ui-scope [class*='CardTopicsList'] a {
+  display: inline-block !important;
+  padding: 0.25rem 0.625rem !important;
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.15)) !important;
+  color: var(--primary) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  border-radius: calc(var(--radius) - 2px) !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.veda-ui-scope [class*='pill__Pill']:hover,
+.veda-ui-scope [class*='CardTopicsList'] a:hover {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25)) !important;
+}
+
+/* Hide the "View more" link (card is already clickable) */
+.veda-ui-scope [class*='CardItem'] [class*='InteractiveLink'] {
+  position: absolute !important;
+  inset: 0 !important;
+  opacity: 0 !important;
+  z-index: 1 !important;
+}
+
+/* =====================================================
+   STORIES HUB - DARK MODE
+   ===================================================== */
+
+.dark .veda-ui-scope [class*='CardItem'],
+.dark .veda-ui-scope [class*='ClassicCardItem'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='CardItem']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .veda-ui-scope [class*='SearchFieldContainer'] {
+  background-color: var(--input, oklch(0.269 0 0)) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='DropButton'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='pill__Pill'],
+.dark .veda-ui-scope [class*='CardTopicsList'] a {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.3)) !important;
+}
+
+/* =====================================================
+   STORIES HUB - RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 640px) {
+  .veda-ui-scope [class*='CardListGrid'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .veda-ui-scope [class*='BrowseControlsWrapper'] {
+    flex-direction: column !important;
+  }
+
+  .veda-ui-scope [class*='SearchWrapper'] {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
 }
