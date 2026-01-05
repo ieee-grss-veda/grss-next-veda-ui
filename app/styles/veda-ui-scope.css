@@ -10,7 +10,6 @@
 
 /* Container for veda-ui components - creates stacking context */
 .veda-ui-scope {
-  margin-top: 40px;
   isolation: isolate;
   position: relative;
 }
@@ -1350,6 +1349,7 @@
 /* Card figure/image - MUST be first and fixed height */
 .veda-ui-scope [class*='CardItem'] [class*='CardFigure'],
 .veda-ui-scope [class*='CardItem'] figure {
+  background-color: #fff ;
   order: -1 !important;
   width: 100% !important;
   height: 240px !important;
@@ -1468,12 +1468,6 @@
    STORIES HUB - DARK MODE
    ===================================================== */
 
-.dark .veda-ui-scope [class*='CardItem'],
-.dark .veda-ui-scope [class*='ClassicCardItem'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
-}
-
 .dark .veda-ui-scope [class*='CardItem']:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
@@ -1510,4 +1504,12 @@
     max-width: 100% !important;
     width: 100% !important;
   }
+}
+
+/* =====================================================
+   STORIES HUB AND DATA CATALOG DETAIL PAGE
+   ===================================================== */
+
+.veda-ui-scope [class*='page-hero__PageHeroBlockAlpha'] {
+  margin: 40px;
 }

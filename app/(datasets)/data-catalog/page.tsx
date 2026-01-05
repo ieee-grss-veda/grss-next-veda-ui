@@ -17,7 +17,7 @@ export default function Page() {
     <div className='flex-1'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <section>
-          <div className='mt-16 mb-6'>
+          <div className='mt-16 mb-16'>
             <h1 className='text-3xl font-bold'>Data Catalog</h1>
             <p className='text-base mt-2 text-muted-foreground'>
               This dashboard explores key indicators to track and compare
