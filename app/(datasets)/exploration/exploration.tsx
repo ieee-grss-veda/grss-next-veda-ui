@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ExplorationAndAnalysis,
   DatasetSelectorModal,
@@ -27,12 +27,27 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const closeModal = () => {
     setDatasetModalRevealed(false);
   };
+
+  // Add veda-ui-scope class to modal portal when it mounts
+  useEffect(() => {
+    if (!datasetModalRevealed) return;
+
+    // Small delay to ensure modal has rendered to DOM
+    const timeoutId = setTimeout(() => {
+      // Find the modal wrapper container (class starts with styled__ModalWrapper)
+      const modalWrapper = document.querySelector('[class*="styled__ModalWrapper"]');
+      if (modalWrapper && !modalWrapper.classList.contains('veda-ui-scope')) {
+        modalWrapper.classList.add('veda-ui-scope');
+      }
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, [datasetModalRevealed]);
   // On landing, measure the height of Header and fill up the rest of the space with E&A
   const offsetHeight = useElementHeight({ queryToSelect: 'header' });
 
   return (
     <VedaUIWrapper datasets={datasets}>
-      <LegacyGlobalStyles />
       <div
         id='ea-wrapper'
         // The below styles adjust the E&A page to match what we have on earthdata.nasa.gov
