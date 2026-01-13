@@ -21,7 +21,7 @@ interface VedaUIWrapperProps {
  * - DevseedUIThemeProvider: styled-components theme (mediaRanges, breakpoints)
  * - VedaUIConfigProvider: API endpoints and navigation config
  * - DataProvider: dataset state management (when datasets provided)
- * - CSS scoping via veda-ui-scope class
+ * - CSS scoping via #veda-ui-root ID selector (higher specificity than class)
  */
 export default function VedaUIWrapper({
   children,
@@ -32,10 +32,10 @@ export default function VedaUIWrapper({
       <VedaUIConfigProvider>
         {datasets ? (
           <DataProvider initialDatasets={datasets}>
-            <div className='veda-ui-scope'>{children}</div>
+            <div id='veda-ui-root' className='veda-ui-scope'>{children}</div>
           </DataProvider>
         ) : (
-          <div className='veda-ui-scope'>{children}</div>
+          <div id='veda-ui-root' className='veda-ui-scope'>{children}</div>
         )}
       </VedaUIConfigProvider>
     </DevseedUIThemeProvider>
