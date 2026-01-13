@@ -1523,7 +1523,8 @@
   justify-content: flex-start;
 }
 
-.veda-ui-scope [class*='catalog-content__SelectedCard'] {
+.veda-ui-scope [class*='catalog-content__SelectedCard'],
+.veda-ui-scope [class*='catalog-content__WarningPill'] {
   width: fit-content !important;
 }
 
