@@ -1349,7 +1349,7 @@
 /* Card figure/image - MUST be first and fixed height */
 .veda-ui-scope [class*='CardItem'] [class*='CardFigure'],
 .veda-ui-scope [class*='CardItem'] figure {
-  background-color: #fff ;
+  background-color: #fff;
   order: -1 !important;
   width: 100% !important;
   height: 240px !important;
@@ -1512,4 +1512,1009 @@
 
 .veda-ui-scope [class*='page-hero__PageHeroBlockAlpha'] {
   margin: 40px;
+}
+
+/* =====================================================
+   EXPLORATION PAGE
+   ===================================================== */
+
+.veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.veda-ui-scope [class*='catalog-content__SelectedCard'] {
+  width: fit-content !important;
+}
+
+/* =====================================================
+   DATASET SELECTOR MODAL - HORIZONTAL CARD IMAGES
+   ===================================================== */
+
+/* Horizontal card container - ensure flex layout */
+.veda-ui-scope [class*='horizontal-info__HorizontalCard'] {
+  display: flex !important;
+  align-items: stretch !important;
+  min-height: 140px !important;
+}
+
+/* Image container - fixed width, full height */
+.veda-ui-scope [class*='horizontal-info__CardImage'] {
+  flex: 0 0 140px !important;
+  width: 140px !important;
+  min-width: 140px !important;
+  height: auto !important;
+  min-height: 100% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+/* Image itself - cover the full container */
+.veda-ui-scope [class*='horizontal-info__CardImage'] img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Content section - take remaining space */
+.veda-ui-scope [class*='horizontal-info__CardContent'] {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0.75rem 1rem !important;
+  min-width: 0 !important;
+}
+
+/* Card item wrapper - ensure proper height */
+.veda-ui-scope [class*='horizontal-info__HorizontalInfoCardItem'] {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden !important;
+  background-color: var(--card) !important;
+}
+
+/* Dark mode support */
+.dark .veda-ui-scope [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+/* =====================================================
+   EXPLORATION PAGE - TIMELINE CONTROLS
+   ===================================================== */
+
+/* Add date to compare button - compact styling */
+.veda-ui-scope
+  [class*='tip-button__TipToolbarIconButton'][data-tour='compare-date'],
+.veda-ui-scope [data-tour='compare-date'] {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--foreground) !important;
+}
+
+/* Calendar icon inside the compare date button - smaller size */
+.veda-ui-scope [data-tour='compare-date'] svg {
+  width: 1.5rem !important;
+  height: 2rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Add layer button styling - primary filled button */
+.veda-ui-scope [class*='timeline__Headline'] button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  color: white !important;
+  padding: 0.375rem 0.75rem !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+}
+
+.veda-ui-scope [class*='timeline__Headline'] button svg {
+  width: 1rem !important;
+  height: 1rem !important;
+  fill: white !important;
+  color: white !important;
+}
+
+.veda-ui-scope [class*='timeline__Headline'] button:hover {
+  background-color: var(--ieee-blue-light) !important;
+}
+
+/* =====================================================
+   EXPLORATION PAGE - DARK MODE
+   ===================================================== */
+
+/* Timeline wrapper background */
+.dark .veda-ui-scope [class*='timeline__TimelineWrapper'] {
+  background-color: var(--card) !important;
+}
+
+/* Timeline header */
+.dark .veda-ui-scope [class*='timeline__TimelineHeader'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+/* Timeline details and headline */
+.dark .veda-ui-scope [class*='timeline__TimelineDetails'] {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='timeline__Headline'] h2,
+.dark .veda-ui-scope [class*='timeline__TimelineHeading'] {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='timeline__Headline'] small,
+.dark .veda-ui-scope [class*='timeline__TimelineDetails'] small {
+  color: var(--muted-foreground) !important;
+}
+
+/* Timeline content area */
+.dark .veda-ui-scope [class*='timeline__TimelineContent'] {
+  background-color: var(--card) !important;
+}
+
+.dark .veda-ui-scope [class*='timeline__TimelineContentInner'] {
+  background-color: var(--card) !important;
+}
+
+/* Dataset list */
+.dark .veda-ui-scope [class*='dataset-list__DatasetListSelf'] {
+  background-color: transparent !important;
+}
+
+/* Dataset list item */
+.dark .veda-ui-scope [class*='dataset-list-item__DatasetItem'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item__DatasetHeader'] {
+  background-color: var(--card) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item__DatasetHeaderInner'] {
+  background-color: transparent !important;
+}
+
+/* Dataset layer card */
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetInfo'] {
+  background-color: transparent !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetCardInfo'] {
+  background-color: transparent !important;
+}
+
+/* Dataset titles */
+.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary) !important;
+}
+
+.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] svg {
+  color: var(--primary) !important;
+  fill: var(--primary) !important;
+}
+
+.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] p {
+  color: var(--primary) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetTitle'] {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetHeadline'] h3 {
+  color: var(--foreground) !important;
+}
+
+/* Dataset metric info */
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetMetricInfo'] {
+  color: var(--muted-foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetMetricInfo'] span {
+  color: var(--muted-foreground) !important;
+}
+
+/* Dataset toolbar buttons */
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetToolbar'] button {
+  color: var(--muted-foreground) !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='dataset-layer-card__DatasetToolbar']
+  button:hover {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-layer-card__DatasetToolbar'] button svg {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+/* Dataset data/track area */
+.dark .veda-ui-scope [class*='dataset-list-item__DatasetData'] {
+  background-color: var(--card) !important;
+}
+
+/* Track status blocks */
+.dark .veda-ui-scope [class*='dataset-list-item-status__Track'] {
+  background-color: transparent !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackBlock'] {
+  background-color: transparent !important;
+}
+
+/* Track message (error state) */
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] p {
+  color: var(--destructive, #ef4444) !important;
+}
+
+/* Retry button */
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] button {
+  background-color: var(--destructive, #ef4444) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* Timeline controls area */
+.dark .veda-ui-scope [class*='timeline-controls__TimelineControlsSelf'] {
+  background-color: transparent !important;
+}
+
+.dark .veda-ui-scope [class*='timeline-controls__ControlsToolbar'] {
+  background-color: transparent !important;
+}
+
+/* Date picker trigger */
+.dark .veda-ui-scope [class*='timeline-datepicker__DatePickerTrigger'] {
+  color: var(--foreground) !important;
+  background-color: transparent !important;
+}
+
+.dark .veda-ui-scope [class*='datepicker__TriggerWrapper'] button {
+  color: var(--foreground) !important;
+}
+
+/* Zoom controls */
+.dark
+  .veda-ui-scope
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button {
+  color: var(--muted-foreground) !important;
+  background-color: transparent !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button:hover {
+  color: var(--foreground) !important;
+}
+
+/* Range slider */
+.dark .veda-ui-scope [class*='range-slider__RangeSliderInput'] {
+  background-color: var(--muted) !important;
+}
+
+.dark .veda-ui-scope .range-slider__thumb {
+  background-color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope .range-slider__range {
+  background-color: var(--primary) !important;
+}
+
+/* Date axis SVG text */
+.dark .veda-ui-scope [class*='date-axis__DateAxisSVG'] text {
+  fill: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='date-axis__GridLine'] {
+  stroke: var(--border) !important;
+}
+
+/* Toolbar buttons in timeline */
+.dark .veda-ui-scope [class*='toolbar__ToolbarIconButton'] {
+  color: var(--muted-foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='toolbar__ToolbarIconButton']:hover {
+  color: var(--foreground) !important;
+}
+
+/* Exploration container */
+.dark .veda-ui-scope [class*='exploration__Container'] {
+  background-color: var(--background) !important;
+}
+
+/* Panel backgrounds */
+.dark .veda-ui-scope .panel-timeline {
+  background-color: var(--card) !important;
+}
+
+/* Map controls */
+.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='preset-selector__OptionValueDisplay'] {
+  color: var(--foreground) !important;
+  background-color: var(--card) !important;
+}
+
+.dark .veda-ui-scope [class*='preset-selector__PresetSelect'] {
+  color: var(--foreground) !important;
+  background-color: var(--card) !important;
+}
+
+/* Vertical divider */
+.dark .veda-ui-scope [class*='vertical-divider__VerticalDivider'] {
+  background-color: var(--border) !important;
+}
+
+/* Map coordinate display */
+.dark .veda-ui-scope [class*='coords__MapCoordsWrapper'] button {
+  color: var(--foreground) !important;
+  background-color: var(--card) !important;
+}
+
+/* Selector buttons on map */
+.dark .veda-ui-scope [class*='button__SelectorButton'] {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='button__SelectorButton']:hover {
+  background-color: var(--accent) !important;
+}
+
+/* AOI toolbar icon buttons (Draw, Upload icons beside Analyze an area) */
+.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button {
+  color: var(--foreground) !important;
+  background-color: transparent !important;
+}
+
+.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button svg {
+  color: var(--foreground) !important;
+  fill: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button:hover {
+  background-color: var(--accent) !important;
+}
+
+/* Mapbox zoom controls */
+.dark .veda-ui-scope .mapboxgl-ctrl-group {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-group button {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+  filter: invert(1) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-group button:hover {
+  background-color: var(--accent) !important;
+}
+
+/* Mapbox zoom in/out specific */
+.dark .veda-ui-scope .mapboxgl-ctrl-zoom-in,
+.dark .veda-ui-scope .mapboxgl-ctrl-zoom-out {
+  background-color: var(--card) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.dark .veda-ui-scope .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+  filter: invert(1) !important;
+}
+
+/* Mapbox geocoder (search) */
+.dark .veda-ui-scope .mapboxgl-ctrl-geocoder {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-geocoder input {
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-geocoder svg {
+  fill: var(--foreground) !important;
+}
+
+/* Error message - "Oh no, something went wrong" - more visible */
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--radius) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] p {
+  color: #fca5a5 !important;
+  font-weight: 500 !important;
+}
+
+/* Track error state - make status items more visible */
+.dark .veda-ui-scope [class*='dataset-list-item-status__TrackError'] {
+  background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+.dark .veda-ui-scope [class*='dataset-list-item-status__Item'] {
+  opacity: 0.1 !important;
+}
+
+/* Mapbox attribution */
+.dark .veda-ui-scope .mapboxgl-ctrl-attrib {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  color: var(--muted-foreground) !important;
+}
+
+.dark .veda-ui-scope .mapboxgl-ctrl-attrib a {
+  color: var(--muted-foreground) !important;
+}
+
+/* Mapbox scale */
+.dark .veda-ui-scope .mapboxgl-ctrl-scale {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  color: var(--foreground) !important;
+  border-color: var(--foreground) !important;
+}
+
+/* =====================================================
+   DATASET SELECTOR MODAL - DARK MODE
+   ===================================================== */
+
+/* Modal container and contents */
+.dark .veda-ui-scope [class*='styled__ModalContents'] {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+/* Modal header */
+.dark .veda-ui-scope [class*='styled__ModalHeader'],
+.dark .veda-ui-scope [class*='styled__ModalFooter'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalHeadline'] h1,
+.dark .veda-ui-scope [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground) !important;
+}
+
+/* Modal close button */
+.dark .veda-ui-scope [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground) !important;
+}
+
+/* Modal body */
+.dark .veda-ui-scope [class*='styled__ModalBody'] {
+  background-color: var(--card) !important;
+}
+
+/* Filter sidebar wrapper */
+.dark .veda-ui-scope .wrapper {
+  background-color: var(--card) !important;
+}
+
+/* Dataset search container in modal */
+.dark .veda-ui-scope [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card) !important;
+}
+
+/* Search form in modal */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-search .usa-input,
+.dark .veda-ui-scope [class*='styled__ModalBody'] input[type='search'],
+.dark .veda-ui-scope [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0)) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  .usa-search
+  .usa-input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Accordion in modal - filter categories */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent) !important;
+  color: var(--foreground) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card) !important;
+  border-top-color: var(--border) !important;
+}
+
+/* Checkbox filter items in modal */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .veda-filter,
+.dark .veda-ui-scope [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .veda-filter:hover,
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  #veda-checkbox-container:hover {
+  background-color: var(--ieee-blue-25) !important;
+  border-color: var(--primary) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground) !important;
+}
+
+/* Catalog section in modal */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Catalog'] {
+  background-color: var(--card) !important;
+}
+
+/* Mobile catalog container - dark mode */
+.dark .veda-ui-scope [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card) !important;
+}
+
+/* Parent dataset title in modal */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary) !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle']
+  svg {
+  color: var(--primary) !important;
+  fill: var(--primary) !important;
+}
+
+/* Selected count badge */
+.dark .veda-ui-scope [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25) !important;
+  color: var(--primary) !important;
+}
+
+/* Dataset description paragraph */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Paragraph'] {
+  color: var(--muted-foreground) !important;
+}
+
+/* Headline section */
+.dark .veda-ui-scope [class*='catalog-content__Headline'] {
+  border-color: var(--border) !important;
+}
+
+/* Warning pill */
+.dark .veda-ui-scope [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+/* Horizontal card items in modal */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem']:hover {
+  border-color: var(--primary) !important;
+}
+
+/* Selected card state */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-card__CardSelectable'].LdUxE {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
+/* Card content area */
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__CardContent'] {
+  background-color: transparent !important;
+}
+
+/* Card title */
+.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
+  color: var(--foreground) !important;
+}
+
+/* Card description */
+.dark .veda-ui-scope [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground) !important;
+}
+
+/* Tags/pills in modal cards */
+.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25) !important;
+  color: var(--primary) !important;
+}
+
+/* Interactive link (View dataset) */
+.dark .veda-ui-scope [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary) !important;
+}
+
+/* Cards list */
+.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardList'] {
+  background-color: transparent !important;
+}
+
+/* Grid row background */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent !important;
+}
+
+/* Base lightest backgrounds - override to dark */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card) !important;
+}
+
+.dark .veda-ui-scope [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card) !important;
+}
+
+/* USA tag in modal */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* Search and Filter button (mobile) */
+.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary) !important;
+  color: white !important;
+}
+
+/* Close button X icon */
+.dark .veda-ui-scope [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground) !important;
+}
+
+.dark
+  .veda-ui-scope
+  [class*='styled__ModalToolbar']
+  button:hover
+  [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--foreground) !important;
+}
+
+/* =====================================================
+   PORTAL MODALS - DARK MODE (Compound Selectors)
+   When both dark and veda-ui-scope are on the same element
+   (for modals rendered via React portals)
+   ===================================================== */
+
+/* Modal container and contents */
+.dark.veda-ui-scope [class*='styled__ModalContents'] {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+/* Modal header */
+.dark.veda-ui-scope [class*='styled__ModalHeader'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalHeadline'] h1,
+.dark.veda-ui-scope [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground) !important;
+}
+
+/* Modal footer */
+.dark.veda-ui-scope [class*='styled__ModalFooter'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalFooter'] [class*='LayerResult'],
+.dark.veda-ui-scope [class*='styled__ModalFooter'] .selection-info {
+  color: var(--muted-foreground) !important;
+}
+
+/* Modal footer buttons */
+.dark.veda-ui-scope [class*='styled__ModalFooter'] button {
+  background-color: var(--accent) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalFooter'] button:hover:not(:disabled) {
+  background-color: var(--muted) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalFooter'] button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Modal close button */
+.dark.veda-ui-scope [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground) !important;
+}
+
+/* Modal body */
+.dark.veda-ui-scope [class*='styled__ModalBody'] {
+  background-color: var(--card) !important;
+}
+
+/* Filter sidebar wrapper */
+.dark.veda-ui-scope .wrapper {
+  background-color: var(--card) !important;
+}
+
+/* Dataset search container in modal */
+.dark.veda-ui-scope [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card) !important;
+}
+
+/* Search form in modal */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-search .usa-input,
+.dark.veda-ui-scope [class*='styled__ModalBody'] input[type='search'],
+.dark.veda-ui-scope [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0)) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}
+
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  .usa-search
+  .usa-input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Accordion in modal - filter categories */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent) !important;
+  color: var(--foreground) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card) !important;
+  border-top-color: var(--border) !important;
+}
+
+/* Checkbox filter items in modal */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .veda-filter,
+.dark.veda-ui-scope [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .veda-filter:hover,
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  #veda-checkbox-container:hover {
+  background-color: var(--ieee-blue-25) !important;
+  border-color: var(--primary) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground) !important;
+}
+
+/* Catalog section in modal */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Catalog'] {
+  background-color: var(--card) !important;
+}
+
+/* Mobile catalog container - dark mode */
+.dark.veda-ui-scope [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card) !important;
+}
+
+/* Parent dataset title in modal */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary) !important;
+}
+
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle']
+  svg {
+  color: var(--primary) !important;
+  fill: var(--primary) !important;
+}
+
+/* Selected count badge */
+.dark.veda-ui-scope [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25) !important;
+  color: var(--primary) !important;
+}
+
+/* Dataset description paragraph */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Paragraph'] {
+  color: var(--muted-foreground) !important;
+}
+
+/* Headline section */
+.dark.veda-ui-scope [class*='catalog-content__Headline'] {
+  border-color: var(--border) !important;
+}
+
+/* Warning pill */
+.dark.veda-ui-scope [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+/* Horizontal card items in modal */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem']:hover {
+  border-color: var(--primary) !important;
+}
+
+/* Selected card state */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='catalog-card__CardSelectable'].LdUxE {
+  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25) !important;
+}
+
+/* Card content area */
+.dark.veda-ui-scope
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__CardContent'] {
+  background-color: transparent !important;
+}
+
+/* Card title */
+.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
+  color: var(--foreground) !important;
+}
+
+/* Card description */
+.dark.veda-ui-scope [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground) !important;
+}
+
+/* Tags/pills in modal cards */
+.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25) !important;
+  color: var(--primary) !important;
+}
+
+/* Interactive link (View dataset) */
+.dark.veda-ui-scope [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary) !important;
+}
+
+/* Cards list */
+.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardList'] {
+  background-color: transparent !important;
+}
+
+/* Grid row background */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent !important;
+}
+
+/* Base lightest backgrounds - override to dark */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card) !important;
+}
+
+.dark.veda-ui-scope [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card) !important;
+}
+
+/* USA tag in modal */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* Search and Filter button (mobile) */
+.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary) !important;
+  color: white !important;
+}
+
+/* Close button X icon */
+.dark.veda-ui-scope [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground) !important;
+}
+
+.dark.veda-ui-scope
+  [class*='styled__ModalToolbar']
+  button:hover
+  [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--foreground) !important;
 }

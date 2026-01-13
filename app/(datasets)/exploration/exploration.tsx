@@ -10,9 +10,11 @@ import {
 import { useSetAtom } from 'jotai';
 import useElementHeight from '@utils/hooks/use-element-height';
 import VedaUIWrapper from 'app/components/veda-ui-wrapper';
+import { useTheme } from 'app/components/common/theme-provider';
 
 export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const setExternalDatasets = useSetAtom(externalDatasetsAtom);
+  const { theme } = useTheme();
 
   setExternalDatasets(datasets);
 
@@ -28,7 +30,7 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
     setDatasetModalRevealed(false);
   };
 
-  // Add veda-ui-scope class to modal portal when it mounts
+  // Add veda-ui-scope and dark mode class to modal portal when it mounts
   useEffect(() => {
     if (!datasetModalRevealed) return;
 
@@ -36,13 +38,22 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
     const timeoutId = setTimeout(() => {
       // Find the modal wrapper container (class starts with styled__ModalWrapper)
       const modalWrapper = document.querySelector('[class*="styled__ModalWrapper"]');
-      if (modalWrapper && !modalWrapper.classList.contains('veda-ui-scope')) {
-        modalWrapper.classList.add('veda-ui-scope');
+      if (modalWrapper) {
+        // Add veda-ui-scope class for styling
+        if (!modalWrapper.classList.contains('veda-ui-scope')) {
+          modalWrapper.classList.add('veda-ui-scope');
+        }
+        // Sync dark mode class with current theme
+        if (theme === 'dark') {
+          modalWrapper.classList.add('dark');
+        } else {
+          modalWrapper.classList.remove('dark');
+        }
       }
     }, 50);
 
     return () => clearTimeout(timeoutId);
-  }, [datasetModalRevealed]);
+  }, [datasetModalRevealed, theme]);
   // On landing, measure the height of Header and fill up the rest of the space with E&A
   const offsetHeight = useElementHeight({ queryToSelect: 'header' });
 
