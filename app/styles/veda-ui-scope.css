@@ -216,7 +216,8 @@
 }
 
 #veda-ui-root .usa-accordion__button[aria-expanded='true']::after,
-[data-veda-ui-root].veda-ui-scope .usa-accordion__button[aria-expanded='true']::after {
+[data-veda-ui-root].veda-ui-scope
+  .usa-accordion__button[aria-expanded='true']::after {
   transform: rotate(-135deg);
 }
 
@@ -273,7 +274,8 @@
 #veda-ui-root .veda-filter.border-primary-light,
 #veda-ui-root #veda-checkbox-container.border-primary-light,
 [data-veda-ui-root].veda-ui-scope .veda-filter.border-primary-light,
-[data-veda-ui-root].veda-ui-scope #veda-checkbox-container.border-primary-light {
+[data-veda-ui-root].veda-ui-scope
+  #veda-checkbox-container.border-primary-light {
   border-color: var(--primary);
   background-color: var(--ieee-blue-25);
 }
@@ -327,7 +329,9 @@
 /* Hide USWDS icons only in data catalog (not stories) */
 #veda-ui-root #dataset__search svg.usa-icon.usa-icon--size-3,
 #veda-ui-root .usa-search svg.usa-icon.usa-icon--size-3,
-[data-veda-ui-root].veda-ui-scope #dataset__search svg.usa-icon.usa-icon--size-3,
+[data-veda-ui-root].veda-ui-scope
+  #dataset__search
+  svg.usa-icon.usa-icon--size-3,
 [data-veda-ui-root].veda-ui-scope .usa-search svg.usa-icon.usa-icon--size-3 {
   display: none;
 }
@@ -510,10 +514,8 @@
    GRID LAYOUT FOR CARDS
    ===================================================== */
 
-#veda-ui-root [class*='grid-row'],
 #veda-ui-root [class*='card-list'],
 #veda-ui-root [class*='catalog-list'],
-[data-veda-ui-root].veda-ui-scope [class*='grid-row'],
 [data-veda-ui-root].veda-ui-scope [class*='card-list'],
 [data-veda-ui-root].veda-ui-scope [class*='catalog-list'] {
   display: grid;
@@ -868,6 +870,58 @@
 
   #veda-ui-root .grid-row > .tablet\:grid-col-9,
   #veda-ui-root .grid-row > [class*='grid-col-9'] {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* Modal portal - Main grid row for two-column layout */
+[data-veda-ui-root].veda-ui-scope .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+}
+
+/* Modal portal - Filter sidebar fixed width on desktop */
+[data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+  flex: 0 0 280px;
+  max-width: 280px;
+  width: 280px;
+}
+
+/* Modal portal - Cards container fills remaining width */
+veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
+  flex: 1 1 0;
+  max-width: none;
+  width: auto;
+  min-width: 0;
+}
+
+[data-veda-ui-root].veda-ui-scope #veda__mobile-catalog {
+  display: none;
+}
+
+/* Modal portal - Mobile: stack filter and cards vertically */
+@media (max-width: 767px) {
+  [data-veda-ui-root].veda-ui-scope .grid-row {
+    flex-direction: column;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-9,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
     flex: 1 1 auto;
     width: 100%;
   }
@@ -1876,10 +1930,7 @@
   color: var(--muted-foreground);
 }
 
-.dark
-  #veda-ui-root
-  [class*='dataset-layer-card__DatasetToolbar']
-  button:hover {
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button:hover {
   color: var(--foreground);
 }
 
@@ -2427,7 +2478,9 @@
   border-color: var(--border);
 }
 
-[data-veda-ui-root].dark [class*='styled__ModalFooter'] button:hover:not(:disabled) {
+[data-veda-ui-root].dark
+  [class*='styled__ModalFooter']
+  button:hover:not(:disabled) {
   background-color: var(--muted);
 }
 
@@ -2487,7 +2540,9 @@
   color: var(--foreground);
 }
 
-[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion__button:hover {
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  .usa-accordion__button:hover {
   background-color: var(--ieee-blue-25);
 }
 
@@ -2596,7 +2651,9 @@
 }
 
 /* Card title */
-[data-veda-ui-root].dark [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardTitle'] {
   color: var(--foreground);
 }
 
@@ -2617,7 +2674,9 @@
 }
 
 /* Cards list */
-[data-veda-ui-root].dark [class*='styled__ModalBody'] [class*='styles__CardList'] {
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardList'] {
   background-color: transparent;
 }
 
