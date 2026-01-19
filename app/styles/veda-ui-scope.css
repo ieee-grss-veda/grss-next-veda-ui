@@ -2,6 +2,18 @@
  * Scoped styles for veda-ui components
  * Creates CSS isolation for veda-ui styled-components
  * Overrides USWDS/veda-ui styles to match Tailwind design system
+ *
+ * ARCHITECTURE NOTE:
+ * Uses #veda-ui-root ID selector for higher specificity (1,0,0) instead of
+ * class selector (0,1,0). This allows overriding veda-ui library styles
+ * without needing !important declarations.
+ *
+ * For portal modals (rendered outside #veda-ui-root), use:
+ * - Light mode: [data-veda-ui-root].veda-ui-scope .selector
+ * - Dark mode:  [data-veda-ui-root].dark .selector
+ *
+ * The combination of attribute + class provides (0,2,x) specificity which
+ * beats library styles. See docs/CSS_IMPORTANT_REMOVAL.md for details.
  */
 
 /* =====================================================
@@ -9,32 +21,32 @@
    ===================================================== */
 
 /* Container for veda-ui components - creates stacking context */
-.veda-ui-scope {
+#veda-ui-root {
   isolation: isolate;
   position: relative;
 }
 
 /* Font inheritance for all veda-ui elements */
-.veda-ui-scope,
-.veda-ui-scope * {
+#veda-ui-root,
+#veda-ui-root * {
   font-family: inherit;
 }
 
 /* Reset veda-ui/styled-components base styles */
-.veda-ui-scope button,
-.veda-ui-scope a,
-.veda-ui-scope input,
-.veda-ui-scope select,
-.veda-ui-scope textarea,
-.veda-ui-scope h1,
-.veda-ui-scope h2,
-.veda-ui-scope h3,
-.veda-ui-scope h4,
-.veda-ui-scope h5,
-.veda-ui-scope h6,
-.veda-ui-scope p,
-.veda-ui-scope span,
-.veda-ui-scope label {
+#veda-ui-root button,
+#veda-ui-root a,
+#veda-ui-root input,
+#veda-ui-root select,
+#veda-ui-root textarea,
+#veda-ui-root h1,
+#veda-ui-root h2,
+#veda-ui-root h3,
+#veda-ui-root h4,
+#veda-ui-root h5,
+#veda-ui-root h6,
+#veda-ui-root p,
+#veda-ui-root span,
+#veda-ui-root label {
   font-family: inherit;
 }
 
@@ -43,22 +55,25 @@
    ===================================================== */
 
 /* Main filter sidebar container */
-.veda-ui-scope #dataset__search {
-  background-color: var(--background) !important;
+#veda-ui-root #dataset__search,
+[data-veda-ui-root].veda-ui-scope #dataset__search {
+  background-color: var(--background);
   border-radius: var(--radius);
-  padding: 0rem !important;
-  position: relative !important;
-  z-index: 10 !important;
+  padding: 0rem;
+  position: relative;
+  z-index: 10;
 }
 
 /* Filter wrapper - ensure proper stacking */
-.veda-ui-scope .wrapper {
-  position: relative !important;
-  z-index: 10 !important;
+#veda-ui-root .wrapper,
+[data-veda-ui-root].veda-ui-scope .wrapper {
+  position: relative;
+  z-index: 10;
 }
 
 /* Hide the redundant "Search and Filter" mobile heading on desktop */
-.veda-ui-scope #dataset__search > div:first-child h1 {
+#veda-ui-root #dataset__search > div:first-child h1,
+[data-veda-ui-root].veda-ui-scope #dataset__search > div:first-child h1 {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--foreground);
@@ -69,30 +84,35 @@
    SEARCH BAR STYLING
    ===================================================== */
 
-.veda-ui-scope form[role='search'],
-.veda-ui-scope .usa-search {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  gap: 0 !important;
-  align-items: stretch !important;
-  margin-bottom: 1.5rem !important;
-  width: 100% !important;
+#veda-ui-root form[role='search'],
+#veda-ui-root .usa-search,
+[data-veda-ui-root].veda-ui-scope form[role='search'],
+[data-veda-ui-root].veda-ui-scope .usa-search {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 /* Search field container - take remaining space */
-.veda-ui-scope .usa-search > div:first-child {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
+#veda-ui-root .usa-search > div:first-child,
+[data-veda-ui-root].veda-ui-scope .usa-search > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Search button container - half width */
-.veda-ui-scope .usa-search > div:last-child {
-  flex: 0 0 auto !important;
-  max-width: 50% !important;
+#veda-ui-root .usa-search > div:last-child,
+[data-veda-ui-root].veda-ui-scope .usa-search > div:last-child {
+  flex: 0 0 auto;
+  max-width: 50%;
 }
 
 /* Search section header */
-.veda-ui-scope .usa-search::before {
+#veda-ui-root .usa-search::before,
+[data-veda-ui-root].veda-ui-scope .usa-search::before {
   content: 'Search';
   display: none;
   font-size: 0.875rem;
@@ -102,9 +122,12 @@
 }
 
 /* Search input - rounded left corners only, no right border */
-.veda-ui-scope .usa-search .usa-input,
-.veda-ui-scope .usa-search input[type='search'],
-.veda-ui-scope .usa-search input[type='text'] {
+#veda-ui-root .usa-search .usa-input,
+#veda-ui-root .usa-search input[type='search'],
+#veda-ui-root .usa-search input[type='text'],
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-input,
+[data-veda-ui-root].veda-ui-scope .usa-search input[type='search'],
+[data-veda-ui-root].veda-ui-scope .usa-search input[type='text'] {
   width: 100%;
   height: 2.75rem;
   border: 1px solid var(--border);
@@ -121,9 +144,12 @@
 }
 
 /* Search button - rounded right corners only, attached to input */
-.veda-ui-scope .usa-search .usa-button,
-.veda-ui-scope .usa-search button[type='submit'],
-.veda-ui-scope .usa-search .usa-search__submit-text {
+#veda-ui-root .usa-search .usa-button,
+#veda-ui-root .usa-search button[type='submit'],
+#veda-ui-root .usa-search .usa-search__submit-text,
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-button,
+[data-veda-ui-root].veda-ui-scope .usa-search button[type='submit'],
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-search__submit-text {
   height: 2.75rem;
   background-color: var(--primary);
   color: var(--primary-foreground);
@@ -142,18 +168,22 @@
    ===================================================== */
 
 /* Filter section title - before accordion */
-.veda-ui-scope .usa-accordion {
+#veda-ui-root .usa-accordion,
+[data-veda-ui-root].veda-ui-scope .usa-accordion {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  margin-bottom: 1rem !important;
+  margin-bottom: 1rem;
   overflow: hidden;
   background-color: var(--background);
 }
 
 /* Taxonomy category header (accordion button) */
-.veda-ui-scope .usa-accordion__button,
-.veda-ui-scope .usa-accordion > button,
-.veda-ui-scope [class*='accordion'] > button:first-child {
+#veda-ui-root .usa-accordion__button,
+#veda-ui-root .usa-accordion > button,
+#veda-ui-root [class*='accordion'] > button:first-child,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button,
+[data-veda-ui-root].veda-ui-scope .usa-accordion > button,
+[data-veda-ui-root].veda-ui-scope [class*='accordion'] > button:first-child {
   height: auto;
   min-height: 3rem;
   background-color: var(--accent);
@@ -172,7 +202,8 @@
 }
 
 /* Category header with expansion indicator */
-.veda-ui-scope .usa-accordion__button::after {
+#veda-ui-root .usa-accordion__button::after,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button::after {
   content: '';
   width: 0.5rem;
   height: 0.5rem;
@@ -184,20 +215,26 @@
   margin-left: 0.5rem;
 }
 
-.veda-ui-scope .usa-accordion__button[aria-expanded='true']::after {
+#veda-ui-root .usa-accordion__button[aria-expanded='true']::after,
+[data-veda-ui-root].veda-ui-scope
+  .usa-accordion__button[aria-expanded='true']::after {
   transform: rotate(-135deg);
 }
 
-.veda-ui-scope .usa-accordion__button:hover,
-.veda-ui-scope [class*='accordion'] button:hover {
+#veda-ui-root .usa-accordion__button:hover,
+#veda-ui-root [class*='accordion'] button:hover,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='accordion'] button:hover {
   background-color: var(--ieee-blue-25);
 }
 
 /* Accordion content panel - contains subcategories */
-.veda-ui-scope .usa-accordion__content,
-.veda-ui-scope [class*='accordion-content'] {
+#veda-ui-root .usa-accordion__content,
+#veda-ui-root [class*='accordion-content'],
+[data-veda-ui-root].veda-ui-scope .usa-accordion__content,
+[data-veda-ui-root].veda-ui-scope [class*='accordion-content'] {
   background-color: var(--background);
-  padding: 1rem 1.25rem !important;
+  padding: 1rem 1.25rem;
   border-top: 1px solid var(--border);
 }
 
@@ -206,45 +243,58 @@
    ===================================================== */
 
 /* Individual filter checkbox container */
-.veda-ui-scope .veda-filter,
-.veda-ui-scope #veda-checkbox-container {
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  background-color: var(--background) !important;
-  padding: 0.75rem 1rem !important;
-  margin-bottom: 0.625rem !important;
+#veda-ui-root .veda-filter,
+#veda-ui-root #veda-checkbox-container,
+[data-veda-ui-root].veda-ui-scope .veda-filter,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.625rem;
   transition: all 0.2s ease;
 }
 
-.veda-ui-scope .veda-filter:last-child,
-.veda-ui-scope #veda-checkbox-container:last-child {
-  margin-bottom: 0 !important;
+#veda-ui-root .veda-filter:last-child,
+#veda-ui-root #veda-checkbox-container:last-child,
+[data-veda-ui-root].veda-ui-scope .veda-filter:last-child,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container:last-child {
+  margin-bottom: 0;
 }
 
-.veda-ui-scope .veda-filter:hover,
-.veda-ui-scope #veda-checkbox-container:hover {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+#veda-ui-root .veda-filter:hover,
+#veda-ui-root #veda-checkbox-container:hover,
+[data-veda-ui-root].veda-ui-scope .veda-filter:hover,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container:hover {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
 /* Selected filter state */
-.veda-ui-scope .veda-filter.border-primary-light,
-.veda-ui-scope #veda-checkbox-container.border-primary-light {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+#veda-ui-root .veda-filter.border-primary-light,
+#veda-ui-root #veda-checkbox-container.border-primary-light,
+[data-veda-ui-root].veda-ui-scope .veda-filter.border-primary-light,
+[data-veda-ui-root].veda-ui-scope
+  #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
 /* Checkbox styling inside filter items */
-.veda-ui-scope .usa-checkbox,
-.veda-ui-scope .usa-checkbox__input-tile {
+#veda-ui-root .usa-checkbox,
+#veda-ui-root .usa-checkbox__input-tile,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__input-tile {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 0 !important;
+  margin: 0;
 }
 
-.veda-ui-scope .usa-checkbox__label,
-.veda-ui-scope .veda-filter label {
+#veda-ui-root .usa-checkbox__label,
+#veda-ui-root .veda-filter label,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__label,
+[data-veda-ui-root].veda-ui-scope .veda-filter label {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--foreground);
@@ -256,7 +306,10 @@
 }
 
 /* Checkbox input styling */
-.veda-ui-scope .usa-checkbox__input .veda-ui-scope input[type='checkbox'] {
+#veda-ui-root .usa-checkbox__input,
+#veda-ui-root input[type='checkbox'],
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__input,
+[data-veda-ui-root].veda-ui-scope input[type='checkbox'] {
   width: 1.125rem;
   height: 1.125rem;
   accent-color: var(--primary);
@@ -266,29 +319,39 @@
 }
 
 /* USWDS checkbox label - remove default before pseudo */
-.veda-ui-scope .usa-checkbox__label::before,
-.veda-ui-scope .usa-sr-only {
-  display: none !important;
+#veda-ui-root .usa-checkbox__label::before,
+#veda-ui-root .usa-sr-only,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__label::before,
+[data-veda-ui-root].veda-ui-scope .usa-sr-only {
+  display: none;
 }
 
 /* Hide USWDS icons only in data catalog (not stories) */
-.veda-ui-scope #dataset__search svg.usa-icon.usa-icon--size-3,
-.veda-ui-scope .usa-search svg.usa-icon.usa-icon--size-3 {
-  display: none !important;
+#veda-ui-root #dataset__search svg.usa-icon.usa-icon--size-3,
+#veda-ui-root .usa-search svg.usa-icon.usa-icon--size-3,
+[data-veda-ui-root].veda-ui-scope
+  #dataset__search
+  svg.usa-icon.usa-icon--size-3,
+[data-veda-ui-root].veda-ui-scope .usa-search svg.usa-icon.usa-icon--size-3 {
+  display: none;
 }
 
 /* =====================================================
    CARD STYLING
    ===================================================== */
 
-.veda-ui-scope .usa-card,
-.veda-ui-scope [class*='card'] {
-  margin: 0 !important;
+#veda-ui-root .usa-card,
+#veda-ui-root [class*='card'],
+[data-veda-ui-root].veda-ui-scope .usa-card,
+[data-veda-ui-root].veda-ui-scope [class*='card'] {
+  margin: 0;
   overflow: hidden;
 }
 
-.veda-ui-scope .usa-card__container,
-.veda-ui-scope [class*='card-container'] {
+#veda-ui-root .usa-card__container,
+#veda-ui-root [class*='card-container'],
+[data-veda-ui-root].veda-ui-scope .usa-card__container,
+[data-veda-ui-root].veda-ui-scope [class*='card-container'] {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background-color: var(--card);
@@ -298,15 +361,20 @@
   flex-direction: column;
 }
 
-.veda-ui-scope .usa-card__header,
-.veda-ui-scope [class*='card-header'] {
+#veda-ui-root .usa-card__header,
+#veda-ui-root [class*='card-header'],
+[data-veda-ui-root].veda-ui-scope .usa-card__header,
+[data-veda-ui-root].veda-ui-scope [class*='card-header'] {
   background-color: transparent;
   padding: 1rem 1rem 0.5rem;
 }
 
-.veda-ui-scope .usa-card__heading,
-.veda-ui-scope [class*='card-title'],
-.veda-ui-scope [class*='card-heading'] {
+#veda-ui-root .usa-card__heading,
+#veda-ui-root [class*='card-title'],
+#veda-ui-root [class*='card-heading'],
+[data-veda-ui-root].veda-ui-scope .usa-card__heading,
+[data-veda-ui-root].veda-ui-scope [class*='card-title'],
+[data-veda-ui-root].veda-ui-scope [class*='card-heading'] {
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--foreground);
@@ -314,35 +382,46 @@
   margin: 0;
 }
 
-.veda-ui-scope .usa-card__body,
-.veda-ui-scope [class*='card-body'] {
+#veda-ui-root .usa-card__body,
+#veda-ui-root [class*='card-body'],
+[data-veda-ui-root].veda-ui-scope .usa-card__body,
+[data-veda-ui-root].veda-ui-scope [class*='card-body'] {
   padding: 0.5rem 1rem;
   color: var(--muted-foreground);
   font-size: 0.875rem;
   flex-grow: 1;
 }
 
-.veda-ui-scope .usa-card__footer,
-.veda-ui-scope [class*='card-footer'] {
+#veda-ui-root .usa-card__footer,
+#veda-ui-root [class*='card-footer'],
+[data-veda-ui-root].veda-ui-scope .usa-card__footer,
+[data-veda-ui-root].veda-ui-scope [class*='card-footer'] {
   padding: 0.5rem 1rem 1rem;
   background-color: transparent;
 }
 
-.veda-ui-scope .usa-card__img,
-.veda-ui-scope [class*='card-img'],
-.veda-ui-scope [class*='card-image'] {
+#veda-ui-root .usa-card__img,
+#veda-ui-root [class*='card-img'],
+#veda-ui-root [class*='card-image'],
+[data-veda-ui-root].veda-ui-scope .usa-card__img,
+[data-veda-ui-root].veda-ui-scope [class*='card-img'],
+[data-veda-ui-root].veda-ui-scope [class*='card-image'] {
   object-fit: cover;
 }
 
 /* Card link styling */
-.veda-ui-scope .usa-card a,
-.veda-ui-scope [class*='card'] a {
+#veda-ui-root .usa-card a,
+#veda-ui-root [class*='card'] a,
+[data-veda-ui-root].veda-ui-scope .usa-card a,
+[data-veda-ui-root].veda-ui-scope [class*='card'] a {
   text-decoration: none;
   color: inherit;
 }
 
-.veda-ui-scope .usa-card a:hover,
-.veda-ui-scope [class*='card'] a:hover {
+#veda-ui-root .usa-card a:hover,
+#veda-ui-root [class*='card'] a:hover,
+[data-veda-ui-root].veda-ui-scope .usa-card a:hover,
+[data-veda-ui-root].veda-ui-scope [class*='card'] a:hover {
   text-decoration: none;
 }
 
@@ -351,11 +430,16 @@
    ===================================================== */
 
 /* Only style tags inside card components - NOT in filter sidebar */
-.veda-ui-scope .usa-card .default-veda-tags,
-.veda-ui-scope .usa-card .card-type-label,
-.veda-ui-scope .usa-card .veda-tag-labels,
-.veda-ui-scope .usa-card .usa-tag,
-.veda-ui-scope .usa-card-group .usa-tag {
+#veda-ui-root .usa-card .default-veda-tags,
+#veda-ui-root .usa-card .card-type-label,
+#veda-ui-root .usa-card .veda-tag-labels,
+#veda-ui-root .usa-card .usa-tag,
+#veda-ui-root .usa-card-group .usa-tag,
+[data-veda-ui-root].veda-ui-scope .usa-card .default-veda-tags,
+[data-veda-ui-root].veda-ui-scope .usa-card .card-type-label,
+[data-veda-ui-root].veda-ui-scope .usa-card .veda-tag-labels,
+[data-veda-ui-root].veda-ui-scope .usa-card .usa-tag,
+[data-veda-ui-root].veda-ui-scope .usa-card-group .usa-tag {
   color: var(--primary);
   background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25));
   border-radius: calc(var(--radius) - 2px);
@@ -367,26 +451,32 @@
 }
 
 /* Reset any tag styling in filter sidebar */
-.veda-ui-scope #dataset__search .usa-tag {
+#veda-ui-root #dataset__search .usa-tag,
+[data-veda-ui-root].veda-ui-scope #dataset__search .usa-tag {
   all: unset;
-  display: none !important;
+  display: none;
 }
 
 /* =====================================================
    PAGINATION STYLING
    ===================================================== */
 
-.veda-ui-scope .usa-pagination,
-.veda-ui-scope [class*='pagination'] {
+#veda-ui-root .usa-pagination,
+#veda-ui-root [class*='pagination'],
+[data-veda-ui-root].veda-ui-scope .usa-pagination,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
   gap: 0.25rem;
 }
 
-.veda-ui-scope .usa-pagination__button,
-.veda-ui-scope [class*='pagination'] button,
-.veda-ui-scope [class*='pagination'] a {
+#veda-ui-root .usa-pagination__button,
+#veda-ui-root [class*='pagination'] button,
+#veda-ui-root [class*='pagination'] a,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] button,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] a {
   color: var(--foreground);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -399,16 +489,22 @@
   text-decoration: none;
 }
 
-.veda-ui-scope .usa-pagination__button:hover,
-.veda-ui-scope [class*='pagination'] button:hover,
-.veda-ui-scope [class*='pagination'] a:hover {
+#veda-ui-root .usa-pagination__button:hover,
+#veda-ui-root [class*='pagination'] button:hover,
+#veda-ui-root [class*='pagination'] a:hover,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] a:hover {
   background-color: var(--accent);
   border-color: var(--primary);
 }
 
-.veda-ui-scope .usa-pagination__button.usa-current,
-.veda-ui-scope [class*='pagination'] .active,
-.veda-ui-scope [class*='pagination'] [aria-current='page'] {
+#veda-ui-root .usa-pagination__button.usa-current,
+#veda-ui-root [class*='pagination'] .active,
+#veda-ui-root [class*='pagination'] [aria-current='page'],
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button.usa-current,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] .active,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] [aria-current='page'] {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
@@ -418,23 +514,28 @@
    GRID LAYOUT FOR CARDS
    ===================================================== */
 
-.veda-ui-scope [class*='grid-row'],
-.veda-ui-scope [class*='card-list'],
-.veda-ui-scope [class*='catalog-list'] {
+#veda-ui-root [class*='card-list'],
+#veda-ui-root [class*='catalog-list'],
+[data-veda-ui-root].veda-ui-scope [class*='card-list'],
+[data-veda-ui-root].veda-ui-scope [class*='catalog-list'] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
 /* Topic card specific */
-.veda-ui-scope .usa-card.topic-card,
-.veda-ui-scope [class*='topic-card'] {
+#veda-ui-root .usa-card.topic-card,
+#veda-ui-root [class*='topic-card'],
+[data-veda-ui-root].veda-ui-scope .usa-card.topic-card,
+[data-veda-ui-root].veda-ui-scope [class*='topic-card'] {
   height: auto;
   min-height: 320px;
 }
 
-.veda-ui-scope .usa-card.topic-card .usa-card__img,
-.veda-ui-scope [class*='topic-card'] img {
+#veda-ui-root .usa-card.topic-card .usa-card__img,
+#veda-ui-root [class*='topic-card'] img,
+[data-veda-ui-root].veda-ui-scope .usa-card.topic-card .usa-card__img,
+[data-veda-ui-root].veda-ui-scope [class*='topic-card'] img {
   height: 180px;
   object-fit: cover;
 }
@@ -443,8 +544,10 @@
    RESULTS COUNT AND HEADER
    ===================================================== */
 
-.veda-ui-scope [class*='results-count'],
-.veda-ui-scope [class*='catalog-header'] {
+#veda-ui-root [class*='results-count'],
+#veda-ui-root [class*='catalog-header'],
+[data-veda-ui-root].veda-ui-scope [class*='results-count'],
+[data-veda-ui-root].veda-ui-scope [class*='catalog-header'] {
   color: var(--muted-foreground);
   font-size: 0.875rem;
   margin-bottom: 1rem;
@@ -454,8 +557,10 @@
    LOADING STATE
    ===================================================== */
 
-.veda-ui-scope [class*='loading'],
-.veda-ui-scope [class*='spinner'] {
+#veda-ui-root [class*='loading'],
+#veda-ui-root [class*='spinner'],
+[data-veda-ui-root].veda-ui-scope [class*='loading'],
+[data-veda-ui-root].veda-ui-scope [class*='spinner'] {
   color: var(--muted-foreground);
 }
 
@@ -464,122 +569,158 @@
    ===================================================== */
 
 /* Dark mode - Filter sidebar container */
-.dark .veda-ui-scope #dataset__search {
-  background-color: var(--card) !important;
+.dark #veda-ui-root #dataset__search,
+[data-veda-ui-root].dark #dataset__search {
+  background-color: var(--card);
 }
 
 /* Dark mode - Search input */
-.dark .veda-ui-scope .usa-search .usa-input,
-.dark .veda-ui-scope input[type='search'],
-.dark .veda-ui-scope input[type='text'] {
+.dark #veda-ui-root .usa-search .usa-input,
+.dark #veda-ui-root input[type='search'],
+.dark #veda-ui-root input[type='text'],
+[data-veda-ui-root].dark .usa-search .usa-input,
+[data-veda-ui-root].dark input[type='search'],
+[data-veda-ui-root].dark input[type='text'] {
   background-color: var(--input, oklch(0.269 0 0));
   border-color: var(--border);
   color: var(--foreground);
 }
 
 /* Dark mode - Cards */
-.dark .veda-ui-scope .usa-card__container,
-.dark .veda-ui-scope [class*='card-container'] {
+.dark #veda-ui-root .usa-card__container,
+.dark #veda-ui-root [class*='card-container'],
+[data-veda-ui-root].dark .usa-card__container,
+[data-veda-ui-root].dark [class*='card-container'] {
   background-color: var(--card);
   border-color: var(--border);
 }
 
-.dark .veda-ui-scope .usa-card__heading,
-.dark .veda-ui-scope [class*='card-title'],
-.dark .veda-ui-scope [class*='card-heading'] {
+.dark #veda-ui-root .usa-card__heading,
+.dark #veda-ui-root [class*='card-title'],
+.dark #veda-ui-root [class*='card-heading'],
+[data-veda-ui-root].dark .usa-card__heading,
+[data-veda-ui-root].dark [class*='card-title'],
+[data-veda-ui-root].dark [class*='card-heading'] {
   color: var(--foreground);
 }
 
-.dark .veda-ui-scope .usa-card__body,
-.dark .veda-ui-scope [class*='card-body'] {
+.dark #veda-ui-root .usa-card__body,
+.dark #veda-ui-root [class*='card-body'],
+[data-veda-ui-root].dark .usa-card__body,
+[data-veda-ui-root].dark [class*='card-body'] {
   color: var(--muted-foreground);
 }
 
 /* Dark mode - Filter accordion */
-.dark .veda-ui-scope .usa-accordion {
+.dark #veda-ui-root .usa-accordion,
+[data-veda-ui-root].dark .usa-accordion {
   background-color: var(--card);
   border-color: var(--border);
 }
 
-.dark .veda-ui-scope .usa-accordion__button,
-.dark .veda-ui-scope [class*='accordion'] button {
+.dark #veda-ui-root .usa-accordion__button,
+.dark #veda-ui-root [class*='accordion'] button,
+[data-veda-ui-root].dark .usa-accordion__button,
+[data-veda-ui-root].dark [class*='accordion'] button {
   background-color: var(--accent);
   color: var(--foreground);
 }
 
-.dark .veda-ui-scope .usa-accordion__button:hover,
-.dark .veda-ui-scope [class*='accordion'] button:hover {
+.dark #veda-ui-root .usa-accordion__button:hover,
+.dark #veda-ui-root [class*='accordion'] button:hover,
+[data-veda-ui-root].dark .usa-accordion__button:hover,
+[data-veda-ui-root].dark [class*='accordion'] button:hover {
   background-color: var(--ieee-blue-25);
 }
 
-.dark .veda-ui-scope .usa-accordion__content,
-.dark .veda-ui-scope [class*='accordion-content'] {
+.dark #veda-ui-root .usa-accordion__content,
+.dark #veda-ui-root [class*='accordion-content'],
+[data-veda-ui-root].dark .usa-accordion__content,
+[data-veda-ui-root].dark [class*='accordion-content'] {
   background-color: var(--card);
   border-top-color: var(--border);
 }
 
 /* Dark mode - Checkbox filter items */
-.dark .veda-ui-scope .veda-filter,
-.dark .veda-ui-scope #veda-checkbox-container {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root .veda-filter,
+.dark #veda-ui-root #veda-checkbox-container,
+[data-veda-ui-root].dark .veda-filter,
+[data-veda-ui-root].dark #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope .veda-filter:hover,
-.dark .veda-ui-scope #veda-checkbox-container:hover {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+.dark #veda-ui-root .veda-filter:hover,
+.dark #veda-ui-root #veda-checkbox-container:hover,
+[data-veda-ui-root].dark .veda-filter:hover,
+[data-veda-ui-root].dark #veda-checkbox-container:hover {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
-.dark .veda-ui-scope .veda-filter.border-primary-light,
-.dark .veda-ui-scope #veda-checkbox-container.border-primary-light {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+.dark #veda-ui-root .veda-filter.border-primary-light,
+.dark #veda-ui-root #veda-checkbox-container.border-primary-light,
+[data-veda-ui-root].dark .veda-filter.border-primary-light,
+[data-veda-ui-root].dark #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
-.dark .veda-ui-scope .usa-checkbox__label,
-.dark .veda-ui-scope .veda-filter label,
-.dark .veda-ui-scope label {
+.dark #veda-ui-root .usa-checkbox__label,
+.dark #veda-ui-root .veda-filter label,
+.dark #veda-ui-root label,
+[data-veda-ui-root].dark .usa-checkbox__label,
+[data-veda-ui-root].dark .veda-filter label,
+[data-veda-ui-root].dark label {
   color: var(--foreground);
 }
 
 /* Dark mode - Pagination */
-.dark .veda-ui-scope .usa-pagination__button,
-.dark .veda-ui-scope [class*='pagination'] button,
-.dark .veda-ui-scope [class*='pagination'] a {
+.dark #veda-ui-root .usa-pagination__button,
+.dark #veda-ui-root [class*='pagination'] button,
+.dark #veda-ui-root [class*='pagination'] a,
+[data-veda-ui-root].dark .usa-pagination__button,
+[data-veda-ui-root].dark [class*='pagination'] button,
+[data-veda-ui-root].dark [class*='pagination'] a {
   background-color: var(--card);
   border-color: var(--border);
   color: var(--foreground);
 }
 
-.dark .veda-ui-scope .usa-pagination__button:hover,
-.dark .veda-ui-scope [class*='pagination'] button:hover,
-.dark .veda-ui-scope [class*='pagination'] a:hover {
+.dark #veda-ui-root .usa-pagination__button:hover,
+.dark #veda-ui-root [class*='pagination'] button:hover,
+.dark #veda-ui-root [class*='pagination'] a:hover,
+[data-veda-ui-root].dark .usa-pagination__button:hover,
+[data-veda-ui-root].dark [class*='pagination'] button:hover,
+[data-veda-ui-root].dark [class*='pagination'] a:hover {
   background-color: var(--accent);
 }
 
 /* Dark mode - Tags */
-.dark .veda-ui-scope .default-veda-tags,
-.dark .veda-ui-scope .veda-tag-labels,
-.dark .veda-ui-scope [class*='tag'] {
+.dark #veda-ui-root .default-veda-tags,
+.dark #veda-ui-root .veda-tag-labels,
+.dark #veda-ui-root [class*='tag'],
+[data-veda-ui-root].dark .default-veda-tags,
+[data-veda-ui-root].dark .veda-tag-labels,
+[data-veda-ui-root].dark [class*='tag'] {
   color: var(--foreground);
   background-color: var(--muted);
   border-color: var(--border);
 }
 
-.dark .veda-ui-scope .card-type-label {
+.dark #veda-ui-root .card-type-label {
   color: var(--foreground);
   background-color: rgba(30, 30, 30, 0.95);
 }
 
-.dark .veda-ui-scope [class*='results-count'],
-.dark .veda-ui-scope [class*='catalog-header'] {
+.dark #veda-ui-root [class*='results-count'],
+.dark #veda-ui-root [class*='catalog-header'] {
   color: var(--muted-foreground);
 }
 
 /* Dark mode - Card hover */
-.dark .veda-ui-scope .usa-card:hover,
-.dark .veda-ui-scope [class*='card']:hover {
+.dark #veda-ui-root .usa-card:hover,
+.dark #veda-ui-root [class*='card']:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -588,7 +729,7 @@
    ===================================================== */
 
 /* Add "Filter by" section header - shown before first accordion */
-.veda-ui-scope #dataset__search .usa-accordion:first-of-type::before {
+#veda-ui-root #dataset__search .usa-accordion:first-of-type::before {
   content: 'Filter by Category';
   display: block;
   font-size: 0.875rem;
@@ -600,24 +741,24 @@
 }
 
 /* Ensure proper stacking and spacing */
-.veda-ui-scope #dataset__search > div {
+#veda-ui-root #dataset__search > div {
   display: flex;
   flex-direction: column;
 }
 
 /* Mobile filter header styling */
 @media (max-width: 768px) {
-  .veda-ui-scope #dataset__search {
-    padding: 1rem !important;
+  #veda-ui-root #dataset__search {
+    padding: 1rem;
   }
 
-  .veda-ui-scope #dataset__search > div:first-child {
+  #veda-ui-root #dataset__search > div:first-child {
     border-bottom: 1px solid var(--border);
     padding-bottom: 1rem;
     margin-bottom: 1rem;
   }
 
-  .veda-ui-scope #dataset__search > div:first-child h1 {
+  #veda-ui-root #dataset__search > div:first-child h1 {
     font-size: 1.125rem;
     font-weight: 600;
     margin: 0;
@@ -629,26 +770,26 @@
    ===================================================== */
 
 /* Hide the mobile "Datasets" count and "Search and Filter" button row */
-.veda-ui-scope #veda__mobile-catalog > div:first-child {
-  display: none !important;
+#veda-ui-root #veda__mobile-catalog > div:first-child {
+  display: none;
 }
 
-.veda-ui-scope #veda__mobile-catalog > div:nth-child(2) {
+#veda-ui-root #veda__mobile-catalog > div:nth-child(2) {
   display: flex;
   /* 'flex-start' is safer than 'start' for cross-browser flex compatibility */
   justify-content: flex-start;
   align-items: center;
 }
 
-.veda-ui-scope #veda__mobile-catalog > div:nth-child(2) .usa-tag {
+#veda-ui-root #veda__mobile-catalog > div:nth-child(2) .usa-tag {
   display: flex;
 }
 
 /* Also hide the background styling for the mobile catalog section */
-.veda-ui-scope #veda__mobile-catalog {
-  background-color: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
+#veda-ui-root #veda__mobile-catalog {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 /* =====================================================
@@ -656,31 +797,31 @@
    ===================================================== */
 
 /* Add margin between selected filter tags and the card grid */
-.veda-ui-scope #veda__mobile-catalog > .display-flex {
-  margin-bottom: 1.5rem !important;
+#veda-ui-root #veda__mobile-catalog > .display-flex {
+  margin-bottom: 1.5rem;
 }
 
 /* Style the selected filter tags container */
-.veda-ui-scope #veda__mobile-catalog .usa-tag.border-1px {
-  background-color: var(--ieee-blue-25) !important;
-  border-color: var(--primary) !important;
-  color: var(--foreground) !important;
-  padding: 0.375rem 0.75rem !important;
-  border-radius: var(--radius) !important;
-  font-size: 0.8125rem !important;
-  font-weight: 500 !important;
+#veda-ui-root #veda__mobile-catalog .usa-tag.border-1px {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
+  color: var(--foreground);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
 }
 
 /* Style the "Clear all" link */
-.veda-ui-scope #veda__mobile-catalog .usa-link {
-  color: var(--primary) !important;
-  font-size: 0.8125rem !important;
+#veda-ui-root #veda__mobile-catalog .usa-link {
+  color: var(--primary);
+  font-size: 0.8125rem;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.veda-ui-scope #veda__mobile-catalog .usa-link:hover {
-  color: var(--ieee-blue-light) !important;
+#veda-ui-root #veda__mobile-catalog .usa-link:hover {
+  color: var(--ieee-blue-light);
 }
 
 /* =====================================================
@@ -688,57 +829,109 @@
    ===================================================== */
 
 /* Main catalog grid row - ensure full width */
-.veda-ui-scope .grid-row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
+#veda-ui-root .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 /* Filter sidebar - fixed width on desktop */
-.veda-ui-scope .grid-row > .tablet\:grid-col-3,
-.veda-ui-scope .grid-row > [class*='grid-col-3'] {
-  flex: 0 0 280px !important;
-  max-width: 280px !important;
-  width: 280px !important;
+#veda-ui-root .grid-row > .tablet\:grid-col-3,
+#veda-ui-root .grid-row > [class*='grid-col-3'] {
+  flex: 0 0 280px;
+  max-width: 280px;
+  width: 280px;
 }
 
 /* Cards container - fill remaining width */
-.veda-ui-scope .grid-row > .tablet\:grid-col-9,
-.veda-ui-scope .grid-row > [class*='grid-col-9'] {
-  flex: 1 1 0 !important;
-  max-width: none !important;
-  width: auto !important;
-  min-width: 0 !important;
+#veda-ui-root .grid-row > .tablet\:grid-col-9,
+#veda-ui-root .grid-row > [class*='grid-col-9'] {
+  flex: 1 1 0;
+  max-width: none;
+  width: auto;
+  min-width: 0;
 }
 
 /* Mobile: stack filter and cards vertically */
 @media (max-width: 767px) {
-  .veda-ui-scope .grid-row {
-    flex-direction: column !important;
+  #veda-ui-root .grid-row {
+    flex-direction: column;
   }
 
-  .veda-ui-scope .grid-row > .tablet\:grid-col-3,
-  .veda-ui-scope .grid-row > [class*='grid-col-3'] {
-    flex: 0 0 auto !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-bottom: 1.5rem !important;
+  #veda-ui-root .grid-row > .tablet\:grid-col-3,
+  #veda-ui-root .grid-row > [class*='grid-col-3'] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
   }
 
-  .veda-ui-scope .grid-row > .tablet\:grid-col-9,
-  .veda-ui-scope .grid-row > [class*='grid-col-9'] {
-    flex: 1 1 auto !important;
-    width: 100% !important;
+  #veda-ui-root .grid-row > .tablet\:grid-col-9,
+  #veda-ui-root .grid-row > [class*='grid-col-9'] {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* Modal portal - Main grid row for two-column layout */
+[data-veda-ui-root].veda-ui-scope .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+}
+
+/* Modal portal - Filter sidebar fixed width on desktop */
+[data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+  flex: 0 0 280px;
+  max-width: 280px;
+  width: 280px;
+}
+
+/* Modal portal - Cards container fills remaining width */
+veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
+  flex: 1 1 0;
+  max-width: none;
+  width: auto;
+  min-width: 0;
+}
+
+[data-veda-ui-root].veda-ui-scope #veda__mobile-catalog {
+  display: none;
+}
+
+/* Modal portal - Mobile: stack filter and cards vertically */
+@media (max-width: 767px) {
+  [data-veda-ui-root].veda-ui-scope .grid-row {
+    flex-direction: column;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-9,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
+    flex: 1 1 auto;
+    width: 100%;
   }
 }
 
 /* Ensure the catalog container fills available width */
-.veda-ui-scope [class*='Catalog-sc'],
-.veda-ui-scope [class*='catalog-content'] {
-  width: 100% !important;
-  max-width: none !important;
+#veda-ui-root [class*='Catalog-sc'],
+#veda-ui-root [class*='catalog-content'] {
+  width: 100%;
+  max-width: none;
 }
 
 /* =====================================================
@@ -746,22 +939,22 @@
    ===================================================== */
 
 /* Card group - single column, full width cards */
-.veda-ui-scope .usa-card-group {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 1.5rem !important;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 100% !important;
+#veda-ui-root .usa-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 /* Card link wrapper - full width */
-.veda-ui-scope .usa-card-group > a.card-a11y-states {
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
+#veda-ui-root .usa-card-group > a.card-a11y-states {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 /* =====================================================
@@ -769,113 +962,113 @@
    ===================================================== */
 
 /* Flag card - horizontal layout */
-.veda-ui-scope .usa-card.usa-card--flag {
-  display: block !important;
-  width: 100% !important;
-  margin: 0 !important;
+#veda-ui-root .usa-card.usa-card--flag {
+  display: block;
+  width: 100%;
+  margin: 0;
 }
 
 /* Card container - CSS Grid for horizontal layout */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__container {
-  display: grid !important;
-  grid-template-columns: 280px 1fr !important;
-  grid-template-rows: auto 1fr auto !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  overflow: hidden !important;
-  background-color: var(--card) !important;
-  min-height: 180px !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--card);
+  min-height: 180px;
 }
 
 /* Card media/image section - spans all rows on left */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__media {
-  grid-column: 1 !important;
-  grid-row: 1 / -1 !important;
-  position: relative !important;
-  min-height: 180px !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__media {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: relative;
+  min-height: 180px;
 }
 
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__img {
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__img img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Card header - top right */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__header {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 /* Card body - middle right */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__body {
-  grid-column: 2 !important;
-  grid-row: 2 !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+  grid-column: 2;
+  grid-row: 2;
 }
 
 /* Card footer - bottom right */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__footer {
-  grid-column: 2 !important;
-  grid-row: 3 !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+  grid-column: 2;
+  grid-row: 3;
 }
 
 /* Data Collection tag position - overlays the image */
-.veda-ui-scope
+#veda-ui-root
   .usa-card.usa-card--flag
   .usa-card__container
   > .position-absolute {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-  align-self: start !important;
-  justify-self: start !important;
-  z-index: 10 !important;
-  margin: 0.5rem !important;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  z-index: 10;
+  margin: 0.5rem;
 }
 
 /* Mobile: stack vertically */
 @media (max-width: 640px) {
-  .veda-ui-scope .usa-card.usa-card--flag .usa-card__container {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: 180px auto 1fr auto !important;
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px auto 1fr auto;
   }
 
-  .veda-ui-scope .usa-card.usa-card--flag .usa-card__media {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-    min-height: 180px !important;
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__media {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 180px;
   }
 
-  .veda-ui-scope .usa-card.usa-card--flag .usa-card__header {
-    grid-column: 1 !important;
-    grid-row: 2 !important;
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+    grid-column: 1;
+    grid-row: 2;
   }
 
-  .veda-ui-scope .usa-card.usa-card--flag .usa-card__body {
-    grid-column: 1 !important;
-    grid-row: 3 !important;
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+    grid-column: 1;
+    grid-row: 3;
   }
 
-  .veda-ui-scope .usa-card.usa-card--flag .usa-card__footer {
-    grid-column: 1 !important;
-    grid-row: 4 !important;
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+    grid-column: 1;
+    grid-row: 4;
   }
 
-  .veda-ui-scope
+  #veda-ui-root
     .usa-card.usa-card--flag
     .usa-card__container
     > .position-absolute {
-    grid-row: 1 !important;
+    grid-row: 1;
   }
 }
 
@@ -884,65 +1077,65 @@
    ===================================================== */
 
 /* Card header styling */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__header {
-  padding: 1rem 1.25rem 0.25rem !important;
-  align-self: start !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+  padding: 1rem 1.25rem 0.25rem;
+  align-self: start;
 }
 
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__heading {
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
-  line-height: 1.4 !important;
-  color: var(--foreground) !important;
-  text-decoration: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
 }
 
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__heading:hover,
-.veda-ui-scope .usa-card a:hover .usa-card__heading,
-.veda-ui-scope .card-a11y-states:hover .usa-card__heading {
-  color: var(--foreground) !important;
-  text-decoration: underline !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__heading:hover,
+#veda-ui-root .usa-card a:hover .usa-card__heading,
+#veda-ui-root .card-a11y-states:hover .usa-card__heading {
+  color: var(--foreground);
+  text-decoration: underline;
 }
 
 /* Card body styling */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__body {
-  padding: 0.25rem 1.25rem 0.5rem !important;
-  align-self: start !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+  padding: 0.25rem 1.25rem 0.5rem;
+  align-self: start;
 }
 
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__body p {
-  font-size: 0.875rem !important;
-  color: var(--muted-foreground) !important;
-  line-height: 1.6 !important;
-  margin: 0 !important;
-  text-decoration: none !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body p {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+  text-decoration: none;
 }
 
 /* Remove hover underline from card body text */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__body p:hover,
-.veda-ui-scope .usa-card a:hover .usa-card__body p,
-.veda-ui-scope .card-a11y-states:hover .usa-card__body p {
-  text-decoration: none !important;
-  color: var(--muted-foreground) !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body p:hover,
+#veda-ui-root .usa-card a:hover .usa-card__body p,
+#veda-ui-root .card-a11y-states:hover .usa-card__body p {
+  text-decoration: none;
+  color: var(--muted-foreground);
 }
 
 /* Card footer styling */
-.veda-ui-scope .usa-card.usa-card--flag .usa-card__footer {
-  padding: 0.5rem 1.25rem 1rem !important;
-  align-self: end !important;
+#veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+  padding: 0.5rem 1.25rem 1rem;
+  align-self: end;
 }
 
 /* Footer tags */
-.veda-ui-scope .usa-card__footer .veda-tag-labels {
-  background-color: var(--muted) !important;
-  color: var(--muted-foreground) !important;
-  font-size: 0.6875rem !important;
-  padding: 0.25rem 0.5rem !important;
-  border-radius: calc(var(--radius) - 2px) !important;
-  margin-right: 0.375rem !important;
-  margin-bottom: 0.375rem !important;
+#veda-ui-root .usa-card__footer .veda-tag-labels {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) - 2px);
+  margin-right: 0.375rem;
+  margin-bottom: 0.375rem;
 }
 
 /* =====================================================
@@ -950,142 +1143,142 @@
    ===================================================== */
 
 /* Hide card-type-label everywhere by default */
-.veda-ui-scope .card-type-label {
-  display: none !important;
+#veda-ui-root .card-type-label {
+  display: none;
 }
 
 /* Ensure card container is positioned for absolute children */
-.veda-ui-scope .usa-card__container {
-  position: relative !important;
+#veda-ui-root .usa-card__container {
+  position: relative;
 }
 
 /* Position the Data Collection tag container over the image area */
-.veda-ui-scope .usa-card .usa-card__container > .position-absolute {
-  position: absolute !important;
-  top: 0.5rem !important;
-  left: 0.5rem !important;
-  z-index: 10 !important;
-  padding: 0 !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+#veda-ui-root .usa-card .usa-card__container > .position-absolute {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
+  padding: 0;
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Style the Data Collection tag - only inside card container */
-.veda-ui-scope
+#veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  color: var(--foreground) !important;
-  font-size: 0.75rem !important;
-  font-weight: 500 !important;
-  padding: 0.375rem 0.625rem !important;
-  border-radius: var(--radius) !important;
-  backdrop-filter: blur(4px) !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  display: inline-flex;
+  visibility: visible;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Ensure tag is always visible - no hover dependency */
-.veda-ui-scope
+#veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label,
-.veda-ui-scope
+#veda-ui-root
   .usa-card:hover
   .usa-card__container
   > .position-absolute
   .card-type-label {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: inline-flex;
+  visibility: visible;
+  opacity: 1;
 }
 
-.veda-ui-scope
+#veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label
   .card-type-inner-content {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.375rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
 }
 
-.veda-ui-scope
+#veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label
   .card-type-inner-content
   p {
-  margin: 0 !important;
-  font-size: 0.75rem !important;
+  margin: 0;
+  font-size: 0.75rem;
 }
 
 /* Hide Data Collection tag if it appears outside cards */
-.veda-ui-scope #dataset__search .card-type-label,
-.veda-ui-scope .wrapper > .card-type-label,
-.veda-ui-scope #dataset__search .position-absolute,
-.veda-ui-scope .wrapper > .position-absolute {
-  display: none !important;
+#veda-ui-root #dataset__search .card-type-label,
+#veda-ui-root .wrapper > .card-type-label,
+#veda-ui-root #dataset__search .position-absolute,
+#veda-ui-root .wrapper > .position-absolute {
+  display: none;
 }
 
 /* Dark mode - Data Collection tag */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label {
-  background-color: rgba(30, 30, 30, 0.95) !important;
-  color: #ffffff !important;
+  background-color: rgba(30, 30, 30, 0.95);
+  color: #ffffff;
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label
   .card-type-inner-content
   p {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   .usa-card
   .usa-card__container
   > .position-absolute
   .card-type-label
   svg
   path {
-  fill: #ffffff !important;
+  fill: #ffffff;
 }
 
 /* =====================================================
    CATALOG PAGE - DARK MODE CARD OVERRIDES
    ===================================================== */
 
-.dark .veda-ui-scope .usa-card.usa-card--flag .usa-card__container {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope .usa-card__footer .veda-tag-labels {
-  background-color: var(--muted) !important;
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root .usa-card__footer .veda-tag-labels {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope #veda__mobile-catalog .usa-tag.border-1px {
-  background-color: var(--ieee-blue-25) !important;
-  border-color: var(--primary) !important;
+.dark #veda-ui-root #veda__mobile-catalog .usa-tag.border-1px {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
 }
 
 /* =====================================================
@@ -1093,20 +1286,20 @@
    ===================================================== */
 
 /* Remove all text decoration from card links */
-.veda-ui-scope .card-a11y-states,
-.veda-ui-scope .card-a11y-states:h∂over,
-.veda-ui-scope .card-a11y-states:focus,
-.veda-ui-scope .card-a11y-states:active,
-.veda-ui-scope .card-a11y-states * {
-  text-decoration: none !important;
+#veda-ui-root .card-a11y-states,
+#veda-ui-root .card-a11y-states:h∂over,
+#veda-ui-root .card-a11y-states:focus,
+#veda-ui-root .card-a11y-states:active,
+#veda-ui-root .card-a11y-states * {
+  text-decoration: none;
 }
 
 /* Ensure card heading class has no underline */
-.veda-ui-scope .card-header,
-.veda-ui-scope .card-header:hover,
-.veda-ui-scope h2.usa-card__heading,
-.veda-ui-scope h2.usa-card__heading:hover {
-  text-decoration: none !important;
+#veda-ui-root .card-header,
+#veda-ui-root .card-header:hover,
+#veda-ui-root h2.usa-card__heading,
+#veda-ui-root h2.usa-card__heading:hover {
+  text-decoration: none;
 }
 
 /* =====================================================
@@ -1115,36 +1308,36 @@
 
 /* Reduce top margin/padding for large screens */
 @media (min-width: 1280px) {
-  .veda-ui-scope .grid-row {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+  #veda-ui-root .grid-row {
+    margin-top: 0;
+    padding-top: 0;
   }
 
-  .veda-ui-scope #veda__mobile-catalog {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+  #veda-ui-root #veda__mobile-catalog {
+    padding-top: 0;
+    margin-top: 0;
   }
 
-  .veda-ui-scope .usa-card-group {
-    margin-top: 0 !important;
+  #veda-ui-root .usa-card-group {
+    margin-top: 0;
   }
 
   /* Reduce gap in the catalog container */
-  .veda-ui-scope [class*='Catalog-sc'],
-  .veda-ui-scope [class*='catalog-content'] {
-    padding-top: 0 !important;
+  #veda-ui-root [class*='Catalog-sc'],
+  #veda-ui-root [class*='catalog-content'] {
+    padding-top: 0;
   }
 }
 
 /* General gap reduction for catalog layout */
-.veda-ui-scope .margin-bottom-15 {
-  margin-bottom: 1rem !important;
+#veda-ui-root .margin-bottom-15 {
+  margin-bottom: 1rem;
 }
 
-.veda-ui-scope #veda__mobile-catalog {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding-top: 0 !important;
+#veda-ui-root #veda__mobile-catalog {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
 }
 
 /* =====================================================
@@ -1152,173 +1345,173 @@
    ===================================================== */
 
 .khRCIa::before {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 /* Remove default margins/padding from veda-ui fold and constrainer */
-.veda-ui-scope [class*='fold__FoldBase'],
-.veda-ui-scope [class*='fold__Fold-sc'],
-.veda-ui-scope [class*='hub-content__FoldWithTopMargin'] {
-  margin: 0 !important;
-  padding: 0 !important;
+#veda-ui-root [class*='fold__FoldBase'],
+#veda-ui-root [class*='fold__Fold-sc'],
+#veda-ui-root [class*='hub-content__FoldWithTopMargin'] {
+  margin: 0;
+  padding: 0;
 }
 
-.veda-ui-scope [class*='constrainer__Constrainer'],
-.veda-ui-scope [class*='fold__FoldInner'] {
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
+#veda-ui-root [class*='constrainer__Constrainer'],
+#veda-ui-root [class*='fold__FoldInner'] {
+  margin: 0;
+  padding: 0;
+  max-width: none;
 }
 
 /* Browse header alignment */
-.veda-ui-scope [class*='fold__FoldHeader'],
-.veda-ui-scope [class*='BrowseFoldHeader'] {
-  margin-bottom: 0 !important;
-  padding: 0 !important;
+#veda-ui-root [class*='fold__FoldHeader'],
+#veda-ui-root [class*='BrowseFoldHeader'] {
+  margin-bottom: 0;
+  padding: 0;
 }
 
 /* Browse title styling */
-.veda-ui-scope [class*='fold__FoldTitle'] {
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  color: var(--foreground) !important;
-  margin: 0 0 1rem 0 !important;
+#veda-ui-root [class*='fold__FoldTitle'] {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1rem 0;
 }
 
 /* Hide the red accent line under Browse */
-.veda-ui-scope [class*='fold__FoldHeadline']::after,
-.veda-ui-scope [class*='FoldHeadline']::after {
-  display: none !important;
+#veda-ui-root [class*='fold__FoldHeadline']::after,
+#veda-ui-root [class*='FoldHeadline']::after {
+  display: none;
 }
 
 /* Story count text */
-.veda-ui-scope [class*='StoryCount'],
-.veda-ui-scope [class*='Heading__Subtitle'] {
-  font-size: 0.875rem !important;
-  color: var(--muted-foreground) !important;
-  margin-top: 0.75rem !important;
-  margin-bottom: 1rem !important;
+#veda-ui-root [class*='StoryCount'],
+#veda-ui-root [class*='Heading__Subtitle'] {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 /* =====================================================
    STORIES HUB - BROWSE CONTROLS (Search & Topics)
    ===================================================== */
 
-.veda-ui-scope [class*='BrowseControlsWrapper'] {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 1rem !important;
-  align-items: flex-start !important;
+#veda-ui-root [class*='BrowseControlsWrapper'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 /* Search wrapper */
-.veda-ui-scope [class*='SearchWrapper'] {
-  flex: 1 1 -10px !important;
-  max-width: 400px !important;
+#veda-ui-root [class*='SearchWrapper'] {
+  flex: 1 1 -10px;
+  max-width: 400px;
 }
 
 /* Search field container */
-.veda-ui-scope [class*='SearchFieldWrapper'],
-.veda-ui-scope [class*='search-field'] {
-  width: 100% !important;
+#veda-ui-root [class*='SearchFieldWrapper'],
+#veda-ui-root [class*='search-field'] {
+  width: 100%;
 }
 
-.veda-ui-scope [class*='SearchFieldContainer'] {
-  display: flex !important;
-  align-items: stretch !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  background-color: var(--input-background, #f3f3f5) !important;
-  overflow: hidden !important;
+#veda-ui-root [class*='SearchFieldContainer'] {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--input-background, #f3f3f5);
+  overflow: hidden;
 }
 
 /* Search icon button */
-.veda-ui-scope [class*='SearchFieldContainer'] > button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 0.75rem !important;
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--muted-foreground) !important;
-  cursor: pointer !important;
+#veda-ui-root [class*='SearchFieldContainer'] > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  background-color: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
 }
 
-.veda-ui-scope [class*='SearchFieldContainer'] > button:hover {
-  color: var(--foreground) !important;
+#veda-ui-root [class*='SearchFieldContainer'] > button:hover {
+  color: var(--foreground);
 }
 
 /* Search input */
-.veda-ui-scope [class*='SearchFieldClearable'] {
-  flex: 1 !important;
+#veda-ui-root [class*='SearchFieldClearable'] {
+  flex: 1;
 }
 
-.veda-ui-scope [class*='FormInputSearch'],
-.veda-ui-scope [class*='SearchFieldClearable'] input {
-  width: 100% !important;
-  height: 2.5rem !important;
-  padding: 0.5rem 0.75rem !important;
-  border: none !important;
-  background-color: transparent !important;
-  font-size: 0.9375rem !important;
-  color: var(--foreground) !important;
-  outline: none !important;
+#veda-ui-root [class*='FormInputSearch'],
+#veda-ui-root [class*='SearchFieldClearable'] input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: transparent;
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  outline: none;
 }
 
-.veda-ui-scope [class*='FormInputSearch']::placeholder {
-  color: var(--muted-foreground) !important;
+#veda-ui-root [class*='FormInputSearch']::placeholder {
+  color: var(--muted-foreground);
 }
 
 /* Helper message */
-.veda-ui-scope [class*='SearchFieldMessage'] {
-  font-size: 0.75rem !important;
-  color: var(--muted-foreground) !important;
-  margin-top: 0.25rem !important;
+#veda-ui-root [class*='SearchFieldMessage'] {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
 }
 
 /* Topics dropdown button */
-.veda-ui-scope [class*='FilterOptionsWrapper'] {
-  flex: 0 0 auto !important;
+#veda-ui-root [class*='FilterOptionsWrapper'] {
+  flex: 0 0 auto;
 }
 
-.veda-ui-scope [class*='DropButton'],
-.veda-ui-scope [class*='MainDropButton'] {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-  height: 2.5rem !important;
-  padding: 0 1rem !important;
-  background-color: var(--background) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  font-size: 0.9375rem !important;
-  color: var(--foreground) !important;
-  cursor: pointer !important;
-  transition: border-color 0.2s ease !important;
+#veda-ui-root [class*='DropButton'],
+#veda-ui-root [class*='MainDropButton'] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
 
-.veda-ui-scope [class*='DropButton']:hover {
-  border-color: var(--primary) !important;
+#veda-ui-root [class*='DropButton']:hover {
+  border-color: var(--primary);
 }
 
-.veda-ui-scope [class*='ButtonPrefix'] {
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  color: var(--muted-foreground) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+#veda-ui-root [class*='ButtonPrefix'] {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* =====================================================
    STORIES HUB - CARD GRID
    ===================================================== */
 
-.veda-ui-scope [class*='CardListGrid'] {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-  gap: 1.5rem !important;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
+#veda-ui-root [class*='CardListGrid'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* =====================================================
@@ -1326,165 +1519,165 @@
    ===================================================== */
 
 /* Card container */
-.veda-ui-scope [class*='CardItem'],
-.veda-ui-scope [class*='ClassicCardItem'] {
-  display: flex !important;
-  flex-direction: column !important;
-  background-color: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  overflow: hidden !important;
-  height: 100% !important;
+#veda-ui-root [class*='CardItem'],
+#veda-ui-root [class*='ClassicCardItem'] {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 100%;
   transition:
     box-shadow 0.2s ease,
-    border-color 0.2s ease !important;
+    border-color 0.2s ease;
 }
 
-.veda-ui-scope [class*='CardItem']:hover,
-.veda-ui-scope [class*='ClassicCardItem']:hover {
-  border-color: var(--primary) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+#veda-ui-root [class*='CardItem']:hover,
+#veda-ui-root [class*='ClassicCardItem']:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Card figure/image - MUST be first and fixed height */
-.veda-ui-scope [class*='CardItem'] [class*='CardFigure'],
-.veda-ui-scope [class*='CardItem'] figure {
+#veda-ui-root [class*='CardItem'] [class*='CardFigure'],
+#veda-ui-root [class*='CardItem'] figure {
   background-color: #fff;
-  order: -1 !important;
-  width: 100% !important;
-  height: 240px !important;
-  min-height: 240px !important;
-  max-height: 240px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  flex-shrink: 0 !important;
+  order: -1;
+  width: 100%;
+  height: 240px;
+  min-height: 240px;
+  max-height: 240px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.veda-ui-scope [class*='CardItem'] [class*='CardFigure'] img,
-.veda-ui-scope [class*='CardItem'] figure img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
+#veda-ui-root [class*='CardItem'] [class*='CardFigure'] img,
+#veda-ui-root [class*='CardItem'] figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Card header */
-.veda-ui-scope [class*='CardItem'] [class*='CardHeader'],
-.veda-ui-scope [class*='CardItem'] header {
-  order: 0 !important;
-  padding: 1rem 1rem 0.5rem !important;
+#veda-ui-root [class*='CardItem'] [class*='CardHeader'],
+#veda-ui-root [class*='CardItem'] header {
+  order: 0;
+  padding: 1rem 1rem 0.5rem;
 }
 
 /* Card title */
-.veda-ui-scope [class*='CardItem'] [class*='CardTitle'],
-.veda-ui-scope [class*='CardItem'] h3 {
-  font-size: 1.125rem !important;
-  font-weight: 600 !important;
-  line-height: 1.4 !important;
-  color: var(--foreground) !important;
-  margin: 0 !important;
+#veda-ui-root [class*='CardItem'] [class*='CardTitle'],
+#veda-ui-root [class*='CardItem'] h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+  margin: 0;
 }
 
 /* Hide the overline/meta section with vertical divider */
-.veda-ui-scope [class*='CardItem'] [class*='CardOverline'],
-.veda-ui-scope [class*='CardItem'] [class*='CardMeta'] {
-  display: none !important;
+#veda-ui-root [class*='CardItem'] [class*='CardOverline'],
+#veda-ui-root [class*='CardItem'] [class*='CardMeta'] {
+  display: none;
 }
 
 /* Card body/description */
-.veda-ui-scope [class*='CardItem'] [class*='CardBody'] {
-  order: 1 !important;
-  padding: 0 1rem 0.75rem !important;
-  flex-grow: 1 !important;
+#veda-ui-root [class*='CardItem'] [class*='CardBody'] {
+  order: 1;
+  padding: 0 1rem 0.75rem;
+  flex-grow: 1;
 }
 
-.veda-ui-scope [class*='CardItem'] [class*='CardBody'] p {
-  font-size: 0.875rem !important;
-  color: var(--muted-foreground) !important;
-  line-height: 1.6 !important;
-  margin: 0 !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 3 !important;
-  line-clamp: 3 !important;
-  -webkit-box-orient: vertical !important;
-  overflow: hidden !important;
+#veda-ui-root [class*='CardItem'] [class*='CardBody'] p {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Card footer with tags */
-.veda-ui-scope [class*='CardItem'] [class*='CardFooter'] {
-  order: 2 !important;
-  padding: 0.75rem 1rem 1rem !important;
-  margin-top: auto !important;
+#veda-ui-root [class*='CardItem'] [class*='CardFooter'] {
+  order: 2;
+  padding: 0.75rem 1rem 1rem;
+  margin-top: auto;
 }
 
 /* Topics list */
-.veda-ui-scope [class*='CardTopicsList'] {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 0.5rem !important;
-  align-items: center !important;
-  margin: 0 !important;
-  padding: 0 !important;
+#veda-ui-root [class*='CardTopicsList'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 /* Hide "Topics" label */
-.veda-ui-scope [class*='CardTopicsList'] dt {
-  display: none !important;
+#veda-ui-root [class*='CardTopicsList'] dt {
+  display: none;
 }
 
 /* Topic pills/tags */
-.veda-ui-scope [class*='CardTopicsList'] dd {
-  margin: 0 !important;
+#veda-ui-root [class*='CardTopicsList'] dd {
+  margin: 0;
 }
 
-.veda-ui-scope [class*='pill__Pill'],
-.veda-ui-scope [class*='CardTopicsList'] a {
-  display: inline-block !important;
-  padding: 0.25rem 0.625rem !important;
-  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.15)) !important;
-  color: var(--primary) !important;
-  font-size: 0.75rem !important;
-  font-weight: 500 !important;
-  border-radius: calc(var(--radius) - 2px) !important;
-  text-decoration: none !important;
-  transition: background-color 0.2s ease !important;
+#veda-ui-root [class*='pill__Pill'],
+#veda-ui-root [class*='CardTopicsList'] a {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.15));
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: calc(var(--radius) - 2px);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
-.veda-ui-scope [class*='pill__Pill']:hover,
-.veda-ui-scope [class*='CardTopicsList'] a:hover {
-  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25)) !important;
+#veda-ui-root [class*='pill__Pill']:hover,
+#veda-ui-root [class*='CardTopicsList'] a:hover {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25));
 }
 
 /* Hide the "View more" link (card is already clickable) */
-.veda-ui-scope [class*='CardItem'] [class*='InteractiveLink'] {
-  position: absolute !important;
-  inset: 0 !important;
-  opacity: 0 !important;
-  z-index: 1 !important;
+#veda-ui-root [class*='CardItem'] [class*='InteractiveLink'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 1;
 }
 
 /* =====================================================
    STORIES HUB - DARK MODE
    ===================================================== */
 
-.dark .veda-ui-scope [class*='CardItem']:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+.dark #veda-ui-root [class*='CardItem']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.dark .veda-ui-scope [class*='SearchFieldContainer'] {
-  background-color: var(--input, oklch(0.269 0 0)) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='SearchFieldContainer'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='DropButton'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='DropButton'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='pill__Pill'],
-.dark .veda-ui-scope [class*='CardTopicsList'] a {
-  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.3)) !important;
+.dark #veda-ui-root [class*='pill__Pill'],
+.dark #veda-ui-root [class*='CardTopicsList'] a {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.3));
 }
 
 /* =====================================================
@@ -1492,17 +1685,17 @@
    ===================================================== */
 
 @media (max-width: 640px) {
-  .veda-ui-scope [class*='CardListGrid'] {
-    grid-template-columns: 1fr !important;
+  #veda-ui-root [class*='CardListGrid'] {
+    grid-template-columns: 1fr;
   }
 
-  .veda-ui-scope [class*='BrowseControlsWrapper'] {
-    flex-direction: column !important;
+  #veda-ui-root [class*='BrowseControlsWrapper'] {
+    flex-direction: column;
   }
 
-  .veda-ui-scope [class*='SearchWrapper'] {
-    max-width: 100% !important;
-    width: 100% !important;
+  #veda-ui-root [class*='SearchWrapper'] {
+    max-width: 100%;
+    width: 100%;
   }
 }
 
@@ -1510,7 +1703,7 @@
    STORIES HUB AND DATA CATALOG DETAIL PAGE
    ===================================================== */
 
-.veda-ui-scope [class*='page-hero__PageHeroBlockAlpha'] {
+#veda-ui-root [class*='page-hero__PageHeroBlockAlpha'] {
   margin: 40px;
 }
 
@@ -1518,14 +1711,14 @@
    EXPLORATION PAGE
    ===================================================== */
 
-.veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] {
+#veda-ui-root [class*='catalog-content__ParentDatasetTitle'] {
   display: flex;
   justify-content: flex-start;
 }
 
-.veda-ui-scope [class*='catalog-content__SelectedCard'],
-.veda-ui-scope [class*='catalog-content__WarningPill'] {
-  width: fit-content !important;
+#veda-ui-root [class*='catalog-content__SelectedCard'],
+#veda-ui-root [class*='catalog-content__WarningPill'] {
+  width: fit-content;
 }
 
 /* =====================================================
@@ -1533,54 +1726,54 @@
    ===================================================== */
 
 /* Horizontal card container - ensure flex layout */
-.veda-ui-scope [class*='horizontal-info__HorizontalCard'] {
-  display: flex !important;
-  align-items: stretch !important;
-  min-height: 140px !important;
+#veda-ui-root [class*='horizontal-info__HorizontalCard'] {
+  display: flex;
+  align-items: stretch;
+  min-height: 140px;
 }
 
 /* Image container - fixed width, full height */
-.veda-ui-scope [class*='horizontal-info__CardImage'] {
-  flex: 0 0 140px !important;
-  width: 140px !important;
-  min-width: 140px !important;
-  height: auto !important;
-  min-height: 100% !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: stretch !important;
+#veda-ui-root [class*='horizontal-info__CardImage'] {
+  flex: 0 0 140px;
+  width: 140px;
+  min-width: 140px;
+  height: auto;
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
 }
 
 /* Image itself - cover the full container */
-.veda-ui-scope [class*='horizontal-info__CardImage'] img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display: block !important;
+#veda-ui-root [class*='horizontal-info__CardImage'] img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 /* Content section - take remaining space */
-.veda-ui-scope [class*='horizontal-info__CardContent'] {
-  flex: 1 1 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 0.75rem 1rem !important;
-  min-width: 0 !important;
+#veda-ui-root [class*='horizontal-info__CardContent'] {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  min-width: 0;
 }
 
 /* Card item wrapper - ensure proper height */
-.veda-ui-scope [class*='horizontal-info__HorizontalInfoCardItem'] {
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  overflow: hidden !important;
-  background-color: var(--card) !important;
+#veda-ui-root [class*='horizontal-info__HorizontalInfoCardItem'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--card);
 }
 
 /* Dark mode support */
-.dark .veda-ui-scope [class*='horizontal-info__HorizontalInfoCardItem'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
 /* =====================================================
@@ -1588,50 +1781,50 @@
    ===================================================== */
 
 /* Add date to compare button - compact styling */
-.veda-ui-scope
+#veda-ui-root
   [class*='tip-button__TipToolbarIconButton'][data-tour='compare-date'],
-.veda-ui-scope [data-tour='compare-date'] {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-  padding: 0.375rem 0.75rem !important;
-  font-size: 0.8125rem !important;
-  font-weight: 500 !important;
-  white-space: nowrap !important;
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--foreground) !important;
+#veda-ui-root [data-tour='compare-date'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  color: var(--foreground);
 }
 
 /* Calendar icon inside the compare date button - smaller size */
-.veda-ui-scope [data-tour='compare-date'] svg {
-  width: 1.5rem !important;
-  height: 2rem !important;
-  flex-shrink: 0 !important;
+#veda-ui-root [data-tour='compare-date'] svg {
+  width: 1.5rem;
+  height: 2rem;
+  flex-shrink: 0;
 }
 
 /* Add layer button styling - primary filled button */
-.veda-ui-scope [class*='timeline__Headline'] button {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 0.375rem !important;
-  color: white !important;
-  padding: 0.375rem 0.75rem !important;
-  border-radius: var(--radius) !important;
-  font-size: 0.8125rem !important;
-  font-weight: 500 !important;
-  border: none !important;
+#veda-ui-root [class*='timeline__Headline'] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: none;
 }
 
-.veda-ui-scope [class*='timeline__Headline'] button svg {
-  width: 1rem !important;
-  height: 1rem !important;
-  fill: white !important;
-  color: white !important;
+#veda-ui-root [class*='timeline__Headline'] button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: white;
+  color: white;
 }
 
-.veda-ui-scope [class*='timeline__Headline'] button:hover {
-  background-color: var(--ieee-blue-light) !important;
+#veda-ui-root [class*='timeline__Headline'] button:hover {
+  background-color: var(--ieee-blue-light);
 }
 
 /* =====================================================
@@ -1639,356 +1832,353 @@
    ===================================================== */
 
 /* Timeline wrapper background */
-.dark .veda-ui-scope [class*='timeline__TimelineWrapper'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='timeline__TimelineWrapper'] {
+  background-color: var(--card);
 }
 
 /* Timeline header */
-.dark .veda-ui-scope [class*='timeline__TimelineHeader'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='timeline__TimelineHeader'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
 /* Timeline details and headline */
-.dark .veda-ui-scope [class*='timeline__TimelineDetails'] {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='timeline__TimelineDetails'] {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='timeline__Headline'] h2,
-.dark .veda-ui-scope [class*='timeline__TimelineHeading'] {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='timeline__Headline'] h2,
+.dark #veda-ui-root [class*='timeline__TimelineHeading'] {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='timeline__Headline'] small,
-.dark .veda-ui-scope [class*='timeline__TimelineDetails'] small {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='timeline__Headline'] small,
+.dark #veda-ui-root [class*='timeline__TimelineDetails'] small {
+  color: var(--muted-foreground);
 }
 
 /* Timeline content area */
-.dark .veda-ui-scope [class*='timeline__TimelineContent'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='timeline__TimelineContent'] {
+  background-color: var(--card);
 }
 
-.dark .veda-ui-scope [class*='timeline__TimelineContentInner'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='timeline__TimelineContentInner'] {
+  background-color: var(--card);
 }
 
 /* Dataset list */
-.dark .veda-ui-scope [class*='dataset-list__DatasetListSelf'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-list__DatasetListSelf'] {
+  background-color: transparent;
 }
 
 /* Dataset list item */
-.dark .veda-ui-scope [class*='dataset-list-item__DatasetItem'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='dataset-list-item__DatasetItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item__DatasetHeader'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='dataset-list-item__DatasetHeader'] {
+  background-color: var(--card);
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item__DatasetHeaderInner'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-list-item__DatasetHeaderInner'] {
+  background-color: transparent;
 }
 
 /* Dataset layer card */
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetInfo'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetInfo'] {
+  background-color: transparent;
 }
 
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetCardInfo'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetCardInfo'] {
+  background-color: transparent;
 }
 
 /* Dataset titles */
-.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] {
-  color: var(--primary) !important;
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary);
 }
 
-.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] svg {
-  color: var(--primary) !important;
-  fill: var(--primary) !important;
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] svg {
+  color: var(--primary);
+  fill: var(--primary);
 }
 
-.dark .veda-ui-scope [class*='catalog-content__ParentDatasetTitle'] p {
-  color: var(--primary) !important;
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] p {
+  color: var(--primary);
 }
 
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetTitle'] {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetTitle'] {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetHeadline'] h3 {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetHeadline'] h3 {
+  color: var(--foreground);
 }
 
 /* Dataset metric info */
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetMetricInfo'] {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetMetricInfo'] {
+  color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetMetricInfo'] span {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetMetricInfo'] span {
+  color: var(--muted-foreground);
 }
 
 /* Dataset toolbar buttons */
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetToolbar'] button {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button {
+  color: var(--muted-foreground);
 }
 
-.dark
-  .veda-ui-scope
-  [class*='dataset-layer-card__DatasetToolbar']
-  button:hover {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button:hover {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='dataset-layer-card__DatasetToolbar'] button svg {
-  color: inherit !important;
-  fill: currentColor !important;
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button svg {
+  color: inherit;
+  fill: currentColor;
 }
 
 /* Dataset data/track area */
-.dark .veda-ui-scope [class*='dataset-list-item__DatasetData'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='dataset-list-item__DatasetData'] {
+  background-color: var(--card);
 }
 
 /* Track status blocks */
-.dark .veda-ui-scope [class*='dataset-list-item-status__Track'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__Track'] {
+  background-color: transparent;
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackBlock'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackBlock'] {
+  background-color: transparent;
 }
 
 /* Track message (error state) */
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] p {
-  color: var(--destructive, #ef4444) !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] p {
+  color: var(--destructive, #ef4444);
 }
 
 /* Retry button */
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] button {
-  background-color: var(--destructive, #ef4444) !important;
-  color: white !important;
-  border: none !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] button {
+  background-color: var(--destructive, #ef4444);
+  color: white;
+  border: none;
 }
 
 /* Timeline controls area */
-.dark .veda-ui-scope [class*='timeline-controls__TimelineControlsSelf'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='timeline-controls__TimelineControlsSelf'] {
+  background-color: transparent;
 }
 
-.dark .veda-ui-scope [class*='timeline-controls__ControlsToolbar'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='timeline-controls__ControlsToolbar'] {
+  background-color: transparent;
 }
 
 /* Date picker trigger */
-.dark .veda-ui-scope [class*='timeline-datepicker__DatePickerTrigger'] {
-  color: var(--foreground) !important;
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='timeline-datepicker__DatePickerTrigger'] {
+  color: var(--foreground);
+  background-color: transparent;
 }
 
-.dark .veda-ui-scope [class*='datepicker__TriggerWrapper'] button {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='datepicker__TriggerWrapper'] button {
+  color: var(--foreground);
 }
 
 /* Zoom controls */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='timeline-zoom-controls__TimelineControlsSelf']
   button {
-  color: var(--muted-foreground) !important;
-  background-color: transparent !important;
+  color: var(--muted-foreground);
+  background-color: transparent;
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='timeline-zoom-controls__TimelineControlsSelf']
   button:hover {
-  color: var(--foreground) !important;
+  color: var(--foreground);
 }
 
 /* Range slider */
-.dark .veda-ui-scope [class*='range-slider__RangeSliderInput'] {
-  background-color: var(--muted) !important;
+.dark #veda-ui-root [class*='range-slider__RangeSliderInput'] {
+  background-color: var(--muted);
 }
 
-.dark .veda-ui-scope .range-slider__thumb {
-  background-color: var(--foreground) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root .range-slider__thumb {
+  background-color: var(--foreground);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope .range-slider__range {
-  background-color: var(--primary) !important;
+.dark #veda-ui-root .range-slider__range {
+  background-color: var(--primary);
 }
 
 /* Date axis SVG text */
-.dark .veda-ui-scope [class*='date-axis__DateAxisSVG'] text {
-  fill: var(--foreground) !important;
+.dark #veda-ui-root [class*='date-axis__DateAxisSVG'] text {
+  fill: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='date-axis__GridLine'] {
-  stroke: var(--border) !important;
+.dark #veda-ui-root [class*='date-axis__GridLine'] {
+  stroke: var(--border);
 }
 
 /* Toolbar buttons in timeline */
-.dark .veda-ui-scope [class*='toolbar__ToolbarIconButton'] {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='toolbar__ToolbarIconButton'] {
+  color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope [class*='toolbar__ToolbarIconButton']:hover {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='toolbar__ToolbarIconButton']:hover {
+  color: var(--foreground);
 }
 
 /* Exploration container */
-.dark .veda-ui-scope [class*='exploration__Container'] {
-  background-color: var(--background) !important;
+.dark #veda-ui-root [class*='exploration__Container'] {
+  background-color: var(--background);
 }
 
 /* Panel backgrounds */
-.dark .veda-ui-scope .panel-timeline {
-  background-color: var(--card) !important;
+.dark #veda-ui-root .panel-timeline {
+  background-color: var(--card);
 }
 
 /* Map controls */
-.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='preset-selector__OptionValueDisplay'] {
-  color: var(--foreground) !important;
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='preset-selector__OptionValueDisplay'] {
+  color: var(--foreground);
+  background-color: var(--card);
 }
 
-.dark .veda-ui-scope [class*='preset-selector__PresetSelect'] {
-  color: var(--foreground) !important;
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='preset-selector__PresetSelect'] {
+  color: var(--foreground);
+  background-color: var(--card);
 }
 
 /* Vertical divider */
-.dark .veda-ui-scope [class*='vertical-divider__VerticalDivider'] {
-  background-color: var(--border) !important;
+.dark #veda-ui-root [class*='vertical-divider__VerticalDivider'] {
+  background-color: var(--border);
 }
 
 /* Map coordinate display */
-.dark .veda-ui-scope [class*='coords__MapCoordsWrapper'] button {
-  color: var(--foreground) !important;
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='coords__MapCoordsWrapper'] button {
+  color: var(--foreground);
+  background-color: var(--card);
 }
 
 /* Selector buttons on map */
-.dark .veda-ui-scope [class*='button__SelectorButton'] {
-  background-color: var(--card) !important;
-  color: var(--foreground) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='button__SelectorButton'] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='button__SelectorButton']:hover {
-  background-color: var(--accent) !important;
+.dark #veda-ui-root [class*='button__SelectorButton']:hover {
+  background-color: var(--accent);
 }
 
 /* AOI toolbar icon buttons (Draw, Upload icons beside Analyze an area) */
-.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button {
-  color: var(--foreground) !important;
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button {
+  color: var(--foreground);
+  background-color: transparent;
 }
 
-.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button svg {
-  color: var(--foreground) !important;
-  fill: var(--foreground) !important;
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button svg {
+  color: var(--foreground);
+  fill: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='aoi-control__AnalysisToolbar'] button:hover {
-  background-color: var(--accent) !important;
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button:hover {
+  background-color: var(--accent);
 }
 
 /* Mapbox zoom controls */
-.dark .veda-ui-scope .mapboxgl-ctrl-group {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-group {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-group button {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-group button {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
-  filter: invert(1) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+  filter: invert(1);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-group button:hover {
-  background-color: var(--accent) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-group button:hover {
+  background-color: var(--accent);
 }
 
 /* Mapbox zoom in/out specific */
-.dark .veda-ui-scope .mapboxgl-ctrl-zoom-in,
-.dark .veda-ui-scope .mapboxgl-ctrl-zoom-out {
-  background-color: var(--card) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-in,
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-out {
+  background-color: var(--card);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
-.dark .veda-ui-scope .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
-  filter: invert(1) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+  filter: invert(1);
 }
 
 /* Mapbox geocoder (search) */
-.dark .veda-ui-scope .mapboxgl-ctrl-geocoder {
-  background-color: var(--card) !important;
-  color: var(--foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder {
+  background-color: var(--card);
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-geocoder input {
-  color: var(--foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder input {
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-geocoder svg {
-  fill: var(--foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder svg {
+  fill: var(--foreground);
 }
 
 /* Error message - "Oh no, something went wrong" - more visible */
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] {
-  background-color: rgba(239, 68, 68, 0.1) !important;
-  padding: 0.5rem 0.75rem !important;
-  border-radius: var(--radius) !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] {
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackMessage'] p {
-  color: #fca5a5 !important;
-  font-weight: 500 !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] p {
+  color: #fca5a5;
+  font-weight: 500;
 }
 
 /* Track error state - make status items more visible */
-.dark .veda-ui-scope [class*='dataset-list-item-status__TrackError'] {
-  background-color: rgba(239, 68, 68, 0.05) !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackError'] {
+  background-color: rgba(239, 68, 68, 0.05);
 }
 
-.dark .veda-ui-scope [class*='dataset-list-item-status__Item'] {
-  opacity: 0.1 !important;
+.dark #veda-ui-root [class*='dataset-list-item-status__Item'] {
+  opacity: 0.1;
 }
 
 /* Mapbox attribution */
-.dark .veda-ui-scope .mapboxgl-ctrl-attrib {
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-attrib {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope .mapboxgl-ctrl-attrib a {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-attrib a {
+  color: var(--muted-foreground);
 }
 
 /* Mapbox scale */
-.dark .veda-ui-scope .mapboxgl-ctrl-scale {
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  color: var(--foreground) !important;
-  border-color: var(--foreground) !important;
+.dark #veda-ui-root .mapboxgl-ctrl-scale {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--foreground);
+  border-color: var(--foreground);
 }
 
 /* =====================================================
@@ -1996,526 +2186,534 @@
    ===================================================== */
 
 /* Modal container and contents */
-.dark .veda-ui-scope [class*='styled__ModalContents'] {
-  background-color: var(--card) !important;
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalContents'] {
+  background-color: var(--card);
+  color: var(--foreground);
 }
 
 /* Modal header */
-.dark .veda-ui-scope [class*='styled__ModalHeader'],
-.dark .veda-ui-scope [class*='styled__ModalFooter'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='styled__ModalHeader'],
+.dark #veda-ui-root [class*='styled__ModalFooter'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalHeadline'] h1,
-.dark .veda-ui-scope [class*='header__StyledModalHeadline'] h1 {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalHeadline'] h1,
+.dark #veda-ui-root [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground);
 }
 
 /* Modal close button */
-.dark .veda-ui-scope [class*='styled__ModalToolbar'] button {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalToolbar'] button:hover {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground);
 }
 
 /* Modal body */
-.dark .veda-ui-scope [class*='styled__ModalBody'] {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] {
+  background-color: var(--card);
 }
 
 /* Filter sidebar wrapper */
-.dark .veda-ui-scope .wrapper {
-  background-color: var(--card) !important;
+.dark #veda-ui-root .wrapper {
+  background-color: var(--card);
 }
 
 /* Dataset search container in modal */
-.dark .veda-ui-scope [class*='styled__ModalBody'] #dataset__search {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card);
 }
 
 /* Search form in modal */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-search .usa-input,
-.dark .veda-ui-scope [class*='styled__ModalBody'] input[type='search'],
-.dark .veda-ui-scope [class*='styled__ModalBody'] input[type='text'] {
-  background-color: var(--input, oklch(0.269 0 0)) !important;
-  border-color: var(--border) !important;
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-search .usa-input,
+.dark #veda-ui-root [class*='styled__ModalBody'] input[type='search'],
+.dark #veda-ui-root [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   .usa-search
   .usa-input::placeholder {
-  color: var(--muted-foreground) !important;
+  color: var(--muted-foreground);
 }
 
 /* Accordion in modal - filter categories */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button {
-  background-color: var(--accent) !important;
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent);
+  color: var(--foreground);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button:hover {
-  background-color: var(--ieee-blue-25) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__content {
-  background-color: var(--card) !important;
-  border-top-color: var(--border) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card);
+  border-top-color: var(--border);
 }
 
 /* Checkbox filter items in modal */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .veda-filter,
-.dark .veda-ui-scope [class*='styled__ModalBody'] #veda-checkbox-container {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .veda-filter,
+.dark #veda-ui-root [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .veda-filter:hover,
+.dark #veda-ui-root [class*='styled__ModalBody'] .veda-filter:hover,
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   #veda-checkbox-container:hover {
-  background-color: var(--ieee-blue-25) !important;
-  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-checkbox__label {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground);
 }
 
 /* Catalog section in modal */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='catalog-content__Catalog'] {
-  background-color: var(--card) !important;
+  background-color: var(--card);
 }
 
 /* Mobile catalog container - dark mode */
-.dark .veda-ui-scope [class*='styled__ModalBody'] #veda__mobile-catalog {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card);
 }
 
 /* Parent dataset title in modal */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='catalog-content__ParentDatasetTitle'] {
-  color: var(--primary) !important;
+  color: var(--primary);
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='catalog-content__ParentDatasetTitle']
   svg {
-  color: var(--primary) !important;
-  fill: var(--primary) !important;
+  color: var(--primary);
+  fill: var(--primary);
 }
 
 /* Selected count badge */
-.dark .veda-ui-scope [class*='catalog-content__SelectedCard'] {
-  background-color: var(--ieee-blue-25) !important;
-  color: var(--primary) !important;
+.dark #veda-ui-root [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
 }
 
 /* Dataset description paragraph */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='catalog-content__Paragraph'] {
-  color: var(--muted-foreground) !important;
+  color: var(--muted-foreground);
 }
 
 /* Headline section */
-.dark .veda-ui-scope [class*='catalog-content__Headline'] {
-  border-color: var(--border) !important;
+.dark #veda-ui-root [class*='catalog-content__Headline'] {
+  border-color: var(--border);
 }
 
 /* Warning pill */
-.dark .veda-ui-scope [class*='catalog-content__WarningPill'] {
-  background-color: rgba(239, 68, 68, 0.2) !important;
-  color: #fca5a5 !important;
+.dark #veda-ui-root [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
 }
 
 /* Horizontal card items in modal */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='horizontal-info__HorizontalInfoCardItem'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='horizontal-info__HorizontalInfoCardItem']:hover {
-  border-color: var(--primary) !important;
+  border-color: var(--primary);
 }
 
 /* Selected card state */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='catalog-card__CardSelectable'].LdUxE {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
 /* Card content area */
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalBody']
   [class*='horizontal-info__CardContent'] {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 /* Card title */
-.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
+  color: var(--foreground);
 }
 
 /* Card description */
-.dark .veda-ui-scope [class*='styled__ModalBody'] #description p {
-  color: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground);
 }
 
 /* Tags/pills in modal cards */
-.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='pill__Pill'] {
-  background-color: var(--ieee-blue-25) !important;
-  color: var(--primary) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
 }
 
 /* Interactive link (View dataset) */
-.dark .veda-ui-scope [class*='element-interactive__InteractiveLink'] {
-  color: var(--primary) !important;
+.dark #veda-ui-root [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary);
 }
 
 /* Cards list */
-.dark .veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardList'] {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='styles__CardList'] {
+  background-color: transparent;
 }
 
 /* Grid row background */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .grid-row {
-  background-color: transparent !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent;
 }
 
 /* Base lightest backgrounds - override to dark */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .bg-base-lightest {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card);
 }
 
-.dark .veda-ui-scope [class*='styled__ModalBody'] .bg-white {
-  background-color: var(--card) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card);
 }
 
 /* USA tag in modal */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-tag {
-  background-color: var(--muted) !important;
-  color: var(--foreground) !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted);
+  color: var(--foreground);
 }
 
 /* Search and Filter button (mobile) */
-.dark .veda-ui-scope [class*='styled__ModalBody'] .usa-button {
-  background-color: var(--primary) !important;
-  color: white !important;
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary);
+  color: white;
 }
 
 /* Close button X icon */
-.dark .veda-ui-scope [class*='xmark-small__CollecticonXmarkSmall'] {
-  fill: var(--muted-foreground) !important;
+.dark #veda-ui-root [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground);
 }
 
 .dark
-  .veda-ui-scope
+  #veda-ui-root
   [class*='styled__ModalToolbar']
   button:hover
   [class*='xmark-small__CollecticonXmarkSmall'] {
-  fill: var(--foreground) !important;
+  fill: var(--foreground);
 }
 
 /* =====================================================
-   PORTAL MODALS - DARK MODE (Compound Selectors)
-   When both dark and veda-ui-scope are on the same element
-   (for modals rendered via React portals)
+   PORTAL MODALS - DARK MODE (Attribute Selectors)
+   Uses [data-veda-ui-root].veda-ui-scope for modals rendered via React portals
+   (outside the main #veda-ui-root wrapper)
    ===================================================== */
 
 /* Modal container and contents */
-.dark.veda-ui-scope [class*='styled__ModalContents'] {
-  background-color: var(--card) !important;
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalContents'] {
+  background-color: var(--card);
+  color: var(--foreground);
 }
 
 /* Modal header */
-.dark.veda-ui-scope [class*='styled__ModalHeader'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalHeader'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalHeadline'] h1,
-.dark.veda-ui-scope [class*='header__StyledModalHeadline'] h1 {
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalHeadline'] h1,
+[data-veda-ui-root].dark [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground);
 }
 
 /* Modal footer */
-.dark.veda-ui-scope [class*='styled__ModalFooter'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalFooter'] [class*='LayerResult'],
-.dark.veda-ui-scope [class*='styled__ModalFooter'] .selection-info {
-  color: var(--muted-foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] [class*='LayerResult'],
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] .selection-info {
+  color: var(--muted-foreground);
 }
 
 /* Modal footer buttons */
-.dark.veda-ui-scope [class*='styled__ModalFooter'] button {
-  background-color: var(--accent) !important;
-  color: var(--foreground) !important;
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] button {
+  background-color: var(--accent);
+  color: var(--foreground);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalFooter'] button:hover:not(:disabled) {
-  background-color: var(--muted) !important;
+[data-veda-ui-root].dark
+  [class*='styled__ModalFooter']
+  button:hover:not(:disabled) {
+  background-color: var(--muted);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalFooter'] button:disabled {
-  opacity: 0.5 !important;
-  cursor: not-allowed !important;
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Modal close button */
-.dark.veda-ui-scope [class*='styled__ModalToolbar'] button {
-  color: var(--muted-foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalToolbar'] button:hover {
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground);
 }
 
 /* Modal body */
-.dark.veda-ui-scope [class*='styled__ModalBody'] {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] {
+  background-color: var(--card);
 }
 
 /* Filter sidebar wrapper */
-.dark.veda-ui-scope .wrapper {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark .wrapper {
+  background-color: var(--card);
 }
 
 /* Dataset search container in modal */
-.dark.veda-ui-scope [class*='styled__ModalBody'] #dataset__search {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card);
 }
 
 /* Search form in modal */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-search .usa-input,
-.dark.veda-ui-scope [class*='styled__ModalBody'] input[type='search'],
-.dark.veda-ui-scope [class*='styled__ModalBody'] input[type='text'] {
-  background-color: var(--input, oklch(0.269 0 0)) !important;
-  border-color: var(--border) !important;
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-search .usa-input,
+[data-veda-ui-root].dark [class*='styled__ModalBody'] input[type='search'],
+[data-veda-ui-root].dark [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
 }
 
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   .usa-search
   .usa-input::placeholder {
-  color: var(--muted-foreground) !important;
+  color: var(--muted-foreground);
 }
 
 /* Accordion in modal - filter categories */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button {
-  background-color: var(--accent) !important;
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent);
+  color: var(--foreground);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__button:hover {
-  background-color: var(--ieee-blue-25) !important;
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-accordion__content {
-  background-color: var(--card) !important;
-  border-top-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card);
+  border-top-color: var(--border);
 }
 
 /* Checkbox filter items in modal */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .veda-filter,
-.dark.veda-ui-scope [class*='styled__ModalBody'] #veda-checkbox-container {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .veda-filter,
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .veda-filter:hover,
-.dark.veda-ui-scope
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .veda-filter:hover,
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   #veda-checkbox-container:hover {
-  background-color: var(--ieee-blue-25) !important;
-  border-color: var(--primary) !important;
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-checkbox__label {
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground);
 }
 
 /* Catalog section in modal */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='catalog-content__Catalog'] {
-  background-color: var(--card) !important;
+  background-color: var(--card);
 }
 
 /* Mobile catalog container - dark mode */
-.dark.veda-ui-scope [class*='styled__ModalBody'] #veda__mobile-catalog {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card);
 }
 
 /* Parent dataset title in modal */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='catalog-content__ParentDatasetTitle'] {
-  color: var(--primary) !important;
+  color: var(--primary);
 }
 
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='catalog-content__ParentDatasetTitle']
   svg {
-  color: var(--primary) !important;
-  fill: var(--primary) !important;
+  color: var(--primary);
+  fill: var(--primary);
 }
 
 /* Selected count badge */
-.dark.veda-ui-scope [class*='catalog-content__SelectedCard'] {
-  background-color: var(--ieee-blue-25) !important;
-  color: var(--primary) !important;
+[data-veda-ui-root].dark [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
 }
 
 /* Dataset description paragraph */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='catalog-content__Paragraph'] {
-  color: var(--muted-foreground) !important;
+  color: var(--muted-foreground);
 }
 
 /* Headline section */
-.dark.veda-ui-scope [class*='catalog-content__Headline'] {
-  border-color: var(--border) !important;
+[data-veda-ui-root].dark [class*='catalog-content__Headline'] {
+  border-color: var(--border);
 }
 
 /* Warning pill */
-.dark.veda-ui-scope [class*='catalog-content__WarningPill'] {
-  background-color: rgba(239, 68, 68, 0.2) !important;
-  color: #fca5a5 !important;
+[data-veda-ui-root].dark [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
 }
 
 /* Horizontal card items in modal */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='horizontal-info__HorizontalInfoCardItem'] {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
+  background-color: var(--card);
+  border-color: var(--border);
 }
 
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='horizontal-info__HorizontalInfoCardItem']:hover {
-  border-color: var(--primary) !important;
+  border-color: var(--primary);
 }
 
 /* Selected card state */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='catalog-card__CardSelectable'].LdUxE {
-  border-color: var(--primary) !important;
-  background-color: var(--ieee-blue-25) !important;
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
 }
 
 /* Card content area */
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalBody']
   [class*='horizontal-info__CardContent'] {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 /* Card title */
-.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardTitle'] {
+  color: var(--foreground);
 }
 
 /* Card description */
-.dark.veda-ui-scope [class*='styled__ModalBody'] #description p {
-  color: var(--muted-foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground);
 }
 
 /* Tags/pills in modal cards */
-.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='pill__Pill'] {
-  background-color: var(--ieee-blue-25) !important;
-  color: var(--primary) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
 }
 
 /* Interactive link (View dataset) */
-.dark.veda-ui-scope [class*='element-interactive__InteractiveLink'] {
-  color: var(--primary) !important;
+[data-veda-ui-root].dark [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary);
 }
 
 /* Cards list */
-.dark.veda-ui-scope [class*='styled__ModalBody'] [class*='styles__CardList'] {
-  background-color: transparent !important;
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardList'] {
+  background-color: transparent;
 }
 
 /* Grid row background */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .grid-row {
-  background-color: transparent !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent;
 }
 
 /* Base lightest backgrounds - override to dark */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .bg-base-lightest {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card);
 }
 
-.dark.veda-ui-scope [class*='styled__ModalBody'] .bg-white {
-  background-color: var(--card) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card);
 }
 
 /* USA tag in modal */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-tag {
-  background-color: var(--muted) !important;
-  color: var(--foreground) !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted);
+  color: var(--foreground);
 }
 
 /* Search and Filter button (mobile) */
-.dark.veda-ui-scope [class*='styled__ModalBody'] .usa-button {
-  background-color: var(--primary) !important;
-  color: white !important;
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary);
+  color: white;
 }
 
 /* Close button X icon */
-.dark.veda-ui-scope [class*='xmark-small__CollecticonXmarkSmall'] {
-  fill: var(--muted-foreground) !important;
+[data-veda-ui-root].dark [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground);
 }
 
-.dark.veda-ui-scope
+[data-veda-ui-root].dark
   [class*='styled__ModalToolbar']
   button:hover
   [class*='xmark-small__CollecticonXmarkSmall'] {
-  fill: var(--foreground) !important;
+  fill: var(--foreground);
 }

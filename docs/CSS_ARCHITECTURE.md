@@ -105,10 +105,10 @@ export default function VedaUIWrapper({ children, datasets }) {
       <VedaUIConfigProvider>
         {datasets ? (
           <DataProvider initialDatasets={datasets}>
-            <div className='veda-ui-scope'>{children}</div>
+            <div id='veda-ui-root' className='veda-ui-scope'>{children}</div>
           </DataProvider>
         ) : (
-          <div className='veda-ui-scope'>{children}</div>
+          <div id='veda-ui-root' className='veda-ui-scope'>{children}</div>
         )}
       </VedaUIConfigProvider>
     </DevseedUIThemeProvider>
@@ -118,30 +118,32 @@ export default function VedaUIWrapper({ children, datasets }) {
 
 ### CSS Scoping Strategy
 
-The `veda-ui-scope` class creates CSS isolation:
+The `#veda-ui-root` ID selector creates CSS isolation with higher specificity:
 
 ```css
 /* app/styles/veda-ui-scope.css */
 
 /* Creates stacking context for isolation */
-.veda-ui-scope {
+#veda-ui-root {
   isolation: isolate;
   position: relative;
 }
 
 /* Font inheritance for all elements */
-.veda-ui-scope,
-.veda-ui-scope * {
+#veda-ui-root,
+#veda-ui-root * {
   font-family: inherit;
 }
 
 /* Override veda-ui/USWDS styles with Tailwind design tokens */
-.veda-ui-scope .usa-card__container {
+#veda-ui-root .usa-card__container {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background-color: var(--card);
 }
 ```
+
+**Why ID-based specificity?** ID selectors have specificity `(1,0,0)` which beats class selectors `(0,1,0)`, allowing us to override veda-ui library styles without using `!important` declarations. See [CSS_IMPORTANT_REMOVAL.md](./CSS_IMPORTANT_REMOVAL.md) for migration details.
 
 ### CSS Variables (Design Tokens)
 
@@ -245,7 +247,7 @@ The application supports dark mode via:
 Example dark mode override:
 
 ```css
-.dark .veda-ui-scope .usa-card__container {
+.dark #veda-ui-root .usa-card__container {
   background-color: var(--card);
   border-color: var(--border);
 }
@@ -268,8 +270,9 @@ Example dark mode override:
 
 **Check:**
 1. Ensure veda-ui components are wrapped in `VedaUIWrapper`
-2. Check CSS specificity - may need `!important` in `veda-ui-scope.css`
+2. Check CSS specificity - the `#veda-ui-root` ID selector should override library styles
 3. Verify CSS variables are defined in `globals.css`
+4. For portal modals, ensure `data-veda-ui-root` attribute is set
 
 ### Component Errors
 

@@ -30,7 +30,7 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
     setDatasetModalRevealed(false);
   };
 
-  // Add veda-ui-scope and dark mode class to modal portal when it mounts
+  // Add veda-ui-root data attribute and dark mode class to modal portal when it mounts
   useEffect(() => {
     if (!datasetModalRevealed) return;
 
@@ -39,6 +39,8 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
       // Find the modal wrapper container (class starts with styled__ModalWrapper)
       const modalWrapper = document.querySelector('[class*="styled__ModalWrapper"]');
       if (modalWrapper) {
+        // Add data attribute for ID-based specificity (portals can't share same ID)
+        modalWrapper.setAttribute('data-veda-ui-root', 'true');
         // Add veda-ui-scope class for styling
         if (!modalWrapper.classList.contains('veda-ui-scope')) {
           modalWrapper.classList.add('veda-ui-scope');
