@@ -835,6 +835,7 @@
   width: 100%;
   max-width: none;
   margin: 0;
+  gap: 20px;
 }
 
 /* Filter sidebar - fixed width on desktop */
@@ -1422,6 +1423,11 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   border-radius: var(--radius);
   background-color: var(--input-background, #f3f3f5);
   overflow: hidden;
+}
+
+/* Remove the inset box-shadow border from search field */
+#veda-ui-root [class*='SearchFieldContainer']::before {
+  box-shadow: none;
 }
 
 /* Search icon button */
