@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ArrowRight, Database, Users } from 'lucide-react';
 import React from 'react';
 import { useTheme } from './common/theme-provider';
@@ -11,16 +12,19 @@ const ctaItems = [
     icon: ArrowRight,
     title: 'Access Platform',
     buttonText: 'GRSS VEDA Dashboard',
+    href: '/exploration',
   },
   {
     icon: Database,
     title: 'Documentation',
     buttonText: 'Learn How to Use',
+    href: '#',
   },
   {
     icon: Users,
     title: 'Community',
     buttonText: 'Join Us',
+    href: '#',
   },
 ];
 
@@ -59,7 +63,9 @@ export default function GetStartedSection() {
                 variant={theme === 'light' ? 'secondary' : 'default'}
                 className='w-full gap-2'
               >
-                {item.buttonText}
+                <Link href={item.href} target='_blank' rel='noopener noreferrer'>
+                  {item.buttonText}
+                </Link>
                 <ArrowRight className='h-5 w-5' />
               </Button>
             </div>
