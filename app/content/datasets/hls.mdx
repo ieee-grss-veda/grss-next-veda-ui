@@ -70,7 +70,7 @@ layers:
     description: "False color composite image from Landsat 8/9 bands B05, B03, B02"
     time_density: day
     zoomExtent:
-      - 7
+      - 1
       - 18
     sourceParams:
       concept_id:	C2021957657-LPCLOUD
@@ -80,57 +80,7 @@ layers:
         - B05
         - B03
         - B02
-      minzoom: 7
-      maxzoom: 18
-      color_formula: Gamma RGB 2.5 Saturation 1.2 Sigmoidal RGB 10 0.35
-  - id: HLSS30_2.0_true_color
-    media:
-      src: /images/dataset/hls-events-ej--dataset-cover.png
-      alt: HLS L30 and S30 true color composite from October 4, 2024 over Lake Superior
-    type: cmr
-    stacCol: HLSS30_2.0
-    stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
-    tileApiEndpoint: "https://staging.openveda.cloud/api/titiler-cmr/WebMercatorQuad/tilejson.json"
-    name: "HLS Sentinel-2 True Color Composite"
-    description: "True color composite image from Sentinel-2 bands B04, B03, B02"
-    time_density: day
-    zoomExtent:
-      - 7
-      - 18
-    sourceParams:
-      concept_id:	C2021957295-LPCLOUD
-      backend: rasterio
-      bands_regex: B[0-9][0-9A-Za-z]
-      bands:
-        - B04
-        - B03
-        - B02
-      minzoom: 7
-      maxzoom: 18
-      color_formula: Gamma RGB 3.5 Saturation 1.2 Sigmoidal RGB 15 0.35
-  - id: HLSS30_2.0_false_color
-    media:
-      src: /images/dataset/hls-events-ej--dataset-cover.png
-      alt: HLS L30 and S30 false color composite from October 4, 2024 over Lake Superior
-    type: cmr
-    stacCol: HLSS30_2.0
-    stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
-    tileApiEndpoint: "https://staging.openveda.cloud/api/titiler-cmr/WebMercatorQuad/tilejson.json"
-    name: "HLS Sentinel-2 False Color Composite"
-    description: "False color composite image from Sentinel-2 bands B8A, B03, B02"
-    time_density: day
-    zoomExtent:
-      - 7
-      - 18
-    sourceParams:
-      concept_id:	C2021957295-LPCLOUD
-      backend: rasterio
-      bands_regex: B[0-9][0-9A-Za-z]
-      bands:
-        - B8A
-        - B03
-        - B02
-      minzoom: 7
+      minzoom: 1
       maxzoom: 18
       color_formula: Gamma RGB 2.5 Saturation 1.2 Sigmoidal RGB 10 0.35
 
