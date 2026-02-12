@@ -1,9 +1,9 @@
 ---
-id: HLS_2.0
+id: hls_2.0
 name: "Harmonized Landsat Sentinel-2 (HLS)"
 description: "The Harmonized Landsat Sentinel-2 (HLS) project provides consistent surface reflectance data from the Operational Land Imager (OLI) aboard the joint NASA/USGS Landsat 8 satellite and the Multi-Spectral Instrument (MSI) aboard Europe’s Copernicus Sentinel-2A, Sentinel-2B, and Sentinel-2C satellites."
 media:
-  src: ::file ./media/hls_20241004_true_color.jpg
+  src: /images/dataset/hls_20241004_true_color.jpg
   alt: HLS L30 and S30 true color composite from October 4, 2024 over Lake Superior
   author:
     name: NASA
@@ -35,7 +35,7 @@ infoDescription: |
 layers:
   - id: HLSL30_2.0_true_color
     media:
-      src: /images/dataset/hls-events-ej--dataset-cover.png
+      src: /images/dataset/hls_20241004_true_color.jpg
       alt: HLS L30 and S30 true color composite from October 4, 2024 over Lake Superior
     type: cmr
     stacCol: HLSL30_2.0
@@ -60,7 +60,7 @@ layers:
       color_formula: Gamma RGB 3.5 Saturation 1.2 Sigmoidal RGB 15 0.35
   - id: HLSL30_2.0_false_color
     media:
-      src: /images/dataset/hls-events-ej--dataset-cover.png
+      src: /images/dataset/hls_20241004_false_color.jpg
       alt: HLS L30 and S30 false color composite from October 4, 2024 over Lake Superior
     type: cmr
     stacCol: HLSL30_2.0
@@ -148,7 +148,7 @@ layers:
   </Prose>
 <Figure>
   <Map
-    datasetId='HLS_2.0'
+    datasetId='hls_2.0'
     layerId='HLSL30_2.0_true_color'
     dateTime='2024-10-01'
     zoom={11}
