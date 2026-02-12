@@ -9,11 +9,11 @@ const TOUR_STORAGE_KEY = 'grss-veda-tour-completed';
 
 const tourSteps: StepType[] = [
   {
-    selector: '[data-tour="logo"]',
+    selector: '[data-tour=\'logo\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Welcome to GRSS VEDA!</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Welcome to GRSS VEDA!</h3>
+        <p className='text-muted-foreground'>
           The Geoscience and Remote Sensing Society&apos;s Visualization,
           Exploration, and Data Analysis Platform. Let us show you around!
         </p>
@@ -21,11 +21,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="data-catalog"]',
+    selector: '[data-tour=\'data-catalog\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Data Catalog</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Data Catalog</h3>
+        <p className='text-muted-foreground'>
           Browse our comprehensive collection of Earth observation datasets.
           Find satellite imagery, climate data, and more for your research.
         </p>
@@ -33,11 +33,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="exploration"]',
+    selector: '[data-tour=\'exploration\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Exploration</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Exploration</h3>
+        <p className='text-muted-foreground'>
           Dive deep into visual analysis with our interactive exploration tools.
           Visualize and analyze geospatial data directly in your browser.
         </p>
@@ -45,11 +45,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="stories"]',
+    selector: '[data-tour=\'stories\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Stories</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Stories</h3>
+        <p className='text-muted-foreground'>
           Discover data-driven narratives and case studies that showcase
           real-world applications of Earth observation data.
         </p>
@@ -57,11 +57,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="about"]',
+    selector: '[data-tour=\'about\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">About</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>About</h3>
+        <p className='text-muted-foreground'>
           Learn more about the GRSS VEDA platform, our mission, and the team
           behind this initiative.
         </p>
@@ -69,11 +69,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="theme-toggle"]',
+    selector: '[data-tour=\'theme-toggle\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Theme Toggle</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Theme Toggle</h3>
+        <p className='text-muted-foreground'>
           Switch between light and dark mode for a comfortable viewing
           experience based on your preference.
         </p>
@@ -81,11 +81,11 @@ const tourSteps: StepType[] = [
     ),
   },
   {
-    selector: '[data-tour="contact"]',
+    selector: '[data-tour=\'contact\']',
     content: (
       <div>
-        <h3 className="text-lg font-medium mb-2">Get in Touch</h3>
-        <p className="text-muted-foreground">
+        <h3 className='text-lg font-medium mb-2'>Get in Touch</h3>
+        <p className='text-muted-foreground'>
           Have questions or need assistance? Contact our team for support and
           inquiries. You&apos;re all set to explore!
         </p>
@@ -120,20 +120,20 @@ function TourNavigation() {
   };
 
   return (
-    <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-      <div className="text-sm text-muted-foreground">
+    <div className='flex items-center justify-between mt-4 pt-4 border-t border-border'>
+      <div className='text-sm text-muted-foreground'>
         {currentStep + 1} of {steps.length}
       </div>
-      <div className="flex items-center gap-2">
+      <div className='flex items-center gap-2'>
         {!isFirstStep && (
-          <Button variant="outline" size="sm" onClick={handlePrev}>
-            <ChevronLeft className="h-4 w-4" />
+          <Button variant='outline' size='sm' onClick={handlePrev}>
+            <ChevronLeft className='h-4 w-4' />
             Back
           </Button>
         )}
-        <Button size="sm" onClick={handleNext}>
+        <Button size='sm' onClick={handleNext}>
           {isLastStep ? 'Finish' : 'Next'}
-          {!isLastStep && <ChevronRight className="h-4 w-4" />}
+          {!isLastStep && <ChevronRight className='h-4 w-4' />}
         </Button>
       </div>
     </div>
@@ -220,14 +220,14 @@ export function WebsiteTourProvider({
                 handleClose();
                 setIsOpen(false);
               }}
-              className="absolute top-3 right-3 p-1 rounded-md hover:bg-accent transition-colors"
-              aria-label="Close tour"
+              className='absolute top-3 right-3 p-1 rounded-md hover:bg-accent transition-colors'
+              aria-label='Close tour'
             >
-              <X className="h-4 w-4 text-muted-foreground" />
+              <X className='h-4 w-4 text-muted-foreground' />
             </button>
           );
         },
-        Content: ({ content }) => (
+        Content: ({ content }: { content: React.ReactNode }) => (
           <div>
             {content}
             <TourNavigation />
@@ -241,7 +241,9 @@ export function WebsiteTourProvider({
       disableDotsNavigation={true}
       disableKeyboardNavigation={false}
     >
-      <TourController>{children}</TourController>
+      <TourController>
+        { children }
+      </TourController>
     </TourProvider>
   );
 }
