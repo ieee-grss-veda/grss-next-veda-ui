@@ -64,6 +64,10 @@
   z-index: 10;
 }
 
+.position-relative {
+  position: relative;
+}
+
 /* Filter wrapper - ensure proper stacking */
 #veda-ui-root .wrapper,
 [data-veda-ui-root].veda-ui-scope .wrapper {
