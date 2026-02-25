@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { ImageWithFallback } from './common/image-with-fallback';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -18,6 +19,7 @@ interface HeroSectionProps {
   secondaryButton?: {
     text: string;
     onClick?: () => void;
+    href?: string;
   };
   children?: React.ReactNode;
 }
@@ -32,6 +34,8 @@ export default function HeroSection({
   secondaryButton,
   children,
 }: HeroSectionProps) {
+  const router = useRouter();
+
   return (
     <section
       className='relative overflow-hidden'
@@ -75,7 +79,13 @@ export default function HeroSection({
                 <Button
                   size='lg'
                   className='gap-2 text-lg px-8'
-                  onClick={primaryButton.onClick}
+                  onClick={() => {
+                    if (primaryButton.href) {
+                      router.push(primaryButton.href);
+                    } else if (primaryButton.onClick) {
+                      primaryButton.onClick();
+                    }
+                  }}
                 >
                   {primaryButton.text}
                   <ArrowRight className='h-5 w-5' />
@@ -86,7 +96,13 @@ export default function HeroSection({
                   size='lg'
                   variant='outline'
                   className='text-lg px-8'
-                  onClick={secondaryButton.onClick}
+                  onClick={() => {
+                    if (secondaryButton.href) {
+                      router.push(secondaryButton.href);
+                    } else if (secondaryButton.onClick) {
+                      secondaryButton.onClick();
+                    }
+                  }}
                 >
                   {secondaryButton.text}
                 </Button>

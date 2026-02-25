@@ -38,9 +38,11 @@ export default function HomePage() {
           }
           primaryButton={{
             text: 'Explore Platform',
+            href: '/exploration'
           }}
           secondaryButton={{
             text: 'Learn More',
+            href: '/about'
           }}
         />
         <FeaturesSection />
