@@ -172,8 +172,10 @@ export default function Header() {
               >
                 <Link href='/about'>About</Link>
               </Button>
-              <Button variant='ghost' size='sm' className='hidden lg:flex'>
-                Sign-in
+              <Button variant='ghost' size='sm' className='hidden lg:flex' asChild>
+                <Link href={process.env.NEXT_PUBLIC_AUTH_DOMAIN ? `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/realms/veda/account/applications` : '#'}>
+                  Sign-in
+                </Link>
               </Button>
               <Button size='sm' className='gap-2'>
                 Contact Us
