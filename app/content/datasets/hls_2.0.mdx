@@ -58,6 +58,8 @@ layers:
       minzoom: 7
       maxzoom: 18
       color_formula: Gamma RGB 3.5 Saturation 1.2 Sigmoidal RGB 15 0.35
+    legend:
+      type: text
   - id: HLSL30_2.0_false_color
     media:
       src: /images/dataset/hls_20241004_false_color.jpg
@@ -83,6 +85,8 @@ layers:
       minzoom: 1
       maxzoom: 18
       color_formula: Gamma RGB 2.5 Saturation 1.2 Sigmoidal RGB 10 0.35
+    legend:
+      type: text
 
   - id: HLSS30
     stacCol: HLS_S30_Nadir_BRDF_Adjusted_Reflectance
@@ -106,18 +110,7 @@ layers:
     analysis:
       exclude: true
     legend:
-      unit:
-        label: nW/cm²/sr
-      type: gradient
-      min: 0
-      max: 5
-      stops:
-        - rgb(0,0,0)
-        - rgb(64,64,64)
-        - rgb(128,128,128)
-        - rgb(192,192,192)
-        - rgb(240,240,240
-
+      type: text
     info:
       source: NASA
       spatialExtent: Global
