@@ -1,0 +1,131 @@
+---
+id: sedac-population-density
+name: SEDAC Gridded World Population Density
+description: Global, 30 arc-seconds (~1km) resolution human population density estimates from the Gridded Population of the World (GPW), version 4, revision 11 dataset based on national censuses and population registers
+media:
+  src: /images/dataset/sedac-popdensity.png
+  alt: SEDAC Gridded World Population Density
+taxonomy:
+  - name: Topics
+    values:
+      - Socioeconomic
+  - name: Source
+    values:
+      - NASA
+  - name: Product Type
+    values:
+      - Model Output
+infoDescription: |
+  ::markdown
+    - Temporal Extent: 2000 - 2020
+    - Temporal Resolution: Annual, every 5 years   
+    - Spatial Extent: Global    
+    - Spatial Resolution: 30 arc-seconds (~1 km at equator)    
+    - Data Units: Number of persons per square kilometer (persons/km²)    
+    - Data Type: Research
+    - Data Latency: 5 years        
+layers:
+  - id: nasa-sedac-population
+    stacCol: sedac-popdensity-yeargrid5yr-v4.11
+    name: Population Density
+    type: raster
+    description: Gridded population density estimates for the years 2000, 2005, 2010, 2015, and 2020 from Gridded Population of the World (GPW) version 4, revision 11
+    initialDatetime: newest
+    projection:
+      id: "equirectangular"
+    basemapId: 'light'
+    zoomExtent:
+      - 0
+      - 20
+    sourceParams:
+      assets: population-density
+      colormap_name: ylorrd
+      rescale:
+        - 0
+        - 1000
+    compare:
+      datasetId: sedac-popdensity-yeargrid5yr-v4.11
+      layerId: nasa-sedac-population
+      mapLabel: |
+        ::js ({ dateFns, datetime, compareDatetime }) => {
+          if (dateFns && datetime && compareDatetime) return `${dateFns.format(datetime, 'LLL yyyy')} VS ${dateFns.format(compareDatetime, 'LLL yyyy')}`;
+        }
+    legend:
+      unit:
+        label: persons/km²
+      type: gradient
+      min: 0
+      max: 1000
+      stops:
+        - "#FFFFB2"
+        - "#FFDDA0"
+        - "#FFC381"
+        - "#FFA354"
+        - "#FF8524"
+        - "#FF6715"
+        - "#FF0000"
+    analysis:
+      metrics:
+        - mean
+      sourceParams:
+        dst_crs: "+proj=cea"
+    info:
+      source: NASA
+      spatialExtent: Global
+      temporalResolution: Annual
+      unit: persons/km²         
+    media:
+      src: /images/dataset/sedac-popdensity.png
+      alt: SEDAC Gridded World Population Density - Population Density
+
+---
+
+<Block>
+  <Prose>
+    <div style={{ border: '2px solid #2e7d32', padding: '10px', display: 'inline-block', color: 'black', backgroundColor: '#e8f5e9', marginBottom: '10px' }}>
+      <span style={{ fontWeight: 'bold' }}>Attribution:</span> This dataset page content and data are sourced from the <a href="https://earth.gov/ghgcenter/data-catalog/sedac-popdensity-yeargrid5yr-v4.11" target="_blank" rel="noopener noreferrer">US GHG Center</a>.
+    </div>
+
+    **Temporal Extent:** 2000 - 2020<br />
+    **Temporal Resolution:** Annual, every 5 years   
+    **Spatial Extent:** Global    
+    **Spatial Resolution:** 30 arc-seconds (~1 km at equator)    
+    **Data Units:** Number of persons per square kilometer (persons/km²)    
+    **Data Type:** Research<br />
+    **Data Latency:** 5 years
+
+    The Socioeconomic Data and Applications Center (SEDAC) Gridded Population of the World (GPW), version 4, revision 11 source dataset contains a Population Density product that provides estimates of population density at five year intervals for the years 2000, 2005, 2010, 2015, and 2020 on a 30 arc-second (~1 km at the equator) grid.  The dataset can be used for assessing disaster impacts, risk mapping, and any other applications that include a human dimension. Population density is obtained by dividing the population count grid for a given target year by the gridded land area.  The GPW population count is generated using input from tabular census data that identifies the number of persons by administrative area and digital census administrative boundary data. The density values are based on the 2010 census results extrapolated to other years based on annual population growth rates. This dataset (v4.11) was built upon previous versions of the SEDAC global population dataset. 
+  </Prose>
+</Block>
+<Block>
+  <Prose>    
+    ## Source Data Product Citation
+    Center For International Earth Science Information Network-CIESIN-Columbia University. (2017). Gridded Population of the World, Version 4 (GPWv4): Population Density, Revision 11 (Version 4.11)[Data set], Palisades, NY: Socioeconomic Data and Applications Center (SEDAC). [https://doi.org/10.7927/H49C6VHW](https://doi.org/10.7927/H49C6VHW) Date Accessed: [Access date]
+    
+    ## Dataset Accuracy
+    The SEDAC Gridded Population of the World: Population Density, v4.11 dataset, as with other population products, is limited by the availability and quality of census data. For example, the census data from 2010 were not available for some countries and therefore older census data had to be used. Additionally, there may be small underestimates in the gridded population for some areas due to the decision to exclude geographically undefined populations such as the homeless or those with boat homes. More information on the data quality indicators included with the source dataset are available in the [GPWv4 Revision 11 documentation](https://www.earthdata.nasa.gov/data/catalog/sedac-ciesin-sedac-gpwv4-popdens-r11-4.11#documents-and-resources).
+  
+    ## Disclaimer
+    This dataset has been transformed from its original format (GeoTIFF) into Cloud Optimized GeoTIFF ([COG](https://www.cogeo.org/)) for display in the US GHG Center. Careful quality checks are used to ensure data transformation has been performed correctly.
+    
+    Note that the gridded population densities included in this dataset are also available at four lower spatial resolutions: 2.4 arc-minute, 15 arc-minute, 30 arc-minute, and 1 degree. This lower spatial resolution data is not provided in the US GHG Center but is available in [Earthdata Search](https://doi.org/10.7927/H49C6VHW). The full title of the source dataset, Gridded Population of the World, Version 4 (GPWv4): Population Density, Revision 11, has been shortened for display on the US GHG Center website. The short name of the source dataset is [CIESIN_SEDAC_GPWv4_POPDENS_R11](https://doi.org/10.7927/H49C6VHW), but it is referred to as sedac-popdensity-yeargrid5yr-v4.11 in the Center. 
+ 
+    ## Scientific Details
+    Population estimates are distributed to a 30 arc-second (~1km) grid using an areal-weighting method. The input geographic boundaries were obtained from multiple sources including national statistical offices, national mapping agencies, and the Global Administrative Areas, version 2.0 (GADMv2) dataset. A water mask was also applied to ensure that areas of water and permanent ice were not included in distributed population counts. The annual exponential growth rates applied to determine population estimates in the target years (2000, 2005, 2010, 2015, and 2020) were defined using the population count from the previous census, the population count from the current census, and the number of years between the two records.  Methodology details are available in the [GPWv4 Revision 11 documentation](https://www.earthdata.nasa.gov/data/catalog/sedac-ciesin-sedac-gpwv4-popdens-r11-4.11#documents-and-resources).
+
+    ## Key Publications
+    Center for International Earth Science Information Network (CIESIN), Columbia University. (2018). *Documentation for the gridded population of the world, version 4 (GPWv4), revision 11 data sets*. NASA Socioeconomic Data and Applications Center (SEDAC). [https://doi.org/10.7927/H49C6VHW](https://doi.org/10.7927/H49C6VHW)
+    
+    Doxsey-Whitfield, E., MacManus, K., Adamo, S. B., Pistolesi, L., Squires, J., Borkovska, O., & Baptista, S. R. (2015). Taking advantage of the improved availability of census data: A first look at the gridded population of the world, version 4. *Papers in Applied Geography, 1*(3), 226-234. [https://doi.org/10.1080/23754931.2015.1014272](https://doi.org/10.1080/23754931.2015.1014272)
+
+    ## Learn More
+    - Learn about the [latest release of the Gridded Population of the World (GPW)](https://www.earthdata.nasa.gov/news/new-gpw-release) data collection.
+
+    ## Acknowledgment
+    This dataset was produced by CIESIN at Columbia University with primary support from the National Aeronautics and Space Administration for the Socioeconomic Data and Applications Distributed Active Archive Center (DAAC) for the Earth Observing System Data and Information System (EOSDIS). Many national statistics offices, mapping agencies, and other international organizations provided data and support for the production of this dataset.
+
+    ## License
+    [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) (CC BY 4.0)
+
+  </Prose>
+</Block>

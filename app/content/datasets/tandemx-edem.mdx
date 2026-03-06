@@ -1,0 +1,169 @@
+---
+id: tandemx-edem
+name: "TanDEM-X - Edited Digital Elevation Model (EDEM) - Global, 30m"
+description: "The TanDEM-X 30m Edited Digital Elevation Model (EDEM) is a global Digital Elevation Model (DEM) with 1 arcsecond (~30m) pixel spacing, acquired by the German TanDEM-X mission between 2010 and 2014."
+media:
+  src: "/images/dataset/tandemx-edem--dataset-cover.jpg"
+  alt: TanDEM-X Digital Elevation Model visualization showing terrain
+  author:
+    name: German Aerospace Center (DLR)
+    url: https://www.dlr.de
+taxonomy:
+  - name: Topics
+    values:
+      - Elevation
+      - Topography
+  - name: Source
+    values:
+      - DLR
+      - Airbus Defence and Space
+  - name: Platform
+    values:
+      - TanDEM-X
+      - TerraSAR-X
+infoDescription: |
+  ::markdown
+    The TanDEM-X 30m EDEM provides global elevation data at 30-meter resolution, processed to fill data gaps and remove artifacts from the original TanDEM-X Global DEM.
+
+    ## Dataset Details:
+
+    - Temporal Extent: 2010 - 2014
+    - Spatial Extent: Global (all landmasses pole to pole)
+    - Spatial Resolution: 30 x 30 meters (~1 arcsecond)
+    - Vertical Accuracy: ~1 meter absolute
+    - Horizontal Accuracy: <10 meters (CE90)
+    - Vertical Datum: WGS84-G1150 ellipsoid (EPSG:4979) and EGM2008 geoid (EPSG:3855)
+
+layers:
+  - id: TDM30_EDEM_dem
+    stacCol: TDM30_EDEM
+    name: "TanDEM-X EDEM Elevation"
+    type: raster
+    description: "Digital Elevation Model showing terrain elevation in meters"
+    zoomExtent:
+      - 4
+      - 14
+    sourceParams:
+      assets: dem
+      colormap_name: terrain
+      rescale:
+        - -500
+        - 8000
+    legend:
+      type: gradient
+      unit:
+        label: meters
+      min: "-500"
+      max: "8000"
+      stops:
+        - "#0d47a1"
+        - "#1e88e5"
+        - "#4caf50"
+        - "#8bc34a"
+        - "#cddc39"
+        - "#ffeb3b"
+        - "#ff9800"
+        - "#795548"
+        - "#ffffff"
+    info:
+      source: DLR/Airbus
+      spatialExtent: Global
+      temporalResolution: Static (2010-2014)
+      unit: meters
+    media:
+      src: "/images/dataset/tandemx-edem--dataset-cover.jpg"
+      alt: TanDEM-X EDEM elevation visualization
+---
+
+<Block>
+<Prose>
+The TanDEM-X 30m Edited Digital Elevation Model (EDEM) is a global Digital Elevation Model (DEM) with 1 arcsecond (~30m) pixel spacing, acquired by the German TanDEM-X mission between 2010 and 2014. It covers approximately 150 million square kilometers of all Earth's landmasses from pole to pole.
+
+The EDEM is an edited version of the TanDEM-X Global DEM, processed with a fully automatic algorithm to fill data gaps and remove artifacts using auxiliary elevation data from AW3D30, NASADEM, LiDAR, REMA DEM, and Arctic DEM. The product represents a Digital Surface Model (DSM) showing radar-reflective surfaces.
+
+The data has an absolute vertical accuracy of approximately 1 meter and horizontal accuracy (CE90) below 10 meters. The vertical datum is WGS84-G1150 ellipsoid (EPSG:4979) and EGM2008 geoid (EPSG:3855). This dataset serves as a reference for topographical analysis and change detection applications.
+</Prose>
+</Block>
+
+<Block type='full'>
+<Prose>
+## The TanDEM-X Mission
+
+The TanDEM-X (TerraSAR-X add-on for Digital Elevation Measurement) mission is realized in a public-private partnership between the German Aerospace Center (DLR) and Airbus Defence and Space. The mission consists of two nearly identical satellites flying in close formation, using X-band SAR interferometry to generate highly accurate digital elevation models.
+
+The primary mission objective was to generate a global, consistent, and high-precision Digital Elevation Model with unprecedented accuracy and coverage. The data acquisition phase ran from 2010 to 2014, during which multiple coverage passes were made to ensure complete global coverage and optimal data quality.
+</Prose>
+<Figure>
+  <Map
+    datasetId='tandemx-edem'
+    layerId='TDM30_EDEM_dem'
+    dateTime='2010-01-01'
+    zoom={6}
+    center={[-3, 40]}
+  />
+  <Caption
+    attrAuthor='DLR'
+    attrUrl='https://www.dlr.de'
+  >
+  TanDEM-X EDEM elevation visualization showing global terrain data
+  </Caption>
+</Figure>
+</Block>
+
+<Block>
+<Prose>
+## Dataset Specifications
+
+| Specification | Value |
+|--------------|-------|
+| **Spatial Resolution** | 30m (~1 arcsecond) |
+| **Coverage** | Global (all landmasses) |
+| **Temporal Extent** | 2010-2014 |
+| **Vertical Accuracy** | ~1 meter (absolute) |
+| **Horizontal Accuracy** | \<10 meters (CE90) |
+| **Coordinate System** | WGS84-G1150 |
+| **Vertical Datum** | EGM2008 geoid |
+| **Data Type** | Digital Surface Model (DSM) |
+| **Instruments** | X-band SAR |
+| **Platforms** | TanDEM-X, TerraSAR-X |
+</Prose>
+</Block>
+
+<Block>
+<Prose>
+## Data Processing
+
+The EDEM was created using a fully automatic algorithm for editing the TanDEM-X Global DEM. The processing workflow includes:
+
+- **Gap Filling**: Data voids are filled using auxiliary elevation data from AW3D30, NASADEM, LiDAR collections, REMA DEM (for Antarctica), and Arctic DEM
+- **Artifact Removal**: Automated detection and correction of artifacts in the original DEM
+- **Quality Assessment**: Comprehensive validation with ground control points and auxiliary datasets
+
+The algorithm ensures seamless integration of auxiliary data while maintaining the high quality and consistency of the original TanDEM-X observations.
+</Prose>
+</Block>
+
+<Block>
+<Prose>
+## Credits
+
+TanDEM-X data courtesy of the [German Aerospace Center (DLR)](https://www.dlr.de) and [Airbus Defence and Space](https://www.airbus.com). Data distribution provided by [EOC Geoservice](https://geoservice.dlr.de).
+
+**Citation:** C. Gonzalez, M. Bachmann, J.L. Bueso-Bello, P. Rizzoli, M. Zink. A Fully Automatic Algorithm for Editing the TanDEM-X Global DEM. Remote Sensing. 2020; 12(23):3961. [DOI: 10.3390/rs12233961](https://doi.org/10.3390/rs12233961)
+</Prose>
+</Block>
+
+<Block>
+<Prose>
+## Additional Resources
+
+### Documentation
+* [TanDEM-X 30m EDEM Data Guide](https://geoservice.dlr.de/web/dataguide/tdm30/)
+
+### License
+* [License for the Utilization of TanDEM-X 30m DEM for Scientific Use](https://geoservice.dlr.de/resources/licenses/tdm30-edited/License_for_the_Utilization_of_TanDEM-X_30m-EDEM_DCM_for_Scientific_Use.pdf)
+
+### Related Publications
+* [A Fully Automatic Algorithm for Editing the TanDEM-X Global DEM](https://doi.org/10.3390/rs12233961)
+</Prose>
+</Block>
