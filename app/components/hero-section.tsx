@@ -1,6 +1,9 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { ImageWithFallback } from './common/image-with-fallback';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -34,6 +37,8 @@ export default function HeroSection({
   secondaryButton,
   children,
 }: HeroSectionProps) {
+  const router = useRouter();
+
   return (
     <section
       className='relative overflow-hidden'
