@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ImageWithFallback } from './common/image-with-fallback';
@@ -81,16 +82,20 @@ export default function HeroSection({
                 <Button
                   size='lg'
                   className='gap-2 text-lg px-8'
-                  onClick={() => {
-                    if (primaryButton.href) {
-                      router.push(primaryButton.href);
-                    } else if (primaryButton.onClick) {
-                      primaryButton.onClick();
-                    }
-                  }}
+                  onClick={primaryButton.onClick}
+                  asChild={!!primaryButton.href}
                 >
-                  {primaryButton.text}
-                  <ArrowRight className='h-5 w-5' />
+                  {primaryButton.href ? (
+                    <Link href={primaryButton.href}>
+                      {primaryButton.text}
+                      <ArrowRight className='h-5 w-5' />
+                    </Link>
+                  ) : (
+                    <>
+                      {primaryButton.text}
+                      <ArrowRight className='h-5 w-5' />
+                    </>
+                  )}
                 </Button>
               )}
               {secondaryButton && (
@@ -98,15 +103,16 @@ export default function HeroSection({
                   size='lg'
                   variant='outline'
                   className='text-lg px-8'
-                  onClick={() => {
-                    if (secondaryButton.href) {
-                      router.push(secondaryButton.href);
-                    } else if (secondaryButton.onClick) {
-                      secondaryButton.onClick();
-                    }
-                  }}
+                  onClick={secondaryButton.onClick}
+                  asChild={!!secondaryButton.href}
                 >
-                  {secondaryButton.text}
+                  {secondaryButton.href ? (
+                    <Link href={secondaryButton.href}>
+                      {secondaryButton.text}
+                    </Link>
+                  ) : (
+                    secondaryButton.text
+                  )}
                 </Button>
               )}
             </div>

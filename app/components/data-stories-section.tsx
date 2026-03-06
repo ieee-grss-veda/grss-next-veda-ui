@@ -73,10 +73,10 @@ export default function DataStoriesSection() {
                 ))}
               </div>
 
-              <Button size='lg' variant='outline' className='gap-2'>
+              {/* <Button size='lg' variant='outline' className='gap-2'>
                 Learn More About Data Stories
                 <ExternalLink className='h-4 w-4' />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

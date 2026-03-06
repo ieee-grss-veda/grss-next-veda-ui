@@ -131,7 +131,7 @@ export default function Header() {
                       </Link>
                     </Button>
 
-                    <Button
+                    {/* <Button
                       variant='ghost'
                       className='justify-start text-lg py-6'
                       onClick={() => setMobileMenuOpen(false)}
@@ -145,7 +145,7 @@ export default function Header() {
                     >
                       Contact Us
                       <ArrowRight className='h-4 w-4 ml-2' />
-                    </Button>
+                    </Button> */}
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -177,10 +177,11 @@ export default function Header() {
                   Sign-in
                 </Link>
               </Button>
-              <Button size='sm' className='gap-2'>
-                Contact Us
-                <ArrowRight className='h-4 w-4' />
-              </Button>
+              <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
+                <Button size='sm' className='gap-2'>
+                    Contact Us <ArrowRight className='h-4 w-4' />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
