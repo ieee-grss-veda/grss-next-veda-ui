@@ -55,15 +55,17 @@ export default function Header() {
                 href='/'
                 className='focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded transition-opacity hover:opacity-80 cursor-pointer'
                 aria-label='Go to home page'
+                data-tour='logo'
               >
                 <img
-                  src={
-                    theme === 'dark'
-                      ? '/images/GRSS-darkmode-logo.png'
-                      : '/images/GRSS-lightmode-logo.png'
-                  }
+                  src='/images/GRSS-lightmode-logo.png'
                   alt='GRSS IEEE Logo'
-                  className='h-12'
+                  className='logo-light h-12'
+                />
+                <img
+                  src='/images/GRSS-darkmode-logo.png'
+                  alt='GRSS IEEE Logo'
+                  className='logo-dark h-12'
                 />
               </Link>
               <div className='hidden lg:flex items-center gap-6'>
@@ -72,6 +74,7 @@ export default function Header() {
                     key={item.id}
                     href={item.to}
                     className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
+                    data-tour={item.id}
                   >
                     {item.title}
                   </Link>
@@ -130,7 +133,7 @@ export default function Header() {
                       </Link>
                     </Button>
 
-                    <Button
+                    {/* <Button
                       variant='ghost'
                       className='justify-start text-lg py-6'
                       onClick={() => setMobileMenuOpen(false)}
@@ -144,7 +147,7 @@ export default function Header() {
                     >
                       Contact Us
                       <ArrowRight className='h-4 w-4 ml-2' />
-                    </Button>
+                    </Button> */}
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -156,6 +159,7 @@ export default function Header() {
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                 className='hidden lg:flex'
+                data-tour='theme-toggle'
               >
                 {theme === 'light' ? (
                   <Moon className='h-4 w-4' />
@@ -168,16 +172,20 @@ export default function Header() {
                 variant='ghost'
                 size='sm'
                 className='hidden lg:flex'
+                data-tour='about'
               >
                 <Link href='/about'>About</Link>
               </Button>
-              <Button variant='ghost' size='sm' className='hidden lg:flex'>
-                Sign-in
+              <Button variant='ghost' size='sm' className='hidden lg:flex' asChild>
+                <Link href={process.env.NEXT_PUBLIC_AUTH_DOMAIN ? `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/realms/veda/account/applications` : '#'}>
+                  Sign-in
+                </Link>
               </Button>
-              <Button size='sm' className='gap-2'>
-                Contact Us
-                <ArrowRight className='h-4 w-4' />
-              </Button>
+              <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
+                <Button size='sm' className='gap-2' data-tour='contact'>
+                    Contact Us <ArrowRight className='h-4 w-4' />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

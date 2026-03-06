@@ -9,7 +9,7 @@ const learnMoreItems = [
     description:
       'Contribute to our openly maintained repositories and help shape the future of GRSS VEDA.',
     buttonText: 'View Repositories',
-    buttonHref: 'https://github.com/ieee-grss-veda',
+    buttonHref: 'https://github.com/orgs/ieee-grss-veda/repositories',
   },
   {
     icon: Users,
