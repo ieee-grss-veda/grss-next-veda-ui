@@ -45,6 +45,18 @@ const tourSteps: StepType[] = [
     ),
   },
   {
+    selector: '[data-tour=\'explore-platform\']',
+    content: (
+      <div>
+        <h3 className='text-lg font-medium mb-2'>Explore the Platform</h3>
+        <p className='text-muted-foreground'>
+          You can also use this button to jump straight into the exploration
+          platform.
+        </p>
+      </div>
+    ),
+  },
+  {
     selector: '[data-tour=\'stories\']',
     content: (
       <div>
@@ -64,6 +76,17 @@ const tourSteps: StepType[] = [
         <p className='text-muted-foreground'>
           Learn more about the GRSS VEDA platform, our mission, and the team
           behind this initiative.
+        </p>
+      </div>
+    ),
+  },
+  {
+    selector: '[data-tour=\'learn-more\']',
+    content: (
+      <div>
+        <h3 className='text-lg font-medium mb-2'>Learn More</h3>
+        <p className='text-muted-foreground'>
+          You can also use this button to learn more about the platform.
         </p>
       </div>
     ),

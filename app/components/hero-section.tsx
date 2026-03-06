@@ -18,11 +18,13 @@ interface HeroSectionProps {
     text: string;
     onClick?: () => void;
     href?: string;
+    id?: string;
   };
   secondaryButton?: {
     text: string;
     onClick?: () => void;
     href?: string;
+    id?: string;
   };
   children?: React.ReactNode;
 }
@@ -84,6 +86,7 @@ export default function HeroSection({
                   className='gap-2 text-lg px-8'
                   onClick={primaryButton.onClick}
                   asChild={!!primaryButton.href}
+                  data-tour={primaryButton.id}
                 >
                   {primaryButton.href ? (
                     <Link href={primaryButton.href}>
@@ -105,6 +108,7 @@ export default function HeroSection({
                   className='text-lg px-8'
                   onClick={secondaryButton.onClick}
                   asChild={!!secondaryButton.href}
+                  data-tour={secondaryButton.id}
                 >
                   {secondaryButton.href ? (
                     <Link href={secondaryButton.href}>
