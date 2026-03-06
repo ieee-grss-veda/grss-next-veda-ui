@@ -50,7 +50,7 @@ export default function FeaturesSection() {
               iconColor={feature.iconColor}
               title={feature.title}
               description={feature.description}
-              showButton={true}
+              showButton={false}
             />
           ))}
         </div>

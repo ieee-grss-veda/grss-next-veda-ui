@@ -1,5 +1,9 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { ImageWithFallback } from './common/image-with-fallback';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -18,6 +22,7 @@ interface HeroSectionProps {
   secondaryButton?: {
     text: string;
     onClick?: () => void;
+    href?: string;
   };
   children?: React.ReactNode;
 }
@@ -32,6 +37,8 @@ export default function HeroSection({
   secondaryButton,
   children,
 }: HeroSectionProps) {
+  const router = useRouter();
+
   return (
     <section
       className='relative overflow-hidden'
@@ -76,9 +83,19 @@ export default function HeroSection({
                   size='lg'
                   className='gap-2 text-lg px-8'
                   onClick={primaryButton.onClick}
+                  asChild={!!primaryButton.href}
                 >
-                  {primaryButton.text}
-                  <ArrowRight className='h-5 w-5' />
+                  {primaryButton.href ? (
+                    <Link href={primaryButton.href}>
+                      {primaryButton.text}
+                      <ArrowRight className='h-5 w-5' />
+                    </Link>
+                  ) : (
+                    <>
+                      {primaryButton.text}
+                      <ArrowRight className='h-5 w-5' />
+                    </>
+                  )}
                 </Button>
               )}
               {secondaryButton && (
@@ -87,8 +104,15 @@ export default function HeroSection({
                   variant='outline'
                   className='text-lg px-8'
                   onClick={secondaryButton.onClick}
+                  asChild={!!secondaryButton.href}
                 >
-                  {secondaryButton.text}
+                  {secondaryButton.href ? (
+                    <Link href={secondaryButton.href}>
+                      {secondaryButton.text}
+                    </Link>
+                  ) : (
+                    secondaryButton.text
+                  )}
                 </Button>
               )}
             </div>

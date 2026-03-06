@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -22,11 +22,32 @@ export function useTheme() {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
 
-  const value = useMemo(() => ({ theme, setTheme }), [theme]);
+  useEffect(() => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark') {
+      setTheme('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const handleSetTheme = (newTheme: Theme) => {
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+  };
+
+  const value = useMemo(() => ({ theme, setTheme: handleSetTheme }), [theme]);
 
   return (
     <ThemeContext.Provider value={value}>
-      <div className={theme}>{children}</div>
+      {children}
     </ThemeContext.Provider>
   );
 }

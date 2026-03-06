@@ -58,13 +58,14 @@ export default function Header() {
                 data-tour='logo'
               >
                 <img
-                  src={
-                    theme === 'dark'
-                      ? '/images/GRSS-darkmode-logo.png'
-                      : '/images/GRSS-lightmode-logo.png'
-                  }
+                  src='/images/GRSS-lightmode-logo.png'
                   alt='GRSS IEEE Logo'
-                  className='h-12'
+                  className='logo-light h-12'
+                />
+                <img
+                  src='/images/GRSS-darkmode-logo.png'
+                  alt='GRSS IEEE Logo'
+                  className='logo-dark h-12'
                 />
               </Link>
               <div className='hidden lg:flex items-center gap-6'>
@@ -132,7 +133,7 @@ export default function Header() {
                       </Link>
                     </Button>
 
-                    <Button
+                    {/* <Button
                       variant='ghost'
                       className='justify-start text-lg py-6'
                       onClick={() => setMobileMenuOpen(false)}
@@ -146,7 +147,7 @@ export default function Header() {
                     >
                       Contact Us
                       <ArrowRight className='h-4 w-4 ml-2' />
-                    </Button>
+                    </Button> */}
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -175,13 +176,16 @@ export default function Header() {
               >
                 <Link href='/about'>About</Link>
               </Button>
-              <Button variant='ghost' size='sm' className='hidden lg:flex'>
-                Sign-in
+              <Button variant='ghost' size='sm' className='hidden lg:flex' asChild>
+                <Link href={process.env.NEXT_PUBLIC_AUTH_DOMAIN ? `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/realms/veda/account/applications` : '#'}>
+                  Sign-in
+                </Link>
               </Button>
-              <Button size='sm' className='gap-2' data-tour='contact'>
-                Contact Us
-                <ArrowRight className='h-4 w-4' />
-              </Button>
+              <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
+                <Button size='sm' className='gap-2' data-tour='contact'>
+                    Contact Us <ArrowRight className='h-4 w-4' />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
