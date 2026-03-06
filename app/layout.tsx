@@ -1,6 +1,7 @@
 import './globals.css';
 import Header from './components/common/header';
 import { ThemeProvider } from './components/common/theme-provider';
+import { WebsiteTourProvider } from './components/common/website-tour';
 import Footer from './components/common/footer';
 import React from 'react';
 
@@ -25,11 +26,13 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <div className='min-h-screen bg-background text-foreground' lang='en'>
-            <Header />
-            <div>{children}</div>
-            <Footer />
-          </div>
+          <WebsiteTourProvider>
+            <div className='min-h-screen bg-background text-foreground' lang='en'>
+              <Header />
+              <div>{children}</div>
+              <Footer />
+            </div>
+          </WebsiteTourProvider>
         </ThemeProvider>
       </body>
     </html>

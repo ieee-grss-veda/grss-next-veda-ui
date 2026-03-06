@@ -55,6 +55,7 @@ export default function Header() {
                 href='/'
                 className='focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded transition-opacity hover:opacity-80 cursor-pointer'
                 aria-label='Go to home page'
+                data-tour='logo'
               >
                 <img
                   src='/images/GRSS-lightmode-logo.png'
@@ -73,6 +74,7 @@ export default function Header() {
                     key={item.id}
                     href={item.to}
                     className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
+                    data-tour={item.id}
                   >
                     {item.title}
                   </Link>
@@ -157,6 +159,7 @@ export default function Header() {
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                 className='hidden lg:flex'
+                data-tour='theme-toggle'
               >
                 {theme === 'light' ? (
                   <Moon className='h-4 w-4' />
@@ -169,6 +172,7 @@ export default function Header() {
                 variant='ghost'
                 size='sm'
                 className='hidden lg:flex'
+                data-tour='about'
               >
                 <Link href='/about'>About</Link>
               </Button>
@@ -178,7 +182,7 @@ export default function Header() {
                 </Link>
               </Button>
               <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
-                <Button size='sm' className='gap-2'>
+                <Button size='sm' className='gap-2' data-tour='contact'>
                     Contact Us <ArrowRight className='h-4 w-4' />
                 </Button>
               </Link>
