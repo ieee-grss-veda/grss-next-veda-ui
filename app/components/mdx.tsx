@@ -19,7 +19,7 @@ import {
   EnhancedScrollyTellingBlock,
 } from './mdx-components/block';
 import { getDatasetsMetadata } from 'app/content/utils/mdx';
-import Providers from 'app/(datasets)/providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 function Table({ data }: { data: any }) {
   const headers = data.headers.map((header, index) => (
@@ -106,7 +106,7 @@ const components = {
 export function CustomMDX(props: any) {
   const datasets = getDatasetsMetadata();
   return (
-    <Providers datasets={datasets}>
+    <VedaUIWrapper datasets={datasets}>
       <LegacyGlobalStyles />
       <MDXRemote
         {...props}
@@ -114,6 +114,6 @@ export function CustomMDX(props: any) {
       >
         {props.children}
       </MDXRemote>
-    </Providers>
+    </VedaUIWrapper>
   );
 }

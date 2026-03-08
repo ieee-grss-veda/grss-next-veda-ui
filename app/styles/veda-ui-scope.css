@@ -1,0 +1,2729 @@
+/*
+ * Scoped styles for veda-ui components
+ * Creates CSS isolation for veda-ui styled-components
+ * Overrides USWDS/veda-ui styles to match Tailwind design system
+ *
+ * ARCHITECTURE NOTE:
+ * Uses #veda-ui-root ID selector for higher specificity (1,0,0) instead of
+ * class selector (0,1,0). This allows overriding veda-ui library styles
+ * without needing !important declarations.
+ *
+ * For portal modals (rendered outside #veda-ui-root), use:
+ * - Light mode: [data-veda-ui-root].veda-ui-scope .selector
+ * - Dark mode:  [data-veda-ui-root].dark .selector
+ *
+ * The combination of attribute + class provides (0,2,x) specificity which
+ * beats library styles. See docs/CSS_IMPORTANT_REMOVAL.md for details.
+ */
+
+/* =====================================================
+   BASE CONTAINER AND FONT INHERITANCE
+   ===================================================== */
+
+/* Container for veda-ui components - creates stacking context */
+#veda-ui-root {
+  isolation: isolate;
+  position: relative;
+}
+
+/* Font inheritance for all veda-ui elements */
+#veda-ui-root,
+#veda-ui-root * {
+  font-family: inherit;
+}
+
+/* Reset veda-ui/styled-components base styles */
+#veda-ui-root button,
+#veda-ui-root a,
+#veda-ui-root input,
+#veda-ui-root select,
+#veda-ui-root textarea,
+#veda-ui-root h1,
+#veda-ui-root h2,
+#veda-ui-root h3,
+#veda-ui-root h4,
+#veda-ui-root h5,
+#veda-ui-root h6,
+#veda-ui-root p,
+#veda-ui-root span,
+#veda-ui-root label {
+  font-family: inherit;
+}
+
+/* =====================================================
+   CATALOG SIDEBAR / FILTER CONTAINER
+   ===================================================== */
+
+/* Main filter sidebar container */
+#veda-ui-root #dataset__search,
+[data-veda-ui-root].veda-ui-scope #dataset__search {
+  background-color: var(--background);
+  border-radius: var(--radius);
+  padding: 0rem;
+  position: relative;
+  z-index: 10;
+}
+
+.position-relative {
+  position: relative;
+}
+
+/* Filter wrapper - ensure proper stacking */
+#veda-ui-root .wrapper,
+[data-veda-ui-root].veda-ui-scope .wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+/* Hide the redundant "Search and Filter" mobile heading on desktop */
+#veda-ui-root #dataset__search > div:first-child h1,
+[data-veda-ui-root].veda-ui-scope #dataset__search > div:first-child h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* =====================================================
+   SEARCH BAR STYLING
+   ===================================================== */
+
+#veda-ui-root form[role='search'],
+#veda-ui-root .usa-search,
+[data-veda-ui-root].veda-ui-scope form[role='search'],
+[data-veda-ui-root].veda-ui-scope .usa-search {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+/* Search field container - take remaining space */
+#veda-ui-root .usa-search > div:first-child,
+[data-veda-ui-root].veda-ui-scope .usa-search > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Search button container - half width */
+#veda-ui-root .usa-search > div:last-child,
+[data-veda-ui-root].veda-ui-scope .usa-search > div:last-child {
+  flex: 0 0 auto;
+  max-width: 50%;
+}
+
+/* Search section header */
+#veda-ui-root .usa-search::before,
+[data-veda-ui-root].veda-ui-scope .usa-search::before {
+  content: 'Search';
+  display: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* Search input - rounded left corners only, no right border */
+#veda-ui-root .usa-search .usa-input,
+#veda-ui-root .usa-search input[type='search'],
+#veda-ui-root .usa-search input[type='text'],
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-input,
+[data-veda-ui-root].veda-ui-scope .usa-search input[type='search'],
+[data-veda-ui-root].veda-ui-scope .usa-search input[type='text'] {
+  width: 100%;
+  height: 2.75rem;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background-color: var(--input-background, #f3f3f5);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  color: var(--foreground);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Search button - rounded right corners only, attached to input */
+#veda-ui-root .usa-search .usa-button,
+#veda-ui-root .usa-search button[type='submit'],
+#veda-ui-root .usa-search .usa-search__submit-text,
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-button,
+[data-veda-ui-root].veda-ui-scope .usa-search button[type='submit'],
+[data-veda-ui-root].veda-ui-scope .usa-search .usa-search__submit-text {
+  height: 2.75rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: 1px solid var(--primary);
+  border-left: none;
+  padding: 0 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 0;
+}
+
+/* =====================================================
+   FILTER SECTION STYLING (Taxonomy Accordions)
+   ===================================================== */
+
+/* Filter section title - before accordion */
+#veda-ui-root .usa-accordion,
+[data-veda-ui-root].veda-ui-scope .usa-accordion {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+/* Taxonomy category header (accordion button) */
+#veda-ui-root .usa-accordion__button,
+#veda-ui-root .usa-accordion > button,
+#veda-ui-root [class*='accordion'] > button:first-child,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button,
+[data-veda-ui-root].veda-ui-scope .usa-accordion > button,
+[data-veda-ui-root].veda-ui-scope [class*='accordion'] > button:first-child {
+  height: auto;
+  min-height: 3rem;
+  background-color: var(--accent);
+  border: none;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  padding: 0.875rem 1rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+/* Category header with expansion indicator */
+#veda-ui-root .usa-accordion__button::after,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--foreground);
+  border-bottom: 2px solid var(--foreground);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+#veda-ui-root .usa-accordion__button[aria-expanded='true']::after,
+[data-veda-ui-root].veda-ui-scope
+  .usa-accordion__button[aria-expanded='true']::after {
+  transform: rotate(-135deg);
+}
+
+#veda-ui-root .usa-accordion__button:hover,
+#veda-ui-root [class*='accordion'] button:hover,
+[data-veda-ui-root].veda-ui-scope .usa-accordion__button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='accordion'] button:hover {
+  background-color: var(--ieee-blue-25);
+}
+
+/* Accordion content panel - contains subcategories */
+#veda-ui-root .usa-accordion__content,
+#veda-ui-root [class*='accordion-content'],
+[data-veda-ui-root].veda-ui-scope .usa-accordion__content,
+[data-veda-ui-root].veda-ui-scope [class*='accordion-content'] {
+  background-color: var(--background);
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+/* =====================================================
+   SUBCATEGORY CHECKBOX ITEMS (veda-filter)
+   ===================================================== */
+
+/* Individual filter checkbox container */
+#veda-ui-root .veda-filter,
+#veda-ui-root #veda-checkbox-container,
+[data-veda-ui-root].veda-ui-scope .veda-filter,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.625rem;
+  transition: all 0.2s ease;
+}
+
+#veda-ui-root .veda-filter:last-child,
+#veda-ui-root #veda-checkbox-container:last-child,
+[data-veda-ui-root].veda-ui-scope .veda-filter:last-child,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container:last-child {
+  margin-bottom: 0;
+}
+
+#veda-ui-root .veda-filter:hover,
+#veda-ui-root #veda-checkbox-container:hover,
+[data-veda-ui-root].veda-ui-scope .veda-filter:hover,
+[data-veda-ui-root].veda-ui-scope #veda-checkbox-container:hover {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+/* Selected filter state */
+#veda-ui-root .veda-filter.border-primary-light,
+#veda-ui-root #veda-checkbox-container.border-primary-light,
+[data-veda-ui-root].veda-ui-scope .veda-filter.border-primary-light,
+[data-veda-ui-root].veda-ui-scope
+  #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+/* Checkbox styling inside filter items */
+#veda-ui-root .usa-checkbox,
+#veda-ui-root .usa-checkbox__input-tile,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__input-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+#veda-ui-root .usa-checkbox__label,
+#veda-ui-root .veda-filter label,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__label,
+[data-veda-ui-root].veda-ui-scope .veda-filter label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Checkbox input styling */
+#veda-ui-root .usa-checkbox__input,
+#veda-ui-root input[type='checkbox'],
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__input,
+[data-veda-ui-root].veda-ui-scope input[type='checkbox'] {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--primary);
+  cursor: pointer;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* USWDS checkbox label - remove default before pseudo */
+#veda-ui-root .usa-checkbox__label::before,
+#veda-ui-root .usa-sr-only,
+[data-veda-ui-root].veda-ui-scope .usa-checkbox__label::before,
+[data-veda-ui-root].veda-ui-scope .usa-sr-only {
+  display: none;
+}
+
+/* Hide USWDS icons only in data catalog (not stories) */
+#veda-ui-root #dataset__search svg.usa-icon.usa-icon--size-3,
+#veda-ui-root .usa-search svg.usa-icon.usa-icon--size-3,
+[data-veda-ui-root].veda-ui-scope
+  #dataset__search
+  svg.usa-icon.usa-icon--size-3,
+[data-veda-ui-root].veda-ui-scope .usa-search svg.usa-icon.usa-icon--size-3 {
+  display: none;
+}
+
+/* =====================================================
+   CARD STYLING
+   ===================================================== */
+
+#veda-ui-root .usa-card,
+#veda-ui-root [class*='card'],
+[data-veda-ui-root].veda-ui-scope .usa-card,
+[data-veda-ui-root].veda-ui-scope [class*='card'] {
+  margin: 0;
+  overflow: hidden;
+}
+
+#veda-ui-root .usa-card__container,
+#veda-ui-root [class*='card-container'],
+[data-veda-ui-root].veda-ui-scope .usa-card__container,
+[data-veda-ui-root].veda-ui-scope [class*='card-container'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#veda-ui-root .usa-card__header,
+#veda-ui-root [class*='card-header'],
+[data-veda-ui-root].veda-ui-scope .usa-card__header,
+[data-veda-ui-root].veda-ui-scope [class*='card-header'] {
+  background-color: transparent;
+  padding: 1rem 1rem 0.5rem;
+}
+
+#veda-ui-root .usa-card__heading,
+#veda-ui-root [class*='card-title'],
+#veda-ui-root [class*='card-heading'],
+[data-veda-ui-root].veda-ui-scope .usa-card__heading,
+[data-veda-ui-root].veda-ui-scope [class*='card-title'],
+[data-veda-ui-root].veda-ui-scope [class*='card-heading'] {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.4;
+  margin: 0;
+}
+
+#veda-ui-root .usa-card__body,
+#veda-ui-root [class*='card-body'],
+[data-veda-ui-root].veda-ui-scope .usa-card__body,
+[data-veda-ui-root].veda-ui-scope [class*='card-body'] {
+  padding: 0.5rem 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  flex-grow: 1;
+}
+
+#veda-ui-root .usa-card__footer,
+#veda-ui-root [class*='card-footer'],
+[data-veda-ui-root].veda-ui-scope .usa-card__footer,
+[data-veda-ui-root].veda-ui-scope [class*='card-footer'] {
+  padding: 0.5rem 1rem 1rem;
+  background-color: transparent;
+}
+
+#veda-ui-root .usa-card__img,
+#veda-ui-root [class*='card-img'],
+#veda-ui-root [class*='card-image'],
+[data-veda-ui-root].veda-ui-scope .usa-card__img,
+[data-veda-ui-root].veda-ui-scope [class*='card-img'],
+[data-veda-ui-root].veda-ui-scope [class*='card-image'] {
+  object-fit: cover;
+}
+
+/* Card link styling */
+#veda-ui-root .usa-card a,
+#veda-ui-root [class*='card'] a,
+[data-veda-ui-root].veda-ui-scope .usa-card a,
+[data-veda-ui-root].veda-ui-scope [class*='card'] a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#veda-ui-root .usa-card a:hover,
+#veda-ui-root [class*='card'] a:hover,
+[data-veda-ui-root].veda-ui-scope .usa-card a:hover,
+[data-veda-ui-root].veda-ui-scope [class*='card'] a:hover {
+  text-decoration: none;
+}
+
+/* =====================================================
+   TAG/LABEL STYLING (Only inside cards)
+   ===================================================== */
+
+/* Only style tags inside card components - NOT in filter sidebar */
+#veda-ui-root .usa-card .default-veda-tags,
+#veda-ui-root .usa-card .card-type-label,
+#veda-ui-root .usa-card .veda-tag-labels,
+#veda-ui-root .usa-card .usa-tag,
+#veda-ui-root .usa-card-group .usa-tag,
+[data-veda-ui-root].veda-ui-scope .usa-card .default-veda-tags,
+[data-veda-ui-root].veda-ui-scope .usa-card .card-type-label,
+[data-veda-ui-root].veda-ui-scope .usa-card .veda-tag-labels,
+[data-veda-ui-root].veda-ui-scope .usa-card .usa-tag,
+[data-veda-ui-root].veda-ui-scope .usa-card-group .usa-tag {
+  color: var(--primary);
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25));
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+/* Reset any tag styling in filter sidebar */
+#veda-ui-root #dataset__search .usa-tag,
+[data-veda-ui-root].veda-ui-scope #dataset__search .usa-tag {
+  all: unset;
+  display: none;
+}
+
+/* =====================================================
+   PAGINATION STYLING
+   ===================================================== */
+
+#veda-ui-root .usa-pagination,
+#veda-ui-root [class*='pagination'],
+[data-veda-ui-root].veda-ui-scope .usa-pagination,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+#veda-ui-root .usa-pagination__button,
+#veda-ui-root [class*='pagination'] button,
+#veda-ui-root [class*='pagination'] a,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] button,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] a {
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  background-color: var(--background);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  text-decoration: none;
+}
+
+#veda-ui-root .usa-pagination__button:hover,
+#veda-ui-root [class*='pagination'] button:hover,
+#veda-ui-root [class*='pagination'] a:hover,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] button:hover,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] a:hover {
+  background-color: var(--accent);
+  border-color: var(--primary);
+}
+
+#veda-ui-root .usa-pagination__button.usa-current,
+#veda-ui-root [class*='pagination'] .active,
+#veda-ui-root [class*='pagination'] [aria-current='page'],
+[data-veda-ui-root].veda-ui-scope .usa-pagination__button.usa-current,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] .active,
+[data-veda-ui-root].veda-ui-scope [class*='pagination'] [aria-current='page'] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+/* =====================================================
+   GRID LAYOUT FOR CARDS
+   ===================================================== */
+
+#veda-ui-root [class*='card-list'],
+#veda-ui-root [class*='catalog-list'],
+[data-veda-ui-root].veda-ui-scope [class*='card-list'],
+[data-veda-ui-root].veda-ui-scope [class*='catalog-list'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Topic card specific */
+#veda-ui-root .usa-card.topic-card,
+#veda-ui-root [class*='topic-card'],
+[data-veda-ui-root].veda-ui-scope .usa-card.topic-card,
+[data-veda-ui-root].veda-ui-scope [class*='topic-card'] {
+  height: auto;
+  min-height: 320px;
+}
+
+#veda-ui-root .usa-card.topic-card .usa-card__img,
+#veda-ui-root [class*='topic-card'] img,
+[data-veda-ui-root].veda-ui-scope .usa-card.topic-card .usa-card__img,
+[data-veda-ui-root].veda-ui-scope [class*='topic-card'] img {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* =====================================================
+   RESULTS COUNT AND HEADER
+   ===================================================== */
+
+#veda-ui-root [class*='results-count'],
+#veda-ui-root [class*='catalog-header'],
+[data-veda-ui-root].veda-ui-scope [class*='results-count'],
+[data-veda-ui-root].veda-ui-scope [class*='catalog-header'] {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* =====================================================
+   LOADING STATE
+   ===================================================== */
+
+#veda-ui-root [class*='loading'],
+#veda-ui-root [class*='spinner'],
+[data-veda-ui-root].veda-ui-scope [class*='loading'],
+[data-veda-ui-root].veda-ui-scope [class*='spinner'] {
+  color: var(--muted-foreground);
+}
+
+/* =====================================================
+   DARK MODE OVERRIDES
+   ===================================================== */
+
+/* Dark mode - Filter sidebar container */
+.dark #veda-ui-root #dataset__search,
+[data-veda-ui-root].dark #dataset__search {
+  background-color: var(--card);
+}
+
+/* Dark mode - Search input */
+.dark #veda-ui-root .usa-search .usa-input,
+.dark #veda-ui-root input[type='search'],
+.dark #veda-ui-root input[type='text'],
+[data-veda-ui-root].dark .usa-search .usa-input,
+[data-veda-ui-root].dark input[type='search'],
+[data-veda-ui-root].dark input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+/* Dark mode - Cards */
+.dark #veda-ui-root .usa-card__container,
+.dark #veda-ui-root [class*='card-container'],
+[data-veda-ui-root].dark .usa-card__container,
+[data-veda-ui-root].dark [class*='card-container'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .usa-card__heading,
+.dark #veda-ui-root [class*='card-title'],
+.dark #veda-ui-root [class*='card-heading'],
+[data-veda-ui-root].dark .usa-card__heading,
+[data-veda-ui-root].dark [class*='card-title'],
+[data-veda-ui-root].dark [class*='card-heading'] {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root .usa-card__body,
+.dark #veda-ui-root [class*='card-body'],
+[data-veda-ui-root].dark .usa-card__body,
+[data-veda-ui-root].dark [class*='card-body'] {
+  color: var(--muted-foreground);
+}
+
+/* Dark mode - Filter accordion */
+.dark #veda-ui-root .usa-accordion,
+[data-veda-ui-root].dark .usa-accordion {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .usa-accordion__button,
+.dark #veda-ui-root [class*='accordion'] button,
+[data-veda-ui-root].dark .usa-accordion__button,
+[data-veda-ui-root].dark [class*='accordion'] button {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root .usa-accordion__button:hover,
+.dark #veda-ui-root [class*='accordion'] button:hover,
+[data-veda-ui-root].dark .usa-accordion__button:hover,
+[data-veda-ui-root].dark [class*='accordion'] button:hover {
+  background-color: var(--ieee-blue-25);
+}
+
+.dark #veda-ui-root .usa-accordion__content,
+.dark #veda-ui-root [class*='accordion-content'],
+[data-veda-ui-root].dark .usa-accordion__content,
+[data-veda-ui-root].dark [class*='accordion-content'] {
+  background-color: var(--card);
+  border-top-color: var(--border);
+}
+
+/* Dark mode - Checkbox filter items */
+.dark #veda-ui-root .veda-filter,
+.dark #veda-ui-root #veda-checkbox-container,
+[data-veda-ui-root].dark .veda-filter,
+[data-veda-ui-root].dark #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .veda-filter:hover,
+.dark #veda-ui-root #veda-checkbox-container:hover,
+[data-veda-ui-root].dark .veda-filter:hover,
+[data-veda-ui-root].dark #veda-checkbox-container:hover {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+.dark #veda-ui-root .veda-filter.border-primary-light,
+.dark #veda-ui-root #veda-checkbox-container.border-primary-light,
+[data-veda-ui-root].dark .veda-filter.border-primary-light,
+[data-veda-ui-root].dark #veda-checkbox-container.border-primary-light {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+.dark #veda-ui-root .usa-checkbox__label,
+.dark #veda-ui-root .veda-filter label,
+.dark #veda-ui-root label,
+[data-veda-ui-root].dark .usa-checkbox__label,
+[data-veda-ui-root].dark .veda-filter label,
+[data-veda-ui-root].dark label {
+  color: var(--foreground);
+}
+
+/* Dark mode - Pagination */
+.dark #veda-ui-root .usa-pagination__button,
+.dark #veda-ui-root [class*='pagination'] button,
+.dark #veda-ui-root [class*='pagination'] a,
+[data-veda-ui-root].dark .usa-pagination__button,
+[data-veda-ui-root].dark [class*='pagination'] button,
+[data-veda-ui-root].dark [class*='pagination'] a {
+  background-color: var(--card);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root .usa-pagination__button:hover,
+.dark #veda-ui-root [class*='pagination'] button:hover,
+.dark #veda-ui-root [class*='pagination'] a:hover,
+[data-veda-ui-root].dark .usa-pagination__button:hover,
+[data-veda-ui-root].dark [class*='pagination'] button:hover,
+[data-veda-ui-root].dark [class*='pagination'] a:hover {
+  background-color: var(--accent);
+}
+
+/* Dark mode - Tags */
+.dark #veda-ui-root .default-veda-tags,
+.dark #veda-ui-root .veda-tag-labels,
+.dark #veda-ui-root [class*='tag'],
+[data-veda-ui-root].dark .default-veda-tags,
+[data-veda-ui-root].dark .veda-tag-labels,
+[data-veda-ui-root].dark [class*='tag'] {
+  color: var(--foreground);
+  background-color: var(--muted);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .card-type-label {
+  color: var(--foreground);
+  background-color: rgba(30, 30, 30, 0.95);
+}
+
+.dark #veda-ui-root [class*='results-count'],
+.dark #veda-ui-root [class*='catalog-header'] {
+  color: var(--muted-foreground);
+}
+
+/* Dark mode - Card hover */
+.dark #veda-ui-root .usa-card:hover,
+.dark #veda-ui-root [class*='card']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================================
+   ADDITIONAL FILTER LABEL IMPROVEMENTS
+   ===================================================== */
+
+/* Add "Filter by" section header - shown before first accordion */
+#veda-ui-root #dataset__search .usa-accordion:first-of-type::before {
+  content: 'Filter by Category';
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Ensure proper stacking and spacing */
+#veda-ui-root #dataset__search > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile filter header styling */
+@media (max-width: 768px) {
+  #veda-ui-root #dataset__search {
+    padding: 1rem;
+  }
+
+  #veda-ui-root #dataset__search > div:first-child {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  #veda-ui-root #dataset__search > div:first-child h1 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+/* =====================================================
+   CATALOG PAGE - HIDE MOBILE SEARCH/FILTER BUTTON & DATASETS COUNT
+   ===================================================== */
+
+/* Hide the mobile "Datasets" count and "Search and Filter" button row */
+#veda-ui-root #veda__mobile-catalog > div:first-child {
+  display: none;
+}
+
+#veda-ui-root #veda__mobile-catalog > div:nth-child(2) {
+  display: flex;
+  /* 'flex-start' is safer than 'start' for cross-browser flex compatibility */
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#veda-ui-root #veda__mobile-catalog > div:nth-child(2) .usa-tag {
+  display: flex;
+}
+
+/* Also hide the background styling for the mobile catalog section */
+#veda-ui-root #veda__mobile-catalog {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* =====================================================
+   CATALOG PAGE - SELECTED FILTER TAGS SPACING
+   ===================================================== */
+
+/* Add margin between selected filter tags and the card grid */
+#veda-ui-root #veda__mobile-catalog > .display-flex {
+  margin-bottom: 1.5rem;
+}
+
+/* Style the selected filter tags container */
+#veda-ui-root #veda__mobile-catalog .usa-tag.border-1px {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
+  color: var(--foreground);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* Style the "Clear all" link */
+#veda-ui-root #veda__mobile-catalog .usa-link {
+  color: var(--primary);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#veda-ui-root #veda__mobile-catalog .usa-link:hover {
+  color: var(--ieee-blue-light);
+}
+
+/* =====================================================
+   CATALOG PAGE - FULL WIDTH LAYOUT
+   ===================================================== */
+
+/* Main catalog grid row - ensure full width */
+#veda-ui-root .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+}
+
+/* Filter sidebar - fixed width on desktop */
+#veda-ui-root .grid-row > .tablet\:grid-col-3,
+#veda-ui-root .grid-row > [class*='grid-col-3'] {
+  flex: 0 0 280px;
+  max-width: 280px;
+  width: 280px;
+}
+
+/* Cards container - fill remaining width */
+#veda-ui-root .grid-row > .tablet\:grid-col-9,
+#veda-ui-root .grid-row > [class*='grid-col-9'] {
+  flex: 1 1 0;
+  max-width: none;
+  width: auto;
+  min-width: 0;
+}
+
+/* Mobile: stack filter and cards vertically */
+@media (max-width: 767px) {
+  #veda-ui-root .grid-row {
+    flex-direction: column;
+  }
+
+  #veda-ui-root .grid-row > .tablet\:grid-col-3,
+  #veda-ui-root .grid-row > [class*='grid-col-3'] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  #veda-ui-root .grid-row > .tablet\:grid-col-9,
+  #veda-ui-root .grid-row > [class*='grid-col-9'] {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* Modal portal - Main grid row for two-column layout */
+[data-veda-ui-root].veda-ui-scope .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+}
+
+/* Modal portal - Filter sidebar fixed width on desktop */
+[data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+  flex: 0 0 280px;
+  max-width: 280px;
+  width: 280px;
+}
+
+/* Modal portal - Cards container fills remaining width */
+veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
+[data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
+  flex: 1 1 0;
+  max-width: none;
+  width: auto;
+  min-width: 0;
+}
+
+[data-veda-ui-root].veda-ui-scope #veda__mobile-catalog {
+  display: none;
+}
+
+/* Modal portal - Mobile: stack filter and cards vertically */
+@media (max-width: 767px) {
+  [data-veda-ui-root].veda-ui-scope .grid-row {
+    flex-direction: column;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-3,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-3'] {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  [data-veda-ui-root].veda-ui-scope .grid-row > .tablet\:grid-col-9,
+  [data-veda-ui-root].veda-ui-scope .grid-row > [class*='grid-col-9'] {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* Ensure the catalog container fills available width */
+#veda-ui-root [class*='Catalog-sc'],
+#veda-ui-root [class*='catalog-content'] {
+  width: 100%;
+  max-width: none;
+}
+
+/* =====================================================
+   CATALOG PAGE - SINGLE COLUMN CARD LIST
+   ===================================================== */
+
+/* Card group - single column, full width cards */
+#veda-ui-root .usa-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+/* Card link wrapper - full width */
+#veda-ui-root .usa-card-group > a.card-a11y-states {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+/* =====================================================
+   CATALOG PAGE - HORIZONTAL CARD LAYOUT (Image Left)
+   ===================================================== */
+
+/* Flag card - horizontal layout */
+#veda-ui-root .usa-card.usa-card--flag {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Card container - CSS Grid for horizontal layout */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--card);
+  min-height: 180px;
+}
+
+/* Card media/image section - spans all rows on left */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__media {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: relative;
+  min-height: 180px;
+}
+
+#veda-ui-root .usa-card.usa-card--flag .usa-card__img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#veda-ui-root .usa-card.usa-card--flag .usa-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card header - top right */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* Card body - middle right */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Card footer - bottom right */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* Data Collection tag position - overlays the image */
+#veda-ui-root
+  .usa-card.usa-card--flag
+  .usa-card__container
+  > .position-absolute {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  z-index: 10;
+  margin: 0.5rem;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 640px) {
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px auto 1fr auto;
+  }
+
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__media {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 180px;
+  }
+
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  #veda-ui-root
+    .usa-card.usa-card--flag
+    .usa-card__container
+    > .position-absolute {
+    grid-row: 1;
+  }
+}
+
+/* =====================================================
+   CARD CONTENT SECTION (Right side in horizontal layout)
+   ===================================================== */
+
+/* Card header styling */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__header {
+  padding: 1rem 1.25rem 0.25rem;
+  align-self: start;
+}
+
+#veda-ui-root .usa-card.usa-card--flag .usa-card__heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+#veda-ui-root .usa-card.usa-card--flag .usa-card__heading:hover,
+#veda-ui-root .usa-card a:hover .usa-card__heading,
+#veda-ui-root .card-a11y-states:hover .usa-card__heading {
+  color: var(--foreground);
+  text-decoration: underline;
+}
+
+/* Card body styling */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body {
+  padding: 0.25rem 1.25rem 0.5rem;
+  align-self: start;
+}
+
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body p {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+  text-decoration: none;
+}
+
+/* Remove hover underline from card body text */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__body p:hover,
+#veda-ui-root .usa-card a:hover .usa-card__body p,
+#veda-ui-root .card-a11y-states:hover .usa-card__body p {
+  text-decoration: none;
+  color: var(--muted-foreground);
+}
+
+/* Card footer styling */
+#veda-ui-root .usa-card.usa-card--flag .usa-card__footer {
+  padding: 0.5rem 1.25rem 1rem;
+  align-self: end;
+}
+
+/* Footer tags */
+#veda-ui-root .usa-card__footer .veda-tag-labels {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) - 2px);
+  margin-right: 0.375rem;
+  margin-bottom: 0.375rem;
+}
+
+/* =====================================================
+   CATALOG PAGE - DATA COLLECTION TAG OVER IMAGE
+   ===================================================== */
+
+/* Hide card-type-label everywhere by default */
+#veda-ui-root .card-type-label {
+  display: none;
+}
+
+/* Ensure card container is positioned for absolute children */
+#veda-ui-root .usa-card__container {
+  position: relative;
+}
+
+/* Position the Data Collection tag container over the image area */
+#veda-ui-root .usa-card .usa-card__container > .position-absolute {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
+  padding: 0;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Style the Data Collection tag - only inside card container */
+#veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label {
+  display: inline-flex;
+  visibility: visible;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure tag is always visible - no hover dependency */
+#veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label,
+#veda-ui-root
+  .usa-card:hover
+  .usa-card__container
+  > .position-absolute
+  .card-type-label {
+  display: inline-flex;
+  visibility: visible;
+  opacity: 1;
+}
+
+#veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label
+  .card-type-inner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+#veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label
+  .card-type-inner-content
+  p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+/* Hide Data Collection tag if it appears outside cards */
+#veda-ui-root #dataset__search .card-type-label,
+#veda-ui-root .wrapper > .card-type-label,
+#veda-ui-root #dataset__search .position-absolute,
+#veda-ui-root .wrapper > .position-absolute {
+  display: none;
+}
+
+/* Dark mode - Data Collection tag */
+.dark
+  #veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label {
+  background-color: rgba(30, 30, 30, 0.95);
+  color: #ffffff;
+}
+
+.dark
+  #veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label
+  .card-type-inner-content
+  p {
+  color: #ffffff;
+}
+
+.dark
+  #veda-ui-root
+  .usa-card
+  .usa-card__container
+  > .position-absolute
+  .card-type-label
+  svg
+  path {
+  fill: #ffffff;
+}
+
+/* =====================================================
+   CATALOG PAGE - DARK MODE CARD OVERRIDES
+   ===================================================== */
+
+.dark #veda-ui-root .usa-card.usa-card--flag .usa-card__container {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .usa-card__footer .veda-tag-labels {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root #veda__mobile-catalog .usa-tag.border-1px {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
+}
+
+/* =====================================================
+   CATALOG PAGE - LINK HOVER RESET (No underlines)
+   ===================================================== */
+
+/* Remove all text decoration from card links */
+#veda-ui-root .card-a11y-states,
+#veda-ui-root .card-a11y-states:h∂over,
+#veda-ui-root .card-a11y-states:focus,
+#veda-ui-root .card-a11y-states:active,
+#veda-ui-root .card-a11y-states * {
+  text-decoration: none;
+}
+
+/* Ensure card heading class has no underline */
+#veda-ui-root .card-header,
+#veda-ui-root .card-header:hover,
+#veda-ui-root h2.usa-card__heading,
+#veda-ui-root h2.usa-card__heading:hover {
+  text-decoration: none;
+}
+
+/* =====================================================
+   CATALOG PAGE - REDUCE GAP FOR LARGE SCREENS (>1280px)
+   ===================================================== */
+
+/* Reduce top margin/padding for large screens */
+@media (min-width: 1280px) {
+  #veda-ui-root .grid-row {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  #veda-ui-root #veda__mobile-catalog {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  #veda-ui-root .usa-card-group {
+    margin-top: 0;
+  }
+
+  /* Reduce gap in the catalog container */
+  #veda-ui-root [class*='Catalog-sc'],
+  #veda-ui-root [class*='catalog-content'] {
+    padding-top: 0;
+  }
+}
+
+/* General gap reduction for catalog layout */
+#veda-ui-root .margin-bottom-15 {
+  margin-bottom: 1rem;
+}
+
+#veda-ui-root #veda__mobile-catalog {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+
+/* =====================================================
+   STORIES HUB PAGE STYLING
+   ===================================================== */
+
+.khRCIa::before {
+  box-shadow: none;
+}
+/* Remove default margins/padding from veda-ui fold and constrainer */
+#veda-ui-root [class*='fold__FoldBase'],
+#veda-ui-root [class*='fold__Fold-sc'],
+#veda-ui-root [class*='hub-content__FoldWithTopMargin'] {
+  margin: 0;
+  padding: 0;
+}
+
+#veda-ui-root [class*='constrainer__Constrainer'],
+#veda-ui-root [class*='fold__FoldInner'] {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+/* Browse header alignment */
+#veda-ui-root [class*='fold__FoldHeader'],
+#veda-ui-root [class*='BrowseFoldHeader'] {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/* Browse title styling */
+#veda-ui-root [class*='fold__FoldTitle'] {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 1rem 0;
+}
+
+/* Hide the red accent line under Browse */
+#veda-ui-root [class*='fold__FoldHeadline']::after,
+#veda-ui-root [class*='FoldHeadline']::after {
+  display: none;
+}
+
+/* Story count text */
+#veda-ui-root [class*='StoryCount'],
+#veda-ui-root [class*='Heading__Subtitle'] {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* =====================================================
+   STORIES HUB - BROWSE CONTROLS (Search & Topics)
+   ===================================================== */
+
+#veda-ui-root [class*='BrowseControlsWrapper'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Search wrapper */
+#veda-ui-root [class*='SearchWrapper'] {
+  flex: 1 1 -10px;
+  max-width: 400px;
+}
+
+/* Search field container */
+#veda-ui-root [class*='SearchFieldWrapper'],
+#veda-ui-root [class*='search-field'] {
+  width: 100%;
+}
+
+#veda-ui-root [class*='SearchFieldContainer'] {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--input-background, #f3f3f5);
+  overflow: hidden;
+}
+
+/* Remove the inset box-shadow border from search field */
+#veda-ui-root [class*='SearchFieldContainer']::before {
+  box-shadow: none;
+}
+
+/* Search icon button */
+#veda-ui-root [class*='SearchFieldContainer'] > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  background-color: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+#veda-ui-root [class*='SearchFieldContainer'] > button:hover {
+  color: var(--foreground);
+}
+
+/* Search input */
+#veda-ui-root [class*='SearchFieldClearable'] {
+  flex: 1;
+}
+
+#veda-ui-root [class*='FormInputSearch'],
+#veda-ui-root [class*='SearchFieldClearable'] input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: transparent;
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  outline: none;
+}
+
+#veda-ui-root [class*='FormInputSearch']::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Helper message */
+#veda-ui-root [class*='SearchFieldMessage'] {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+
+/* Topics dropdown button */
+#veda-ui-root [class*='FilterOptionsWrapper'] {
+  flex: 0 0 auto;
+}
+
+#veda-ui-root [class*='DropButton'],
+#veda-ui-root [class*='MainDropButton'] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+#veda-ui-root [class*='DropButton']:hover {
+  border-color: var(--primary);
+}
+
+#veda-ui-root [class*='ButtonPrefix'] {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =====================================================
+   STORIES HUB - CARD GRID
+   ===================================================== */
+
+#veda-ui-root [class*='CardListGrid'] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* =====================================================
+   STORIES HUB - CARD STYLING
+   ===================================================== */
+
+/* Card container */
+#veda-ui-root [class*='CardItem'],
+#veda-ui-root [class*='ClassicCardItem'] {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 100%;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+#veda-ui-root [class*='CardItem']:hover,
+#veda-ui-root [class*='ClassicCardItem']:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Card figure/image - MUST be first and fixed height */
+#veda-ui-root [class*='CardItem'] [class*='CardFigure'],
+#veda-ui-root [class*='CardItem'] figure {
+  background-color: #fff;
+  order: -1;
+  width: 100%;
+  height: 240px;
+  min-height: 240px;
+  max-height: 240px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#veda-ui-root [class*='CardItem'] [class*='CardFigure'] img,
+#veda-ui-root [class*='CardItem'] figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Card header */
+#veda-ui-root [class*='CardItem'] [class*='CardHeader'],
+#veda-ui-root [class*='CardItem'] header {
+  order: 0;
+  padding: 1rem 1rem 0.5rem;
+}
+
+/* Card title */
+#veda-ui-root [class*='CardItem'] [class*='CardTitle'],
+#veda-ui-root [class*='CardItem'] h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* Hide the overline/meta section with vertical divider */
+#veda-ui-root [class*='CardItem'] [class*='CardOverline'],
+#veda-ui-root [class*='CardItem'] [class*='CardMeta'] {
+  display: none;
+}
+
+/* Card body/description */
+#veda-ui-root [class*='CardItem'] [class*='CardBody'] {
+  order: 1;
+  padding: 0 1rem 0.75rem;
+  flex-grow: 1;
+}
+
+#veda-ui-root [class*='CardItem'] [class*='CardBody'] p {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Card footer with tags */
+#veda-ui-root [class*='CardItem'] [class*='CardFooter'] {
+  order: 2;
+  padding: 0.75rem 1rem 1rem;
+  margin-top: auto;
+}
+
+/* Topics list */
+#veda-ui-root [class*='CardTopicsList'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide "Topics" label */
+#veda-ui-root [class*='CardTopicsList'] dt {
+  display: none;
+}
+
+/* Topic pills/tags */
+#veda-ui-root [class*='CardTopicsList'] dd {
+  margin: 0;
+}
+
+#veda-ui-root [class*='pill__Pill'],
+#veda-ui-root [class*='CardTopicsList'] a {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.15));
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: calc(var(--radius) - 2px);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+#veda-ui-root [class*='pill__Pill']:hover,
+#veda-ui-root [class*='CardTopicsList'] a:hover {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.25));
+}
+
+/* Hide the "View more" link (card is already clickable) */
+#veda-ui-root [class*='CardItem'] [class*='InteractiveLink'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* =====================================================
+   STORIES HUB - DARK MODE
+   ===================================================== */
+
+.dark #veda-ui-root [class*='CardItem']:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark #veda-ui-root [class*='SearchFieldContainer'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='DropButton'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='pill__Pill'],
+.dark #veda-ui-root [class*='CardTopicsList'] a {
+  background-color: var(--ieee-blue-25, rgba(0, 98, 155, 0.3));
+}
+
+/* =====================================================
+   STORIES HUB - RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 640px) {
+  #veda-ui-root [class*='CardListGrid'] {
+    grid-template-columns: 1fr;
+  }
+
+  #veda-ui-root [class*='BrowseControlsWrapper'] {
+    flex-direction: column;
+  }
+
+  #veda-ui-root [class*='SearchWrapper'] {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   STORIES HUB AND DATA CATALOG DETAIL PAGE
+   ===================================================== */
+
+#veda-ui-root [class*='page-hero__PageHeroBlockAlpha'] {
+  margin: 40px;
+}
+
+/* =====================================================
+   EXPLORATION PAGE
+   ===================================================== */
+
+#veda-ui-root [class*='catalog-content__ParentDatasetTitle'] {
+  display: flex;
+  justify-content: flex-start;
+}
+
+#veda-ui-root [class*='catalog-content__SelectedCard'],
+#veda-ui-root [class*='catalog-content__WarningPill'] {
+  width: fit-content;
+}
+
+/* =====================================================
+   DATASET SELECTOR MODAL - HORIZONTAL CARD IMAGES
+   ===================================================== */
+
+/* Horizontal card container - ensure flex layout */
+#veda-ui-root [class*='horizontal-info__HorizontalCard'] {
+  display: flex;
+  align-items: stretch;
+  min-height: 140px;
+}
+
+/* Image container - fixed width, full height */
+#veda-ui-root [class*='horizontal-info__CardImage'] {
+  flex: 0 0 140px;
+  width: 140px;
+  min-width: 140px;
+  height: auto;
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Image itself - cover the full container */
+#veda-ui-root [class*='horizontal-info__CardImage'] img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Content section - take remaining space */
+#veda-ui-root [class*='horizontal-info__CardContent'] {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  min-width: 0;
+}
+
+/* Card item wrapper - ensure proper height */
+#veda-ui-root [class*='horizontal-info__HorizontalInfoCardItem'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--card);
+}
+
+/* Dark mode support */
+.dark #veda-ui-root [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+/* =====================================================
+   EXPLORATION PAGE - TIMELINE CONTROLS
+   ===================================================== */
+
+/* Add date to compare button - compact styling */
+#veda-ui-root
+  [class*='tip-button__TipToolbarIconButton'][data-tour='compare-date'],
+#veda-ui-root [data-tour='compare-date'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  color: var(--foreground);
+}
+
+/* Calendar icon inside the compare date button - smaller size */
+#veda-ui-root [data-tour='compare-date'] svg {
+  width: 1.5rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+/* Add layer button styling - primary filled button */
+#veda-ui-root [class*='timeline__Headline'] button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: none;
+}
+
+#veda-ui-root [class*='timeline__Headline'] button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: white;
+  color: white;
+}
+
+#veda-ui-root [class*='timeline__Headline'] button:hover {
+  background-color: var(--ieee-blue-light);
+}
+
+/* =====================================================
+   EXPLORATION PAGE - DARK MODE
+   ===================================================== */
+
+/* Timeline wrapper background */
+.dark #veda-ui-root [class*='timeline__TimelineWrapper'] {
+  background-color: var(--card);
+}
+
+/* Timeline header */
+.dark #veda-ui-root [class*='timeline__TimelineHeader'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+/* Timeline details and headline */
+.dark #veda-ui-root [class*='timeline__TimelineDetails'] {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='timeline__Headline'] h2,
+.dark #veda-ui-root [class*='timeline__TimelineHeading'] {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='timeline__Headline'] small,
+.dark #veda-ui-root [class*='timeline__TimelineDetails'] small {
+  color: var(--muted-foreground);
+}
+
+/* Timeline content area */
+.dark #veda-ui-root [class*='timeline__TimelineContent'] {
+  background-color: var(--card);
+}
+
+.dark #veda-ui-root [class*='timeline__TimelineContentInner'] {
+  background-color: var(--card);
+}
+
+/* Dataset list */
+.dark #veda-ui-root [class*='dataset-list__DatasetListSelf'] {
+  background-color: transparent;
+}
+
+/* Dataset list item */
+.dark #veda-ui-root [class*='dataset-list-item__DatasetItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='dataset-list-item__DatasetHeader'] {
+  background-color: var(--card);
+}
+
+.dark #veda-ui-root [class*='dataset-list-item__DatasetHeaderInner'] {
+  background-color: transparent;
+}
+
+/* Dataset layer card */
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetInfo'] {
+  background-color: transparent;
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetCardInfo'] {
+  background-color: transparent;
+}
+
+/* Dataset titles */
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary);
+}
+
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] svg {
+  color: var(--primary);
+  fill: var(--primary);
+}
+
+.dark #veda-ui-root [class*='catalog-content__ParentDatasetTitle'] p {
+  color: var(--primary);
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetTitle'] {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetHeadline'] h3 {
+  color: var(--foreground);
+}
+
+/* Dataset metric info */
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetMetricInfo'] {
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetMetricInfo'] span {
+  color: var(--muted-foreground);
+}
+
+/* Dataset toolbar buttons */
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button {
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button:hover {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] button svg {
+  color: inherit;
+  fill: currentColor;
+}
+
+/* Dataset data/track area */
+.dark #veda-ui-root [class*='dataset-list-item__DatasetData'] {
+  background-color: var(--card);
+}
+
+/* Track status blocks */
+.dark #veda-ui-root [class*='dataset-list-item-status__Track'] {
+  background-color: transparent;
+}
+
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackBlock'] {
+  background-color: transparent;
+}
+
+/* Track message (error state) */
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] p {
+  color: var(--destructive, #ef4444);
+}
+
+/* Retry button */
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] button {
+  background-color: var(--destructive, #ef4444);
+  color: white;
+  border: none;
+}
+
+/* Timeline controls area */
+.dark #veda-ui-root [class*='timeline-controls__TimelineControlsSelf'] {
+  background-color: transparent;
+}
+
+.dark #veda-ui-root [class*='timeline-controls__ControlsToolbar'] {
+  background-color: transparent;
+}
+
+/* Date picker trigger */
+.dark #veda-ui-root [class*='timeline-datepicker__DatePickerTrigger'] {
+  color: var(--foreground);
+  background-color: transparent;
+}
+
+.dark #veda-ui-root [class*='datepicker__TriggerWrapper'] button {
+  color: var(--foreground);
+}
+
+/* Zoom controls */
+.dark
+  #veda-ui-root
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button {
+  color: var(--muted-foreground);
+  background-color: transparent;
+}
+
+.dark
+  #veda-ui-root
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button:hover {
+  color: var(--foreground);
+}
+
+/* Range slider */
+.dark #veda-ui-root [class*='range-slider__RangeSliderInput'] {
+  background-color: var(--muted);
+}
+
+.dark #veda-ui-root .range-slider__thumb {
+  background-color: var(--foreground);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .range-slider__range {
+  background-color: var(--primary);
+}
+
+/* Date axis SVG text */
+.dark #veda-ui-root [class*='date-axis__DateAxisSVG'] text {
+  fill: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='date-axis__GridLine'] {
+  stroke: var(--border);
+}
+
+/* Toolbar buttons in timeline */
+.dark #veda-ui-root [class*='toolbar__ToolbarIconButton'] {
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root [class*='toolbar__ToolbarIconButton']:hover {
+  color: var(--foreground);
+}
+
+/* Exploration container */
+.dark #veda-ui-root [class*='exploration__Container'] {
+  background-color: var(--background);
+}
+
+/* Panel backgrounds */
+.dark #veda-ui-root .panel-timeline {
+  background-color: var(--card);
+}
+
+/* Map controls */
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='preset-selector__OptionValueDisplay'] {
+  color: var(--foreground);
+  background-color: var(--card);
+}
+
+.dark #veda-ui-root [class*='preset-selector__PresetSelect'] {
+  color: var(--foreground);
+  background-color: var(--card);
+}
+
+/* Vertical divider */
+.dark #veda-ui-root [class*='vertical-divider__VerticalDivider'] {
+  background-color: var(--border);
+}
+
+/* Map coordinate display */
+.dark #veda-ui-root [class*='coords__MapCoordsWrapper'] button {
+  color: var(--foreground);
+  background-color: var(--card);
+}
+
+/* Selector buttons on map */
+.dark #veda-ui-root [class*='button__SelectorButton'] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='button__SelectorButton']:hover {
+  background-color: var(--accent);
+}
+
+/* AOI toolbar icon buttons (Draw, Upload icons beside Analyze an area) */
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button {
+  color: var(--foreground);
+  background-color: transparent;
+}
+
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button svg {
+  color: var(--foreground);
+  fill: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='aoi-control__AnalysisToolbar'] button:hover {
+  background-color: var(--accent);
+}
+
+/* Mapbox zoom controls */
+.dark #veda-ui-root .mapboxgl-ctrl-group {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-group button {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+  filter: invert(1);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-group button:hover {
+  background-color: var(--accent);
+}
+
+/* Mapbox zoom in/out specific */
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-in,
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-out {
+  background-color: var(--card);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.dark #veda-ui-root .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+  filter: invert(1);
+}
+
+/* Mapbox geocoder (search) */
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder input {
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-geocoder svg {
+  fill: var(--foreground);
+}
+
+/* Error message - "Oh no, something went wrong" - more visible */
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] {
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+}
+
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackMessage'] p {
+  color: #fca5a5;
+  font-weight: 500;
+}
+
+/* Track error state - make status items more visible */
+.dark #veda-ui-root [class*='dataset-list-item-status__TrackError'] {
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.dark #veda-ui-root [class*='dataset-list-item-status__Item'] {
+  opacity: 0.1;
+}
+
+/* Mapbox attribution */
+.dark #veda-ui-root .mapboxgl-ctrl-attrib {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root .mapboxgl-ctrl-attrib a {
+  color: var(--muted-foreground);
+}
+
+/* Mapbox scale */
+.dark #veda-ui-root .mapboxgl-ctrl-scale {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+
+/* =====================================================
+   DATASET SELECTOR MODAL - DARK MODE
+   ===================================================== */
+
+/* Modal container and contents */
+.dark #veda-ui-root [class*='styled__ModalContents'] {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* Modal header */
+.dark #veda-ui-root [class*='styled__ModalHeader'],
+.dark #veda-ui-root [class*='styled__ModalFooter'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='styled__ModalHeadline'] h1,
+.dark #veda-ui-root [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground);
+}
+
+/* Modal close button */
+.dark #veda-ui-root [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground);
+}
+
+.dark #veda-ui-root [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground);
+}
+
+/* Modal body */
+.dark #veda-ui-root [class*='styled__ModalBody'] {
+  background-color: var(--card);
+}
+
+/* Filter sidebar wrapper */
+.dark #veda-ui-root .wrapper {
+  background-color: var(--card);
+}
+
+/* Dataset search container in modal */
+.dark #veda-ui-root [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card);
+}
+
+/* Search form in modal */
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-search .usa-input,
+.dark #veda-ui-root [class*='styled__ModalBody'] input[type='search'],
+.dark #veda-ui-root [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  .usa-search
+  .usa-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Accordion in modal - filter categories */
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card);
+  border-top-color: var(--border);
+}
+
+/* Checkbox filter items in modal */
+.dark #veda-ui-root [class*='styled__ModalBody'] .veda-filter,
+.dark #veda-ui-root [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .veda-filter:hover,
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  #veda-checkbox-container:hover {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground);
+}
+
+/* Catalog section in modal */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Catalog'] {
+  background-color: var(--card);
+}
+
+/* Mobile catalog container - dark mode */
+.dark #veda-ui-root [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card);
+}
+
+/* Parent dataset title in modal */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary);
+}
+
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle']
+  svg {
+  color: var(--primary);
+  fill: var(--primary);
+}
+
+/* Selected count badge */
+.dark #veda-ui-root [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
+}
+
+/* Dataset description paragraph */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Paragraph'] {
+  color: var(--muted-foreground);
+}
+
+/* Headline section */
+.dark #veda-ui-root [class*='catalog-content__Headline'] {
+  border-color: var(--border);
+}
+
+/* Warning pill */
+.dark #veda-ui-root [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+/* Horizontal card items in modal */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem']:hover {
+  border-color: var(--primary);
+}
+
+/* Selected card state */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='catalog-card__CardSelectable'].LdUxE {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+/* Card content area */
+.dark
+  #veda-ui-root
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__CardContent'] {
+  background-color: transparent;
+}
+
+/* Card title */
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='styles__CardTitle'] {
+  color: var(--foreground);
+}
+
+/* Card description */
+.dark #veda-ui-root [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground);
+}
+
+/* Tags/pills in modal cards */
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
+}
+
+/* Interactive link (View dataset) */
+.dark #veda-ui-root [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary);
+}
+
+/* Cards list */
+.dark #veda-ui-root [class*='styled__ModalBody'] [class*='styles__CardList'] {
+  background-color: transparent;
+}
+
+/* Grid row background */
+.dark #veda-ui-root [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent;
+}
+
+/* Base lightest backgrounds - override to dark */
+.dark #veda-ui-root [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card);
+}
+
+.dark #veda-ui-root [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card);
+}
+
+/* USA tag in modal */
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+/* Search and Filter button (mobile) */
+.dark #veda-ui-root [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Close button X icon */
+.dark #veda-ui-root [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground);
+}
+
+.dark
+  #veda-ui-root
+  [class*='styled__ModalToolbar']
+  button:hover
+  [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--foreground);
+}
+
+/* =====================================================
+   PORTAL MODALS - DARK MODE (Attribute Selectors)
+   Uses [data-veda-ui-root].veda-ui-scope for modals rendered via React portals
+   (outside the main #veda-ui-root wrapper)
+   ===================================================== */
+
+/* Modal container and contents */
+[data-veda-ui-root].dark [class*='styled__ModalContents'] {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* Modal header */
+[data-veda-ui-root].dark [class*='styled__ModalHeader'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalHeadline'] h1,
+[data-veda-ui-root].dark [class*='header__StyledModalHeadline'] h1 {
+  color: var(--foreground);
+}
+
+/* Modal footer */
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] [class*='LayerResult'],
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] .selection-info {
+  color: var(--muted-foreground);
+}
+
+/* Modal footer buttons */
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] button {
+  background-color: var(--accent);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalFooter']
+  button:hover:not(:disabled) {
+  background-color: var(--muted);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalFooter'] button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal close button */
+[data-veda-ui-root].dark [class*='styled__ModalToolbar'] button {
+  color: var(--muted-foreground);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalToolbar'] button:hover {
+  color: var(--foreground);
+}
+
+/* Modal body */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] {
+  background-color: var(--card);
+}
+
+/* Filter sidebar wrapper */
+[data-veda-ui-root].dark .wrapper {
+  background-color: var(--card);
+}
+
+/* Dataset search container in modal */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #dataset__search {
+  background-color: var(--card);
+}
+
+/* Search form in modal */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-search .usa-input,
+[data-veda-ui-root].dark [class*='styled__ModalBody'] input[type='search'],
+[data-veda-ui-root].dark [class*='styled__ModalBody'] input[type='text'] {
+  background-color: var(--input, oklch(0.269 0 0));
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  .usa-search
+  .usa-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Accordion in modal - filter categories */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion__button {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  .usa-accordion__button:hover {
+  background-color: var(--ieee-blue-25);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-accordion__content {
+  background-color: var(--card);
+  border-top-color: var(--border);
+}
+
+/* Checkbox filter items in modal */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .veda-filter,
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #veda-checkbox-container {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .veda-filter:hover,
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  #veda-checkbox-container:hover {
+  background-color: var(--ieee-blue-25);
+  border-color: var(--primary);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-checkbox__label {
+  color: var(--foreground);
+}
+
+/* Catalog section in modal */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Catalog'] {
+  background-color: var(--card);
+}
+
+/* Mobile catalog container - dark mode */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #veda__mobile-catalog {
+  background-color: var(--card);
+}
+
+/* Parent dataset title in modal */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle'] {
+  color: var(--primary);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='catalog-content__ParentDatasetTitle']
+  svg {
+  color: var(--primary);
+  fill: var(--primary);
+}
+
+/* Selected count badge */
+[data-veda-ui-root].dark [class*='catalog-content__SelectedCard'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
+}
+
+/* Dataset description paragraph */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='catalog-content__Paragraph'] {
+  color: var(--muted-foreground);
+}
+
+/* Headline section */
+[data-veda-ui-root].dark [class*='catalog-content__Headline'] {
+  border-color: var(--border);
+}
+
+/* Warning pill */
+[data-veda-ui-root].dark [class*='catalog-content__WarningPill'] {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+/* Horizontal card items in modal */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem'] {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__HorizontalInfoCardItem']:hover {
+  border-color: var(--primary);
+}
+
+/* Selected card state */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='catalog-card__CardSelectable'].LdUxE {
+  border-color: var(--primary);
+  background-color: var(--ieee-blue-25);
+}
+
+/* Card content area */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='horizontal-info__CardContent'] {
+  background-color: transparent;
+}
+
+/* Card title */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardTitle'] {
+  color: var(--foreground);
+}
+
+/* Card description */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] #description p {
+  color: var(--muted-foreground);
+}
+
+/* Tags/pills in modal cards */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] [class*='pill__Pill'] {
+  background-color: var(--ieee-blue-25);
+  color: var(--primary);
+}
+
+/* Interactive link (View dataset) */
+[data-veda-ui-root].dark [class*='element-interactive__InteractiveLink'] {
+  color: var(--primary);
+}
+
+/* Cards list */
+[data-veda-ui-root].dark
+  [class*='styled__ModalBody']
+  [class*='styles__CardList'] {
+  background-color: transparent;
+}
+
+/* Grid row background */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .grid-row {
+  background-color: transparent;
+}
+
+/* Base lightest backgrounds - override to dark */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .bg-base-lightest {
+  background-color: var(--card);
+}
+
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .bg-white {
+  background-color: var(--card);
+}
+
+/* USA tag in modal */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-tag {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+/* Search and Filter button (mobile) */
+[data-veda-ui-root].dark [class*='styled__ModalBody'] .usa-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Close button X icon */
+[data-veda-ui-root].dark [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--muted-foreground);
+}
+
+[data-veda-ui-root].dark
+  [class*='styled__ModalToolbar']
+  button:hover
+  [class*='xmark-small__CollecticonXmarkSmall'] {
+  fill: var(--foreground);
+}

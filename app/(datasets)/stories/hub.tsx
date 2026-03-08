@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
 import { StoriesHubContent, useFiltersWithQS } from '@lib';
-import Providers from '../providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 export default function Hub({ stories: allStories }: { stories: any }) {
   const controlVars = useFiltersWithQS();
 
   return (
-    <Providers>
+    <VedaUIWrapper>
       <StoriesHubContent
         allStories={allStories}
         onFilterchanges={() => controlVars}
@@ -16,6 +16,6 @@ export default function Hub({ stories: allStories }: { stories: any }) {
           other: 'stories',
         }}
       />
-    </Providers>
+    </VedaUIWrapper>
   );
 }
