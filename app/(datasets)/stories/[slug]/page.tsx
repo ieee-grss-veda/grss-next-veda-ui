@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getStories } from 'app/content/utils/mdx';
 import { LegacyGlobalStyles, PageHero } from '@lib';
-import './index.scss';
-import Providers from 'app/(datasets)/providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 async function generateStaticParams() {
   const posts = getStories();
@@ -36,7 +35,7 @@ export default function StoryOverview({ params }: { params: any }) {
         }}
       />
       <article className='prose'>
-        <Providers>
+        <VedaUIWrapper>
           <LegacyGlobalStyles />
 
           <PageHero
@@ -46,7 +45,7 @@ export default function StoryOverview({ params }: { params: any }) {
             coverAlt={post.metadata.media?.alt}
           />
           <CustomMDX source={post.content} />
-        </Providers>
+        </VedaUIWrapper>
       </article>
     </section>
   );

@@ -7,8 +7,6 @@ module.exports = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-    moduleResolution: 'bundler',
-    include: ['app/**/*.ts', 'app/**/*.tsx'],
   },
   async rewrites() {
     return [
@@ -42,12 +40,5 @@ module.exports = {
       'jotai-optics': path.resolve(__dirname, 'node_modules', 'jotai-optics'),
     };
     return config;
-  },
-  sassOptions: {
-    includePaths: [
-      'node_modules/@uswds/uswds',
-      'node_modules/@uswds/uswds/dist',
-      'node_modules/@uswds/uswds/packages',
-    ],
   },
 };

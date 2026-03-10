@@ -1,19 +1,19 @@
 'use client';
 import React from 'react';
 import { CatalogContent, useFiltersWithQS } from '@lib';
-import Providers from '../providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
 export default function Catalog({ datasets }: { datasets: any }) {
   const controlVars = useFiltersWithQS();
 
   return (
-    <Providers>
+    <VedaUIWrapper>
       <CatalogContent
         datasets={datasets}
         search={controlVars.search}
         onAction={controlVars.onAction}
         taxonomies={controlVars.taxonomies}
       />
-    </Providers>
+    </VedaUIWrapper>
   );
 }

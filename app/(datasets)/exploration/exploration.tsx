@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ExplorationAndAnalysis,
   DatasetSelectorModal,
@@ -9,10 +9,12 @@ import {
 } from '@lib';
 import { useSetAtom } from 'jotai';
 import useElementHeight from '@utils/hooks/use-element-height';
-import Providers from '../providers';
+import VedaUIWrapper from 'app/components/veda-ui-wrapper';
+import { useTheme } from 'app/components/common/theme-provider';
 
 export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const setExternalDatasets = useSetAtom(externalDatasetsAtom);
+  const { theme } = useTheme();
 
   setExternalDatasets(datasets);
 
@@ -27,12 +29,38 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
   const closeModal = () => {
     setDatasetModalRevealed(false);
   };
+
+  // Add veda-ui-root data attribute and dark mode class to modal portal when it mounts
+  useEffect(() => {
+    if (!datasetModalRevealed) return;
+
+    // Small delay to ensure modal has rendered to DOM
+    const timeoutId = setTimeout(() => {
+      // Find the modal wrapper container (class starts with styled__ModalWrapper)
+      const modalWrapper = document.querySelector('[class*="styled__ModalWrapper"]');
+      if (modalWrapper) {
+        // Add data attribute for ID-based specificity (portals can't share same ID)
+        modalWrapper.setAttribute('data-veda-ui-root', 'true');
+        // Add veda-ui-scope class for styling
+        if (!modalWrapper.classList.contains('veda-ui-scope')) {
+          modalWrapper.classList.add('veda-ui-scope');
+        }
+        // Sync dark mode class with current theme
+        if (theme === 'dark') {
+          modalWrapper.classList.add('dark');
+        } else {
+          modalWrapper.classList.remove('dark');
+        }
+      }
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, [datasetModalRevealed, theme]);
   // On landing, measure the height of Header and fill up the rest of the space with E&A
   const offsetHeight = useElementHeight({ queryToSelect: 'header' });
 
   return (
-    <Providers datasets={datasets}>
-      <LegacyGlobalStyles />
+    <VedaUIWrapper datasets={datasets}>
       <div
         id='ea-wrapper'
         // The below styles adjust the E&A page to match what we have on earthdata.nasa.gov
@@ -56,6 +84,6 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
           openDatasetsSelectionModal={openModal}
         />
       </div>
-    </Providers>
+    </VedaUIWrapper>
   );
 }
