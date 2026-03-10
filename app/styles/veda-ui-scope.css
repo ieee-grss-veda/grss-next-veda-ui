@@ -859,6 +859,17 @@
   min-width: 0;
 }
 
+/* react-calendar css overwrite*/
+.react-calendar {
+  color: black;
+}
+
+#veda-ui-root .toolbar__ToolbarIconButton svg,
+#veda-ui-root [class*='toolbar__ToolbarIconButton'] svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* Mobile: stack filter and cards vertically */
 @media (max-width: 767px) {
   #veda-ui-root .grid-row {
@@ -1380,6 +1391,11 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   font-weight: 600;
   color: var(--foreground);
   margin: 0 0 1rem 0;
+}
+
+.dark [class*='layer-legend__LegendContainer'],
+.dark [class*='content-block__ContentBlockProse'] {
+  color: var(--background);
 }
 
 /* Hide the red accent line under Browse */
@@ -1988,6 +2004,10 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   background-color: transparent;
 }
 
+.dark #veda-ui-root [class*='timeline-controls__DatePickersWrapper'] svg {
+  color: white;
+}
+
 /* Date picker trigger */
 .dark #veda-ui-root [class*='timeline-datepicker__DatePickerTrigger'] {
   color: var(--foreground);
@@ -1996,6 +2016,12 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
 
 .dark #veda-ui-root [class*='datepicker__TriggerWrapper'] button {
   color: var(--foreground);
+}
+
+.dark #veda-ui-root [class*='datepicker__TriggerWrapper'] button svg,
+.dark #veda-ui-root [class*='timeline-datepicker__DatePickerTrigger'] svg {
+  color: var(--foreground);
+  fill: var(--foreground);
 }
 
 /* Zoom controls */
@@ -2012,6 +2038,22 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   [class*='timeline-zoom-controls__TimelineControlsSelf']
   button:hover {
   color: var(--foreground);
+}
+
+.dark
+  #veda-ui-root
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button svg {
+  color: var(--muted-foreground);
+  fill: var(--muted-foreground);
+}
+
+.dark
+  #veda-ui-root
+  [class*='timeline-zoom-controls__TimelineControlsSelf']
+  button:hover svg {
+  color: var(--foreground);
+  fill: var(--foreground);
 }
 
 /* Range slider */
@@ -2074,7 +2116,9 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
 
 /* Vertical divider */
 .dark #veda-ui-root [class*='vertical-divider__VerticalDivider'] {
-  background-color: var(--border);
+    background-color: var(--foreground);
+    border: none;
+    width: 1px;
 }
 
 /* Map coordinate display */
