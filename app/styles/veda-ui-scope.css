@@ -66,7 +66,7 @@
 
 .position-relative {
   position: relative;
-}
+} 
 
 /* Filter wrapper - ensure proper stacking */
 #veda-ui-root .wrapper,
@@ -1923,6 +1923,10 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   height: 15rem;
 }
 
+.colormap-options__item:hover {
+  background-color: #d83933;
+}
+
 
 .display-flex {
   display: flex;
@@ -1981,6 +1985,193 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
 .padding-0,
 [data-veda-ui-root].veda-ui-scope .padding-0 {
   padding: 0;
+}
+
+/* Flex utilities */
+.flex-1,
+[data-veda-ui-root].veda-ui-scope .flex-1 {
+  flex: 1;
+}
+
+/* Border utilities */
+.border-2px,
+[data-veda-ui-root].veda-ui-scope .border-2px {
+  border: 2px solid;
+}
+
+.border-base-light,
+[data-veda-ui-root].veda-ui-scope .border-base-light {
+  border-color: var(--border);
+}
+
+.dark .border-base-light,
+[data-veda-ui-root].dark .border-base-light {
+  border-color: var(--border);
+}
+
+/* Border radius */
+.radius-md,
+[data-veda-ui-root].veda-ui-scope .radius-md {
+  border-radius: var(--radius);
+}
+
+/* Width utilities */
+.width-7,
+[data-veda-ui-root].veda-ui-scope .width-7 {
+  width: 3.5rem;
+}
+
+/* Height utilities */
+.height-3,
+[data-veda-ui-root].veda-ui-scope .height-3 {
+  height: 1.5rem;
+}
+
+/* Font size utilities */
+.font-size-3xs,
+[data-veda-ui-root].veda-ui-scope .font-size-3xs {
+  font-size: 0.625rem;
+}
+
+/* Input styles */
+.usa-input,
+[data-veda-ui-root].veda-ui-scope .usa-input {
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+
+.dark .usa-input,
+[data-veda-ui-root].dark .usa-input {
+  background-color: var(--input);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+/* Position utilities */
+.position-relative {
+  position: relative;
+}
+
+.position-absolute,
+[data-veda-ui-root].veda-ui-scope .position-absolute {
+  position: absolute;
+}
+
+/* Pointer events */
+.pointer-events,
+[data-veda-ui-root].veda-ui-scope .pointer-events {
+  pointer-events: auto;
+}
+
+.pointer-events-none,
+[data-veda-ui-root].veda-ui-scope .pointer-events-none {
+  pointer-events: none;
+}
+
+/* Width utilities */
+.width-card,
+[data-veda-ui-root].veda-ui-scope .width-card {
+  width: var(--card-width, 100%);
+}
+
+/* Height utilities */
+.height-0,
+[data-veda-ui-root].veda-ui-scope .height-0 {
+  height: 0;
+}
+
+/* Outline utilities */
+.outline-0,
+[data-veda-ui-root].veda-ui-scope .outline-0 {
+  outline: 0;
+}
+
+/* Z-index utilities */
+.z-index-30,
+[data-veda-ui-root].veda-ui-scope .z-index-30 {
+  z-index: 30;
+}
+
+/* Thumb (range slider thumb) */
+.thumb,
+[data-veda-ui-root].veda-ui-scope .thumb {
+  cursor: pointer;
+}
+
+/* Background color utilities */
+.bg-primary-vivid,
+[data-veda-ui-root].veda-ui-scope .bg-primary-vivid {
+  background-color: var(--primary);
+}
+
+.bg-base-lighter,
+[data-veda-ui-root].veda-ui-scope .bg-base-lighter {
+  background-color: var(--muted);
+}
+
+.dark .bg-base-lighter,
+[data-veda-ui-root].dark .bg-base-lighter {
+  background-color: var(--muted);
+}
+
+/* Height utilities */
+.height-05,
+[data-veda-ui-root].veda-ui-scope .height-05 {
+  height: 0.25rem;
+}
+
+.padding-x-105 {
+    padding-left: .75rem !important;
+    padding-right: .75rem !important;
+}
+
+/* Width utilities */
+.width-full,
+[data-veda-ui-root].veda-ui-scope .width-full {
+  width: 100%;
+}
+
+/* Z-index utilities */
+.z-100,
+[data-veda-ui-root].veda-ui-scope .z-100 {
+  z-index: 100;
+}
+
+.z-200,
+[data-veda-ui-root].veda-ui-scope .z-200 {
+  z-index: 200;
+}
+
+.usa-icon--size-4 {
+    width: 2rem;
+    height: 2rem;
+}
+
+.margin-right-1 {
+    margin-right: .5rem !important;
+}
+
+.margin-right-2 {
+    margin-right: 1rem !important;
+}
+
+.padding-top-1 {
+    padding-top: .5rem !important;
+}
+
+.padding-bottom-1 {
+    padding-bottom: .5rem !important;
+}
+
+/* Font utilities */
+.font-heading-xs,
+[data-veda-ui-root].veda-ui-scope .font-heading-xs {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .dark #veda-ui-root [class*='dataset-layer-card__DatasetInfo'] {
