@@ -1912,6 +1912,77 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
 }
 
 /* Dataset layer card */
+
+
+#veda-ui-root [class*='dataset-layer-card__DatasetToolbar'] {
+  width: 100% ;
+}
+
+.colormap-options__container {
+  width: 100% ;
+  height: 15rem;
+}
+
+
+.display-flex {
+  display: flex;
+}
+
+.flex-align-center,
+[data-veda-ui-root].veda-ui-scope .flex-align-center {
+  align-items: center;
+}
+
+.flex-column,
+[data-veda-ui-root].veda-ui-scope .flex-column {
+  flex-direction: column;
+}
+
+.flex-justify,
+[data-veda-ui-root].veda-ui-scope .flex-justify {
+  justify-content: space-between;
+}
+
+.border-top-1px,
+[data-veda-ui-root].veda-ui-scope .border-top-1px {
+  border-top: 1px solid var(--border);
+}
+
+.border-bottom-1px,
+[data-veda-ui-root].veda-ui-scope .border-bottom-1px {
+  border-bottom: 1px solid var(--border);
+}
+
+.border-base-lightest,
+[data-veda-ui-root].veda-ui-scope .border-base-lightest {
+  border-color: var(--border);
+}
+
+.bg-base-lightest,
+[data-veda-ui-root].veda-ui-scope .bg-base-lightest {
+  background-color: var(--accent);
+}
+
+.dark .bg-base-lightest,
+[data-veda-ui-root].dark .bg-base-lightest {
+  background-color: var(--card);
+}
+
+.padding-2,
+[data-veda-ui-root].veda-ui-scope .padding-2 {
+  padding: 1rem;
+}
+
+.padding-1,
+[data-veda-ui-root].veda-ui-scope .padding-1 {
+  padding: 0.5rem;
+}
+
+.padding-0,
+[data-veda-ui-root].veda-ui-scope .padding-0 {
+  padding: 0;
+}
+
 .dark #veda-ui-root [class*='dataset-layer-card__DatasetInfo'] {
   background-color: transparent;
 }
