@@ -2018,6 +2018,7 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   color: var(--foreground);
 }
 
+
 .dark #veda-ui-root [class*='datepicker__TriggerWrapper'] button svg,
 .dark #veda-ui-root [class*='timeline-datepicker__DatePickerTrigger'] svg {
   color: var(--foreground);
