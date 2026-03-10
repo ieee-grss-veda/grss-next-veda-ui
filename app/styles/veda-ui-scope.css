@@ -1393,6 +1393,11 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   margin: 0 0 1rem 0;
 }
 
+.dark [class*='layer-legend__LegendContainer'],
+.dark [class*='content-block__ContentBlockProse'] {
+  color: var(--background);
+}
+
 /* Hide the red accent line under Browse */
 #veda-ui-root [class*='fold__FoldHeadline']::after,
 #veda-ui-root [class*='FoldHeadline']::after {
