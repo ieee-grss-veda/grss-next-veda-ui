@@ -15,10 +15,13 @@ import {
 import Link from 'next/link';
 import { Separator } from '../ui/separator';
 import { useTheme } from './theme-provider';
+import { usePathname } from 'next/navigation';
+import { cn } from '../ui/utils';
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const navItems: InternalNavLink[] = [
     {
@@ -45,7 +48,7 @@ export default function Header() {
     <>
       <MetaNavigation />
       <nav
-        className='sticky top-[40px] md:top-[100px] lg:top-[40px] z-40 border-b border-border bg-card'
+        className='sticky top-[40px] z-40 border-b border-border bg-card'
         aria-label='Main navigation'
       >
         <div className='max-w-[1400px] mx-auto px-6 lg:px-12'>
@@ -68,13 +71,17 @@ export default function Header() {
                   className='logo-dark h-12'
                 />
               </Link>
-              <div className='hidden lg:flex items-center gap-6'>
+              <div className='hidden md:flex items-center gap-6'>
                 {navItems.map((item) => (
                   <Link
                     key={item.id}
                     href={item.to}
-                    className='hover:text-primary transition-colors focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
                     data-tour={item.id}
+                    className={cn(
+                      'hover:text-primary transition-colors rounded',
+                      pathname === item.to ? 'text-primary' : ''
+                    )}
+
                   >
                     {item.title}
                   </Link>
@@ -82,6 +89,21 @@ export default function Header() {
               </div>
             </div>
             <div className='flex items-center gap-3'>
+              <Button
+                variant='ghost'
+                size='sm'
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                className='flex'
+                data-tour='theme-toggle'
+              >
+                {theme === 'light' ? (
+                  <Moon className='h-4 w-4' />
+                ) : (
+                  <Sun className='h-4 w-4' />
+                )}
+              </Button>
+              
               {/* Mobile Menu Button */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
@@ -95,30 +117,28 @@ export default function Header() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side='right' className='w-[300px] sm:w-[400px]'>
-                  <nav className='flex flex-col gap-4 mt-8'>
-                    <a
-                      href='#'
-                      className='text-lg hover:text-primary transition-colors py-2'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Data Catalog
-                    </a>
-                    <a
-                      href='#'
-                      className='text-lg hover:text-primary transition-colors py-2'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Exploration Tools
-                    </a>
-                    <a
-                      href='#'
-                      className='text-lg hover:text-primary transition-colors py-2'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Stories
-                    </a>
+                  <nav className='flex flex-col gap-4 mt-8 p-2'>
+                    <div className='flex flex-col gap-4 md:hidden'>
+                      {navItems.map((item) => (
+                        <Button
+                          asChild
+                          variant='ghost'
+                          className='justify-start text-lg py-6'
+                        >
+                          <Link
+                            key={item.id}
+                            href={item.to}
+                            className={cn(
+                              pathname === item.to ? 'text-primary' : ''
+                            )}
+                          >
+                            <span className='inline-block' onClick={() => setMobileMenuOpen(false)}>{item.title}</span>
+                          </Link>
+                        </Button>
+                      ))}
+                    </div>
 
-                    <Separator className='my-4' />
+                    <Separator className='md:hidden' />
 
                     <Button
                       asChild
@@ -133,7 +153,9 @@ export default function Header() {
                       </Link>
                     </Button>
 
-                    {/* <Button
+                    <Separator className='md:hidden' />
+
+                    <Button
                       variant='ghost'
                       className='justify-start text-lg py-6'
                       onClick={() => setMobileMenuOpen(false)}
@@ -147,26 +169,12 @@ export default function Header() {
                     >
                       Contact Us
                       <ArrowRight className='h-4 w-4 ml-2' />
-                    </Button> */}
+                    </Button>
                   </nav>
                 </SheetContent>
               </Sheet>
 
               {/* Desktop Actions */}
-              <Button
-                variant='ghost'
-                size='sm'
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                className='hidden lg:flex'
-                data-tour='theme-toggle'
-              >
-                {theme === 'light' ? (
-                  <Moon className='h-4 w-4' />
-                ) : (
-                  <Sun className='h-4 w-4' />
-                )}
-              </Button>
               <Button
                 asChild
                 variant='ghost'
@@ -182,7 +190,7 @@ export default function Header() {
                 </Link>
               </Button>
               <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
-                <Button size='sm' className='gap-2' data-tour='contact'>
+                <Button size='sm' className='gap-2 hidden lg:flex' data-tour='contact'>
                     Contact Us <ArrowRight className='h-4 w-4' />
                 </Button>
               </Link>
