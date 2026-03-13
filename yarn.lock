@@ -2927,10 +2927,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.21.3.tgz#2977727d8fc8dfa079112d9f4d4c019110f1732c"
   integrity sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==
 
-"@teamimpact/veda-ui@6.17.1":
-  version "6.17.1"
-  resolved "https://registry.yarnpkg.com/@teamimpact/veda-ui/-/veda-ui-6.17.1.tgz#0abc38f5d8b6ccbab7f099a1b97330aca3660af8"
-  integrity sha512-Cp8ZraLurU49sb0pq/RZgc2GQ4CqHeCUQNvWq6h5IhZbxv/ixmz1PgxReZQmZ7Ta5OPTUv0hvAz0YDZPNIEezw==
+"@teamimpact/veda-ui@6.20.5":
+  version "6.20.5"
+  resolved "https://registry.yarnpkg.com/@teamimpact/veda-ui/-/veda-ui-6.20.5.tgz#f6e5b705e2640a08effd667d4b3c5c736b9d6707"
+  integrity sha512-qlB3y6gFBLfFNT2zs4sU0iW8yi+ilHgSGcTwy9GjRWR3uO39d/mIySBGXsseVDeIDLJhNH4JwctlSWXUWe9UzQ==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/state" "^6.2.1"
@@ -3003,7 +3003,7 @@
     js-yaml "^4.1.0"
     lodash "^4.17.21"
     mapbox-gl "^3.9.3"
-    mapbox-gl-compare "^0.4.0"
+    mapbox-gl-compare "^0.4.2"
     mapbox-gl-draw-rectangle-mode "^1.0.4"
     markdown-it "^14.0.0"
     optics-ts "^2.4.1"
@@ -7444,7 +7444,7 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.3.0.tgz#9304f906e93faae70880da102a9f1df0ea8bb05a"
   integrity sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==
 
-mapbox-gl-compare@^0.4.0:
+mapbox-gl-compare@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/mapbox-gl-compare/-/mapbox-gl-compare-0.4.2.tgz#819bddb59569f73d1c78da92f999fcbbd58292e2"
   integrity sha512-MhKUYJri3KIfeB2rsLUh2JzPutdfehU3vqdfgp2+uocKjNYQwCUvQ0T8u7fBwIJvJKdfWg3FiDq+5oZC4AtAGg==
