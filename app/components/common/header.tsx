@@ -155,21 +155,25 @@ export default function Header() {
 
                     <Separator className='md:hidden' />
 
-                    <Button
-                      variant='ghost'
-                      className='justify-start text-lg py-6'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Sign-in
-                    </Button>
+                    <Link href={process.env.NEXT_PUBLIC_AUTH_DOMAIN ? `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/realms/veda/account/applications` : '#'}>
+                      <Button
+                        variant='ghost'
+                        className='w-full justify-start text-lg py-6'
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Sign-in
+                      </Button>
+                    </Link>
 
-                    <Button
-                      className='w-full justify-center'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Contact Us
-                      <ArrowRight className='h-4 w-4 ml-2' />
-                    </Button>
+                    <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
+                      <Button
+                        className='w-full justify-center'
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Contact Us
+                        <ArrowRight className='h-4 w-4 ml-2' />
+                      </Button>
+                    </Link>
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -191,7 +195,7 @@ export default function Header() {
               </Button>
               <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
                 <Button size='sm' className='gap-2 hidden lg:flex' data-tour='contact'>
-                    Contact Us <ArrowRight className='h-4 w-4' />
+                  Contact Us <ArrowRight className='h-4 w-4' />
                 </Button>
               </Link>
             </div>
