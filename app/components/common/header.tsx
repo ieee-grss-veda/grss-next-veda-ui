@@ -103,7 +103,7 @@ export default function Header() {
                   <Sun className='h-4 w-4' />
                 )}
               </Button>
-              
+
               {/* Mobile Menu Button */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
@@ -122,11 +122,11 @@ export default function Header() {
                       {navItems.map((item) => (
                         <Button
                           asChild
+                          key={item.id}
                           variant='ghost'
                           className='justify-start text-lg py-6'
                         >
                           <Link
-                            key={item.id}
                             href={item.to}
                             className={cn(
                               pathname === item.to ? 'text-primary' : ''
