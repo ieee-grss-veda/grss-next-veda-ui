@@ -20,12 +20,92 @@ taxonomy:
 
 <Block>
   <Prose>
-  # Introduction
+  ## Introduction
+  Artisanal and small-scale gold mining (ASGM) is a significant industry in parts of South America, Africa, and Southeast Asia. At least 10 million people work in ASGM, and mining has increased with the increase in gold demand since the economic turmoil in the wake of the COVID pandemic. Artisanal gold mining consists of manual extraction techniques like panning, while small-scale mining uses some machinery. Alluvial gold deposits are extracted on land in open pits, which leaves barren soil in its wake, and dredges are used to dig for underwater gold deposits.  These smaller mining operations often produce waste and pollution because they don’t fall under the purview of government regulation. In fact, ASGM is the largest source of mercury pollution on Earth. Mercury is commonly mixed with gold ore and burned to separate the gold; however, the mercury waste is usually left to pollute the soil and water. The pollution and vegetation loss caused by gold mining can have significant ramifications on the local environment and the health of the people who rely on it for food and water.
+  
+  A country with significant ASGM is Columbia, where 200,000 people work in the industry and it accounts for the majority of the nation’s gold production The Quito River near Columbia’s Pacific Coast suffers from harmful pollution and coastal habitat loss due to widespread ASGM.
 
   </Prose>
 </Block>
 
+<Block>
+# Deforestation
+  <Prose>
+  In the process of gold mining, deforestation is also an issue as forests need to be cleared in order to build and operate gold mines. In South America, ASGM has caused nearly 100,000 ha of forest loss over 34 years, with current rates reaching historical highs as mining spreads into small, dispersed “checkerboard” patterns across the landscape. These operations typically involve stripping away vast layers of topsoil and burning local vegetation to access gold deposits. In Africa, this process creates “new mountains” of waste rock dumps that cover thousands of hectares, often replacing high-potential agricultural land and community forests. Once the forest is cleared, the landscape is often transformed into permanent, degraded wetlands or bare soil pits with a very slow natural recovery timeline.
 
+  </Prose>
+</Block>
+
+<Block>
+# Water Pollution
+  <Prose>
+  Hydrological impacts also arise from the ASGM industry primarily through mercury runoff and the eventual contamination of local waterways by toxic mercury compounds. One of the most prominent of these compounds is methylmercury, an organic mercury compound created by soil- and water-based bacteria which are primarily involved in the process of organic compound remineralization. Methylmercury contamination within fish populations has been linked to decreased fertility within the population, as well as in birds and mammals which consume the fish. Particularly in regions also undergoing deforestation, increasing runoff of both soil and mercury pollutants could contribute to an acceleration of methylmercury waterway contamination, in addition to the increase in suspended sediment which already accompanies a region of elevated soil runoff.
+
+  </Prose>
+
+
+</Block>
+
+<Block>
+# Health Impacts
+  <Prose>
+  Artisanal and small-scale gold mining (ASGM) has several well-documented negative impacts on human health, with mercury poisoning representing the most serious crisis. Elemental mercury is commonly used to separate gold from sediment, and much of it is released directly into the surrounding environment. In Colombia’s Chocó department, ASGM activity has resulted in mercury levels in local residents that exceed World Health Organization safety limits by as much as 200%. Biomonitoring studies show that these levels continue to rise as mercury bioaccumulates in the food chain, particularly in fish that are a dietary staple for many Afro-Colombian and Indigenous communities.
+
+  Mining operations often involve burning gold–mercury amalgams in open air to extract the gold. This process releases toxic mercury vapors that can cause severe and irreversible neurological damage, including tremors and symptoms similar to Minamata disease, affecting both miners and those involved in the gold trade. In nearby river systems, mercury contamination leads to the formation of methylmercury, which spreads downstream and accumulates in aquatic ecosystems. Exposure to this compound is especially dangerous for pregnant women and children, as it can disrupt fetal development and contribute to congenital defects and long-term cognitive impairments.
+
+  Once mercury enters the food chain, the health consequences can persist for years. Communities that rely heavily on contaminated fish become particularly vulnerable, often facing chronic health problems while local healthcare systems struggle to respond to the growing burden of mercury-related illness.
+  </Prose>
+
+</Block>
+
+<Block>
+  <Prose>
+  ## Data Used
+  The Harmonized Landsat Sentinel-2 (HLS) is a dataset that combines the United States Geological Survey (USGS)/National Aeronautics and Space Administration (NASA) Landsat 8 and 9 satellites with the European Space Agency’s Sentinel-2A and 2B satellites to create one dataset. This dataset provides 30-meter resolution, 2-3 day frequency. This high high temporal frequency is essential for detecting the rapid expansion of deforestation and the creation of distinct mining footprints. Furthermore, the multi-spectra record enables frequent monitoring of turbidity and suspended loads in river systems, which are heavily impacted by the discharge of mining waste. Normalized Difference Vegetation Index (NDVI) can also be calculated to determine the health of live green vegetation.
+  
+  Remote detection of mercury pollution has been shown to be highly correlated with total suspended solids (TSS) within a body of water. These indices include Normalized Suspended Material Index (NSMI), Normalized Difference Suspended Sediment Index (NDSSI), and Normalized Difference Turbidity Index (NDTI). While there are nuances to the differing approaches of the indices, all of them utilize reflectances in the visible to near-infrared (NIR) wavelengths of light to separate clear water from cloudy water based on which wavelengths are most strongly reflected, and all of them have been used as proxies for TSS in lieu of in-situ measurements.
+
+  </Prose>
+
+</Block>
+
+<Block>
+  <Prose>
+  ## Impacts: Looking at Case Studies in South America and Africa
+  
+  </Prose>
+
+</Block>
+
+<ScrollytellingBlock>
+  <Chapter
+    center={[6.0, 45.8]}
+    zoom={8}
+    datasetId='tandemx-edem'
+    layerId='TDM30_EDEM_dem'
+    datetime='2010-01-01'
+  >
+  ### The Italian Alps: Europe's Rooftop
+
+  The northern boundary of Italy is defined by the majestic Alps, forming a natural barrier between the Italian peninsula and continental Europe. The TanDEM-X elevation model reveals the dramatic topography of this region, where peaks rise to over 4,000 meters above sea level.
+
+  Monte Bianco (Mont Blanc), straddling the Italian-French border, reaches 4,808 meters—the highest point in the Alps. These mountains serve as crucial water towers for the Po River basin, feeding the agricultural heartland of northern Italy.
+  </Chapter>
+
+  <Chapter
+    center={[6.76, 45.83]}
+    zoom={11}
+    datasetId='tandemx-edem'
+    layerId='TDM30_EDEM_dem'
+    datetime='2010-01-01'
+  >
+  ### Monte Bianco: The White Mountain
+
+  Zooming in on Monte Bianco, the elevation data reveals the intricate network of ridges, glaciers, and valleys that characterize the highest peaks in the Alps. The Aosta Valley below is one of Italy's smallest and least populated regions, shaped entirely by its mountainous terrain.
+
+  The glaciers visible in this data have been retreating dramatically over recent decades due to climate change, with significant implications for water resources downstream.
+  </Chapter>
+</ScrollytellingBlock>
 
 <Block>
   <Prose>
