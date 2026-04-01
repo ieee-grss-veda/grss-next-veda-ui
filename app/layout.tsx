@@ -25,9 +25,9 @@ export default function RootLayout({
         />
         <script
           data-jsd-embedded
-          data-key="257a3422-6a25-4a9e-92b1-c195ecd45fc6"
-          data-base-url="https://jsd-widget.atlassian.com"
-          src="https://jsd-widget.atlassian.com/assets/embed.js"
+          data-key='257a3422-6a25-4a9e-92b1-c195ecd45fc6'
+          data-base-url='https://jsd-widget.atlassian.com'
+          src='https://jsd-widget.atlassian.com/assets/embed.js'
         />
         <script
           dangerouslySetInnerHTML={{
