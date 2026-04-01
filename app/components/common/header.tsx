@@ -57,16 +57,28 @@ export default function Header() {
                 aria-label='Go to home page'
                 data-tour='logo'
               >
-                <img
-                  src='/images/GRSS-lightmode-logo.png'
-                  alt='GRSS IEEE Logo'
-                  className='logo-light h-12'
-                />
-                <img
-                  src='/images/GRSS-darkmode-logo.png'
-                  alt='GRSS IEEE Logo'
-                  className='logo-dark h-12'
-                />
+                <div className='flex items-center justify-between h-12 gap-2'>
+                  <img
+                    src='/images/grss-logo.webp'
+                    alt='GRSS IEEE Logo'
+                    className='logo-light h-12'
+                  />
+                  <img
+                    src='/images/grss-darkmode-logo.webp'
+                    alt='GRSS IEEE Logo'
+                    className='logo-dark h-12'
+                  />
+                  <img
+                    src='/images/GRSS-lightmode-logo.png'
+                    alt='VEDA GRSS IEEE Logo'
+                    className='logo-light h-12'
+                  />
+                  <img
+                    src='/images/GRSS-darkmode-logo.png'
+                    alt='VEDA GRSS IEEE Logo'
+                    className='logo-dark h-12'
+                  />
+                </div>
               </Link>
               <div className='hidden lg:flex items-center gap-6'>
                 {navItems.map((item) => (
