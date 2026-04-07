@@ -118,6 +118,90 @@ layers:
       unit: nW/cm²/sr
     media:
       src: /images/dataset/hls_20241004_true_color.jpg
+
+  - id: HLSL30_2.0_ndvi
+    media:
+      src: /images/dataset/hls_20241004_true_color.jpg
+      alt: HLS L30 and S30 NDVI
+    type: cmr
+    stacCol: HLSL30_2.0
+    stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
+    tileApiEndpoint: "https://api.dev.veda.grss.cloud/titiler-cmr/WebMercatorQuad/tilejson.json"
+    name: "HLS Landsat 8/9 NDVI"
+    description: "NDVI from Landsat 8/9 bands B04, B05"
+    time_density: day
+    zoomExtent:
+      - 7
+      - 18
+    sourceParams:
+      concept_id: C2021957657-LPCLOUD
+      backend: rasterio
+      bands_regex: B[0-9][0-9]
+      expression: (B05-B04)/(B05+B04)
+      minzoom: 7
+      maxzoom: 18
+      rescale:
+       - -1
+       - 1
+      colormap_name: rdylgn
+    legend:
+      type: text
+  
+  - id: HLSL30_2.0_ndti
+    media:
+      src: /images/dataset/hls_20241004_true_color.jpg
+      alt: HLS L30 and S30 NDTI
+    type: cmr
+    stacCol: HLSL30_2.0
+    stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
+    tileApiEndpoint: "https://api.dev.veda.grss.cloud/titiler-cmr/WebMercatorQuad/tilejson.json"
+    name: "HLS Landsat 8/9 NDVI"
+    description: "Normalized Difference Turbidity Index from Landsat 8/9 bands B03, B04"
+    time_density: day
+    zoomExtent:
+      - 7
+      - 18
+    sourceParams:
+      concept_id: C2021957657-LPCLOUD
+      backend: rasterio
+      bands_regex: B[0-9][0-9]
+      expression: (B04-B03)/(B04+B03)
+      minzoom: 7
+      maxzoom: 18
+      rescale:
+       - -1
+       - 1
+      colormap_name: coolwarm
+    legend:
+      type: text
+  
+  - id: HLSL30_2.0_nsmi
+    media:
+      src: /images/dataset/hls_20241004_true_color.jpg
+      alt: HLS L30 and S30 NSMI
+    type: cmr
+    stacCol: HLSL30_2.0
+    stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
+    tileApiEndpoint: "https://api.dev.veda.grss.cloud/titiler-cmr/WebMercatorQuad/tilejson.json"
+    name: "HLS Landsat 8/9 NDVI"
+    description: "Normalized Suspended Material Index index from Landsat 8/9 bands B02, B03, B04"
+    time_density: day
+    zoomExtent:
+      - 7
+      - 18
+    sourceParams:
+      concept_id: C2021957657-LPCLOUD
+      backend: rasterio
+      bands_regex: B[0-9][0-9]
+      expression: (B04+B03-B02)/(B04+B03+B02)
+      minzoom: 7
+      maxzoom: 18
+      rescale:
+       - -1
+       - 1
+      colormap_name: coolwarm
+    legend:
+      type: text
 ---
 
 <Block>
