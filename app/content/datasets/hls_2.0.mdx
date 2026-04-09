@@ -137,9 +137,7 @@ layers:
       concept_id: C2021957657-LPCLOUD
       backend: rasterio
       bands_regex: B[0-9][0-9]
-      assets: 
-        - "B05"
-        - "B04"
+      assets: B05,B04
       expression: (B05-B04)/(B05+B04)
       minzoom: 7
       maxzoom: 18
