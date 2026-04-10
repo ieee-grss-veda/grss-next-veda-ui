@@ -139,26 +139,30 @@ layers:
       expression: (B05-B04)/(B05+B04)
       minzoom: 7
       maxzoom: 18
-      rescale: -0.5,1
-      colormap_name: summer_r
+      rescale: -1,1
+      colormap_name: rdylgn
     legend:
       type: gradient
-      min: "-0.5"
+      min: "-1"
       max: "1"
       stops:
-        - "#ffff66"
-        - "#99cc44"
-        - "#339933"
-        - "#006633"
+        - "#a50026"
+        - "#d73027"
+        - "#f46d43"
+        - "#fdae61"
+        - "#fee08b"
+        - "#ffffbf"
+        - "#d9ef8b"
+        - "#a6d96a"
+        - "#66bd63"
+        - "#1a9850"
+        - "#006837"
 
   - id: HLSL30_2.0_ndti
-    media:
-      src: /images/dataset/hls_20241004_true_color.jpg
-      alt: HLS L30 and S30 NDTI
     type: cmr
     stacCol: HLSL30_2.0
     stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
-    tileApiEndpoint: "https://api.dev.veda.grss.cloud/titiler-cmr/WebMercatorQuad/tilejson.json"
+    tileApiEndpoint: "https://staging.openveda.cloud/api/titiler-cmr/WebMercatorQuad/tilejson.json"
     name: "HLS Landsat 8/9 NDTI"
     description: "Normalized Difference Turbidity Index from Landsat 8/9 bands B04, B03"
     time_density: day
@@ -167,29 +171,31 @@ layers:
       - 18
     sourceParams:
       concept_id: C2021957657-LPCLOUD
-      backend: rasterio
       bands_regex: B[0-9][0-9]
-      bands:
+      assets:
         - B04
         - B03
-      expression: (b1-b2)/(b1+b2)
+      expression: (B04-B03)/(B04+B03)
       minzoom: 7
       maxzoom: 18
-      rescale:
-        - -1
-        - 1
+      rescale: -1,1
       colormap_name: coolwarm
     legend:
-      type: text
+      type: gradient
+      min: "-1"
+      max: "1"
+      stops:
+        - "#3b4cc0"
+        - "#8db0fe"
+        - "#dddcdc"
+        - "#f2cbb7"
+        - "#b40426"
 
   - id: HLSL30_2.0_nsmi
-    media:
-      src: /images/dataset/hls_20241004_true_color.jpg
-      alt: HLS L30 and S30 NSMI
     type: cmr
     stacCol: HLSL30_2.0
     stacApiEndpoint: "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
-    tileApiEndpoint: "https://api.dev.veda.grss.cloud/titiler-cmr/WebMercatorQuad/tilejson.json"
+    tileApiEndpoint: "https://staging.openveda.cloud/api/titiler-cmr/WebMercatorQuad/tilejson.json"
     name: "HLS Landsat 8/9 NSMI"
     description: "Normalized Suspended Material Index from Landsat 8/9 bands B04, B03, B02"
     time_density: day
@@ -198,21 +204,26 @@ layers:
       - 18
     sourceParams:
       concept_id: C2021957657-LPCLOUD
-      backend: rasterio
       bands_regex: B[0-9][0-9]
-      bands:
+      assets:
         - B04
         - B03
         - B02
-      expression: (b1+b2-b3)/(b1+b2+b3)
+      expression: (B04+B03-B02)/(B04+B03+B02)
       minzoom: 7
       maxzoom: 18
-      rescale:
-        - -1
-        - 1
+      rescale: -1,1
       colormap_name: coolwarm
     legend:
-      type: text
+      type: gradient
+      min: "-1"
+      max: "1"
+      stops:
+        - "#3b4cc0"
+        - "#8db0fe"
+        - "#dddcdc"
+        - "#f2cbb7"
+        - "#b40426"
     
 ---
 
