@@ -20,6 +20,25 @@ const DeckglVectorTilesApp = dynamic(
   { ssr: false, loading: () => <p className='p-8 text-center'>Loading…</p> },
 ) as SingleAppComponent;
 
-export const SINGLE_APP_REGISTRY: Partial<Record<VizKey, SingleAppComponent>> = {
+const SINGLE_APP_REGISTRY: Partial<Record<VizKey, SingleAppComponent>> = {
   'deckgl-vector-tiles': DeckglVectorTilesApp,
 };
+
+/**
+ * Client-side dispatcher: takes a viz key and a resolved dataset, looks up the
+ * registered component, and renders it. Server components import this single
+ * client component instead of reaching into the registry directly — that
+ * keeps the React Server Components bundler happy (it can't trace component
+ * references that flow through a runtime object lookup from a server file).
+ */
+export function VizAppRenderer({
+  vizKey,
+  dataset,
+}: {
+  vizKey: VizKey;
+  dataset: DatasetWithViz;
+}) {
+  const Component = SINGLE_APP_REGISTRY[vizKey];
+  if (!Component) return null;
+  return <Component dataset={dataset} />;
+}

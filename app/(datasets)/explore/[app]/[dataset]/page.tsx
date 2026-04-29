@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import VizAppShell from 'app/viz-apps/shell';
 import { APPS_META } from 'app/viz-apps/apps-meta';
-import { SINGLE_APP_REGISTRY } from 'app/viz-apps/registry';
+import { VizAppRenderer } from 'app/viz-apps/registry';
 import {
   getDatasets,
   getTransformedDatasetMetadata,
@@ -24,15 +24,15 @@ export default function Page({ params }: PageProps) {
   const dataset = getDatasets().find((ds) => ds.metadata.id === params.dataset);
   if (!dataset) notFound();
 
-  const Component = SINGLE_APP_REGISTRY[meta.key];
-  if (!Component) notFound();
-
   const datasets: any[] = getTransformedDatasetMetadata();
 
   return (
     <section>
       <VizAppShell datasets={datasets}>
-        <Component dataset={dataset.metadata as DatasetWithViz} />
+        <VizAppRenderer
+          vizKey={meta.key}
+          dataset={dataset.metadata as DatasetWithViz}
+        />
       </VizAppShell>
     </section>
   );
