@@ -5,6 +5,7 @@ import { MVTLayer } from '@deck.gl/geo-layers';
 import {
   DeckglMaplibreCanvas,
   useTileJson,
+  type InitialViewState,
 } from 'app/viz-apps/shared/deckgl-maplibre';
 import { DatasetInfoPanel } from './dataset-info-panel';
 import type { VectorTilejsonLayer, DatasetWithViz } from 'app/types/viz-app';
@@ -29,7 +30,7 @@ function parseHexColor(hex?: string): [number, number, number] | undefined {
 
 interface LoaderProps {
   layer: VectorTilejsonLayer;
-  onResolved: (id: string, mvt: any, viewState: any) => void;
+  onResolved: (id: string, mvt: any, viewState: InitialViewState | undefined) => void;
   onError: (msg: string) => void;
 }
 
@@ -94,13 +95,13 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
   );
 
   const [resolvedLayers, setResolvedLayers] = useState<Record<string, any>>({});
-  const [firstViewState, setFirstViewState] = useState<any>(undefined);
+  const [firstViewState, setFirstViewState] = useState<InitialViewState | undefined>(undefined);
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
 
   const handleResolved = useCallback(
-    (id: string, mvt: any, viewState: any) => {
+    (id: string, mvt: any, viewState: InitialViewState | undefined) => {
       setResolvedLayers((prev) => ({ ...prev, [id]: mvt }));
-      setFirstViewState((prev: any) => prev ?? viewState);
+      setFirstViewState((prev) => prev ?? viewState);
     },
     [],
   );

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> **IMPORTANT — git policy for this repo:** The user manages git/commits manually. Do **not** run `git add`, `git commit`, `git push`, or `gh` commands. The "Stop for user commit" step at the end of each task means: pause and let the user commit (or not) before moving to the next task.
+> **Git policy for this branch (`feat/custom-viz-apps`):** Each task ends with a commit. Treat every "Stop for user commit" step as **"git commit the staged work for this task with a clean conventional-style message"** (e.g. `feat: add deckgl-vector-tiles app`). Do **not** add a `Co-Authored-By: Claude ...` trailer. Do **not** run `git push` or create PRs — the user handles remote operations.
 
 **Goal:** Make it possible to define a custom visualization app per dataset via the `.mdx` frontmatter, with the per-dataset "Explore" button automatically routing to the right app. Ship the first new app: a deck.gl + MapLibre vector-tile renderer, built on a reusable shared canvas so future apps have a starting point.
 

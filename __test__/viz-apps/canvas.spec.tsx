@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 const addControlMock = vi.fn();
 const removeMock = vi.fn();
 const onLoadMock = vi.fn();
+const jumpToMock = vi.fn();
 
 // Mock maplibre-gl Map.
 vi.mock('maplibre-gl', () => {
@@ -15,6 +16,7 @@ vi.mock('maplibre-gl', () => {
       if (evt === 'load') onLoadMock(cb);
     };
     remove = removeMock;
+    jumpTo = jumpToMock;
   }
   return { default: { Map: MockMap }, Map: MockMap };
 });
@@ -42,6 +44,7 @@ describe('DeckglMaplibreCanvas', () => {
     addControlMock.mockClear();
     removeMock.mockClear();
     onLoadMock.mockClear();
+    jumpToMock.mockClear();
     setPropsMock.mockClear();
     overlayCtorMock.mockClear();
   });
@@ -87,5 +90,41 @@ describe('DeckglMaplibreCanvas', () => {
     expect(setPropsMock).toHaveBeenCalledWith(
       expect.objectContaining({ layers: [{ id: 'b' }] }),
     );
+  });
+
+  test('jumps to the initialViewState when it arrives after mount', () => {
+    const { rerender } = render(<DeckglMaplibreCanvas layers={[]} />);
+    expect(jumpToMock).not.toHaveBeenCalled();
+
+    rerender(
+      <DeckglMaplibreCanvas
+        layers={[]}
+        initialViewState={{ longitude: 5, latitude: -3, zoom: 7 }}
+      />,
+    );
+    expect(jumpToMock).toHaveBeenCalledWith({
+      center: [5, -3],
+      zoom: 7,
+    });
+
+    // Subsequent changes should not re-jump (would clobber user pan/zoom).
+    jumpToMock.mockClear();
+    rerender(
+      <DeckglMaplibreCanvas
+        layers={[]}
+        initialViewState={{ longitude: 10, latitude: 10, zoom: 10 }}
+      />,
+    );
+    expect(jumpToMock).not.toHaveBeenCalled();
+  });
+
+  test('does not jump when the canvas mounts already with a non-default view', () => {
+    render(
+      <DeckglMaplibreCanvas
+        layers={[]}
+        initialViewState={{ longitude: 5, latitude: 5, zoom: 5 }}
+      />,
+    );
+    expect(jumpToMock).not.toHaveBeenCalled();
   });
 });

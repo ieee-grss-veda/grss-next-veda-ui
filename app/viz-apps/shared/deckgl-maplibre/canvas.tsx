@@ -37,6 +37,11 @@ export function DeckglMaplibreCanvas({
   const mapRef = useRef<MapLibreMap | null>(null);
   const overlayRef = useRef<MapboxOverlay | null>(null);
 
+  // Track whether we've already applied an explicit initial view, so a later
+  // resolution (e.g. TileJSON bounds arriving after mount) can still reframe
+  // the map exactly once without clobbering user pan/zoom thereafter.
+  const initialViewAppliedRef = useRef(false);
+
   // Mount MapLibre + deck.gl overlay once.
   useEffect(() => {
     if (!containerRef.current) return;
@@ -48,6 +53,7 @@ export function DeckglMaplibreCanvas({
       zoom: initialViewState.zoom,
     });
     mapRef.current = map;
+    initialViewAppliedRef.current = initialViewState !== DEFAULT_VIEW;
 
     const overlay = new MapboxOverlay({ interleaved: true, layers });
     overlayRef.current = overlay;
@@ -56,12 +62,27 @@ export function DeckglMaplibreCanvas({
     return () => {
       overlayRef.current = null;
       mapRef.current = null;
+      initialViewAppliedRef.current = false;
       map.remove();
     };
-    // The basemap and view state are intentionally only honored on first mount.
-    // Apps that need to swap them runtime-style can remount the component.
+    // The basemap is intentionally only honored on first mount.
+    // The initialViewState's "first real value" is applied via the next effect
+    // because it commonly arrives async (e.g. after a TileJSON fetch).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Apply the first non-default initialViewState that arrives after mount.
+  useEffect(() => {
+    if (initialViewAppliedRef.current) return;
+    if (initialViewState === DEFAULT_VIEW) return;
+    const map = mapRef.current;
+    if (!map) return;
+    map.jumpTo({
+      center: [initialViewState.longitude, initialViewState.latitude],
+      zoom: initialViewState.zoom,
+    });
+    initialViewAppliedRef.current = true;
+  }, [initialViewState]);
 
   // Push new layers into the overlay whenever they change.
   useEffect(() => {

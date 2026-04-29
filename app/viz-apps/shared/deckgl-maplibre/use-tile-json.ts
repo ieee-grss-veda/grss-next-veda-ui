@@ -50,11 +50,12 @@ export function useTileJson(url: string): UseTileJsonResult {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
     setState({ loading: true });
 
     (async () => {
       try {
-        const res = await fetch(url);
+        const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) {
           throw new Error(`TileJSON request failed (${res.status})`);
         }
@@ -66,6 +67,8 @@ export function useTileJson(url: string): UseTileJsonResult {
         setState({ loading: false, data, initialViewState });
       } catch (err) {
         if (cancelled) return;
+        // Aborts are expected on unmount/url-change; don't surface as errors.
+        if (err instanceof DOMException && err.name === 'AbortError') return;
         setState({
           loading: false,
           error: err instanceof Error ? err.message : String(err),
@@ -75,6 +78,7 @@ export function useTileJson(url: string): UseTileJsonResult {
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [url]);
 

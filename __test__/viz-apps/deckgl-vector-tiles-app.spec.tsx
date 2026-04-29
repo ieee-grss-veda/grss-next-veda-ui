@@ -19,6 +19,7 @@ vi.mock('maplibre-gl', () => {
     addControl = vi.fn();
     on = vi.fn();
     remove = vi.fn();
+    jumpTo = vi.fn();
   }
   return { default: { Map: MockMap }, Map: MockMap };
 });
