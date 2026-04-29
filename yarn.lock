@@ -418,6 +418,16 @@
   dependencies:
     "@math.gl/web-mercator" "^4.1.0"
 
+"@deck.gl/mesh-layers@^9.3.1":
+  version "9.3.1"
+  resolved "https://registry.yarnpkg.com/@deck.gl/mesh-layers/-/mesh-layers-9.3.1.tgz#95f3912f31e7cbe9089ca789bcf1fecefaf4f040"
+  integrity sha512-SvLviM1bYcdFZiX2OZ4Hf0zC44brm1gLbP3j92w/Vt+Mp5O0UHGuzKNPA4kdyL1wAuRfKXXfoJZzVg1/YNbT4g==
+  dependencies:
+    "@loaders.gl/gltf" "^4.4.1"
+    "@loaders.gl/schema" "^4.4.1"
+    "@luma.gl/gltf" "^9.3.2"
+    "@luma.gl/shadertools" "^9.3.2"
+
 "@devseed-ui/accordion@4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@devseed-ui/accordion/-/accordion-4.1.0.tgz#622483e69e553a4f1e8d4a8c44f61ad4cfa1395b"
@@ -1142,7 +1152,7 @@
     "@math.gl/polygon" "^4.1.0"
     pbf "^3.2.1"
 
-"@loaders.gl/gltf@4.4.1", "@loaders.gl/gltf@~4.4.0":
+"@loaders.gl/gltf@4.4.1", "@loaders.gl/gltf@^4.4.1", "@loaders.gl/gltf@~4.4.0":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@loaders.gl/gltf/-/gltf-4.4.1.tgz#c9e6cadfd1ba4a57cdff6e76393c8e30788d209e"
   integrity sha512-9ESHEm3YoMgsQh8QS1N99uwA+cij6p6xhCmZnHX4rQnqHm0jvE5RAHlGV1D/Xjvr4PR8IiXaBn/QDl/qdGIxkw==
