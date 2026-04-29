@@ -1,0 +1,91 @@
+import React from 'react';
+import { describe, expect, test, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+
+const addControlMock = vi.fn();
+const removeMock = vi.fn();
+const onLoadMock = vi.fn();
+
+// Mock maplibre-gl Map.
+vi.mock('maplibre-gl', () => {
+  class MockMap {
+    constructor(public opts: any) {}
+    addControl = addControlMock;
+    on = (evt: string, cb: () => void) => {
+      if (evt === 'load') onLoadMock(cb);
+    };
+    remove = removeMock;
+  }
+  return { default: { Map: MockMap }, Map: MockMap };
+});
+
+const setPropsMock = vi.fn();
+const overlayCtorMock = vi.fn();
+
+// Mock @deck.gl/mapbox MapboxOverlay.
+vi.mock('@deck.gl/mapbox', () => {
+  class MockOverlay {
+    constructor(opts: any) {
+      overlayCtorMock(opts);
+    }
+    setProps = setPropsMock;
+    onAdd() {}
+    onRemove() {}
+  }
+  return { MapboxOverlay: MockOverlay };
+});
+
+import { DeckglMaplibreCanvas } from '../../app/viz-apps/shared/deckgl-maplibre/canvas';
+
+describe('DeckglMaplibreCanvas', () => {
+  beforeEach(() => {
+    addControlMock.mockClear();
+    removeMock.mockClear();
+    onLoadMock.mockClear();
+    setPropsMock.mockClear();
+    overlayCtorMock.mockClear();
+  });
+
+  test('mounts MapLibre and attaches a MapboxOverlay with the given layers', () => {
+    const fakeLayers = [{ id: 'layer-a' } as any, { id: 'layer-b' } as any];
+    render(<DeckglMaplibreCanvas layers={fakeLayers} />);
+    expect(overlayCtorMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        interleaved: true,
+        layers: fakeLayers,
+      }),
+    );
+    expect(addControlMock).toHaveBeenCalled();
+  });
+
+  test('renders overlayChildren inside the canvas container', () => {
+    render(
+      <DeckglMaplibreCanvas
+        layers={[]}
+        overlayChildren={<div data-testid='overlay'>Hello</div>}
+      />,
+    );
+    // getByTestId throws if not found, so reaching this line is the assertion.
+    expect(screen.getByTestId('overlay').textContent).toBe('Hello');
+  });
+
+  test('renders an inline error message when status.error is set', () => {
+    render(
+      <DeckglMaplibreCanvas
+        layers={[]}
+        status={{ error: "Couldn't load tiles" }}
+      />,
+    );
+    expect(screen.getByText(/Couldn't load tiles/).textContent).toMatch(
+      /Couldn't load tiles/,
+    );
+  });
+
+  test('updates overlay layers when the layers prop changes', () => {
+    const { rerender } = render(<DeckglMaplibreCanvas layers={[{ id: 'a' } as any]} />);
+    rerender(<DeckglMaplibreCanvas layers={[{ id: 'b' } as any]} />);
+    expect(setPropsMock).toHaveBeenCalledWith(
+      expect.objectContaining({ layers: [{ id: 'b' }] }),
+    );
+  });
+});
