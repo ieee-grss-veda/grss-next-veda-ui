@@ -76,6 +76,10 @@ function VectorTilejsonLayerLoader({ layer, onResolved, onError }: LoaderProps) 
       ],
       getLineColor: lineColor,
       getLineWidth: lineWidth,
+      // Interpret stroke width in pixels (default is meters, which goes
+      // sub-pixel at low zooms). Floor at 1 px so outlines stay visible.
+      lineWidthUnits: 'pixels',
+      lineWidthMinPixels: 1,
       pickable: false,
     } as any);
 
