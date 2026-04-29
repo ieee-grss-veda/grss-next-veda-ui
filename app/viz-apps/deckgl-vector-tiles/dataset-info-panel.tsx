@@ -12,7 +12,7 @@ export function DatasetInfoPanel({ name, description }: DatasetInfoPanelProps) {
     <div
       style={{
         position: 'absolute',
-        bottom: 12,
+        bottom: 60,
         left: 12,
         maxWidth: 360,
         padding: '12px 14px',
