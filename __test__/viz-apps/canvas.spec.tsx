@@ -1,11 +1,19 @@
 import React from 'react';
 import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 
 const addControlMock = vi.fn();
 const removeMock = vi.fn();
 const onLoadMock = vi.fn();
 const jumpToMock = vi.fn();
+
+// Captured load callback + a fake style returned by getStyle().
+// Tests can call `fireMapLoad()` after mount to simulate the basemap loading.
+let capturedLoadCb: (() => void) | undefined;
+let mockStyle: { layers: Array<{ id: string; type: string }> } = { layers: [] };
+function fireMapLoad() {
+  capturedLoadCb?.();
+}
 
 // Mock maplibre-gl Map.
 vi.mock('maplibre-gl', () => {
@@ -13,10 +21,14 @@ vi.mock('maplibre-gl', () => {
     constructor(public opts: any) {}
     addControl = addControlMock;
     on = (evt: string, cb: () => void) => {
-      if (evt === 'load') onLoadMock(cb);
+      if (evt === 'load') {
+        onLoadMock(cb);
+        capturedLoadCb = cb;
+      }
     };
     remove = removeMock;
     jumpTo = jumpToMock;
+    getStyle = () => mockStyle;
   }
   return { default: { Map: MockMap }, Map: MockMap };
 });
@@ -47,6 +59,8 @@ describe('DeckglMaplibreCanvas', () => {
     jumpToMock.mockClear();
     setPropsMock.mockClear();
     overlayCtorMock.mockClear();
+    capturedLoadCb = undefined;
+    mockStyle = { layers: [] };
   });
 
   test('mounts MapLibre and attaches a MapboxOverlay with the given layers', () => {
@@ -126,5 +140,61 @@ describe('DeckglMaplibreCanvas', () => {
       />,
     );
     expect(jumpToMock).not.toHaveBeenCalled();
+  });
+
+  test('after the basemap loads, layers are cloned with beforeId pointing at the first symbol layer', () => {
+    mockStyle = {
+      layers: [
+        { id: 'background', type: 'background' },
+        { id: 'water', type: 'fill' },
+        { id: 'place_labels', type: 'symbol' },
+        { id: 'road_labels', type: 'symbol' },
+      ],
+    };
+
+    const cloneMock = vi.fn((newProps: any) => ({ id: 'cloned', ...newProps }));
+    const fakeLayer = { id: 'orig', clone: cloneMock };
+
+    render(<DeckglMaplibreCanvas layers={[fakeLayer as any]} />);
+
+    // Before load fires, layers go in as-is.
+    expect(setPropsMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({ layers: [fakeLayer] }),
+    );
+    expect(cloneMock).not.toHaveBeenCalled();
+
+    // Simulate basemap finishing loading.
+    act(() => {
+      fireMapLoad();
+    });
+
+    expect(cloneMock).toHaveBeenCalledWith({ beforeId: 'place_labels' });
+    expect(setPropsMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        layers: [expect.objectContaining({ beforeId: 'place_labels' })],
+      }),
+    );
+  });
+
+  test('leaves layers untouched if the basemap has no symbol layers', () => {
+    mockStyle = {
+      layers: [
+        { id: 'background', type: 'background' },
+        { id: 'water', type: 'fill' },
+      ],
+    };
+
+    const cloneMock = vi.fn();
+    const fakeLayer = { id: 'orig', clone: cloneMock };
+
+    render(<DeckglMaplibreCanvas layers={[fakeLayer as any]} />);
+    act(() => {
+      fireMapLoad();
+    });
+
+    expect(cloneMock).not.toHaveBeenCalled();
+    expect(setPropsMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({ layers: [fakeLayer] }),
+    );
   });
 });

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import maplibregl, { Map as MapLibreMap, StyleSpecification } from 'maplibre-gl';
 import { MapboxOverlay } from '@deck.gl/mapbox';
 import type { Layer } from '@deck.gl/core';
@@ -42,6 +42,13 @@ export function DeckglMaplibreCanvas({
   // the map exactly once without clobbering user pan/zoom thereafter.
   const initialViewAppliedRef = useRef(false);
 
+  // Once the basemap style has loaded, this holds the id of the first symbol
+  // (label) layer so deck.gl content can be inserted *below* labels via
+  // `beforeId`. Stays undefined if the basemap has no symbol layers.
+  const [labelsBeforeId, setLabelsBeforeId] = useState<string | undefined>(
+    undefined,
+  );
+
   // Mount MapLibre + deck.gl overlay once.
   useEffect(() => {
     if (!containerRef.current) return;
@@ -58,6 +65,16 @@ export function DeckglMaplibreCanvas({
     const overlay = new MapboxOverlay({ interleaved: true, layers });
     overlayRef.current = overlay;
     map.addControl(overlay as any);
+
+    // Once the style is ready, find the first symbol layer so deck.gl content
+    // can be inserted under labels (place names, road labels, etc.).
+    map.on('load', () => {
+      const style = map.getStyle();
+      const firstSymbol = style?.layers?.find(
+        (l: any) => l.type === 'symbol',
+      ) as { id: string } | undefined;
+      if (firstSymbol) setLabelsBeforeId(firstSymbol.id);
+    });
 
     return () => {
       overlayRef.current = null;
@@ -84,10 +101,20 @@ export function DeckglMaplibreCanvas({
     initialViewAppliedRef.current = true;
   }, [initialViewState]);
 
-  // Push new layers into the overlay whenever they change.
+  // Push new layers into the overlay whenever they (or the resolved labels
+  // anchor) change. When `labelsBeforeId` is set, clone each layer with that
+  // `beforeId` so MapLibre keeps labels rendered above the deck.gl content.
   useEffect(() => {
-    overlayRef.current?.setProps({ layers });
-  }, [layers]);
+    if (!overlayRef.current) return;
+    const finalLayers = labelsBeforeId
+      ? layers.map((l) =>
+          typeof (l as any)?.clone === 'function'
+            ? (l as any).clone({ beforeId: labelsBeforeId })
+            : l,
+        )
+      : layers;
+    overlayRef.current.setProps({ layers: finalLayers });
+  }, [layers, labelsBeforeId]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
