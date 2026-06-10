@@ -1417,6 +1417,19 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   color: var(--muted-foreground);
 }
 
+/* Legend title overlap fix (both themes). veda-ui sizes the title with a fluid
+   font-size — calc(0.75rem + var(--base-text-increment)) — but pairs it with a
+   near-fixed line-height (~1rem). At large breakpoints the theme's text
+   increment grows the font past that line box, so a wrapped two-line title
+   collides with itself and crowds the gradient below. A proportional
+   line-height and capped size keep it readable and contained. Scoped via
+   LayerLegendSelf so specificity (0,2,0) beats veda's own rule regardless of
+   whether the legend is portaled outside #veda-ui-root. */
+[class*='layer-legend__LayerLegendSelf'] [class*='layer-legend__LayerLegendTitle'] {
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
 /* Hide the red accent line under Browse */
 #veda-ui-root [class*='fold__FoldHeadline']::after,
 #veda-ui-root [class*='FoldHeadline']::after {
