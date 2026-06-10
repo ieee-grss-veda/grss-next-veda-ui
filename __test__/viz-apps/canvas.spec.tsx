@@ -142,7 +142,7 @@ describe('DeckglMaplibreCanvas', () => {
     expect(jumpToMock).not.toHaveBeenCalled();
   });
 
-  test('after the basemap loads, layers are cloned with beforeId pointing at the first symbol layer', () => {
+  test('after the basemap loads, layers are cloned with beforeId pointing at the first trailing symbol layer', () => {
     mockStyle = {
       layers: [
         { id: 'background', type: 'background' },
@@ -174,6 +174,36 @@ describe('DeckglMaplibreCanvas', () => {
         layers: [expect.objectContaining({ beforeId: 'place_labels' })],
       }),
     );
+  });
+
+  test('picks the trailing-band symbol, skipping early symbols followed by more fills (Carto positron case)', () => {
+    // Mirrors Carto positron: an early `waterway_label` symbol exists BEFORE
+    // building fills. Picking that would push deck.gl under the buildings;
+    // the correct beforeId is the first symbol of the trailing label band.
+    mockStyle = {
+      layers: [
+        { id: 'background', type: 'background' },
+        { id: 'water', type: 'fill' },
+        { id: 'waterway_label', type: 'symbol' },
+        { id: 'roads', type: 'line' },
+        { id: 'building', type: 'fill' },
+        { id: 'building-top', type: 'fill' },
+        { id: 'place_city', type: 'symbol' },
+        { id: 'roadname_pri', type: 'symbol' },
+      ],
+    };
+
+    const cloneMock = vi.fn((newProps: any) => ({ id: 'cloned', ...newProps }));
+    const fakeLayer = { id: 'orig', clone: cloneMock };
+
+    render(<DeckglMaplibreCanvas layers={[fakeLayer as any]} />);
+    act(() => {
+      fireMapLoad();
+    });
+
+    // Must skip waterway_label (more fills follow it) and land on place_city.
+    expect(cloneMock).toHaveBeenCalledWith({ beforeId: 'place_city' });
+    expect(cloneMock).not.toHaveBeenCalledWith({ beforeId: 'waterway_label' });
   });
 
   test('leaves layers untouched if the basemap has no symbol layers', () => {

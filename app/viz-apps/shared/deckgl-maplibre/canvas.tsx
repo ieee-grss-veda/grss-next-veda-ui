@@ -66,14 +66,29 @@ export function DeckglMaplibreCanvas({
     overlayRef.current = overlay;
     map.addControl(overlay as any);
 
-    // Once the style is ready, find the first symbol layer so deck.gl content
-    // can be inserted under labels (place names, road labels, etc.).
+    // Once the style is ready, pick a beforeId so deck.gl renders ABOVE all
+    // basemap polygons/lines (water, roads, buildings) but BELOW all labels.
+    // Naively using "first symbol layer" misfires on styles like Carto
+    // positron where an early `waterway_label` symbol comes BEFORE the
+    // building fills — picking it would push deck.gl under the buildings.
+    // Instead: find the first symbol layer with no non-symbol layers after
+    // it, i.e. the start of the contiguous trailing label band.
     map.on('load', () => {
-      const style = map.getStyle();
-      const firstSymbol = style?.layers?.find(
-        (l: any) => l.type === 'symbol',
-      ) as { id: string } | undefined;
-      if (firstSymbol) setLabelsBeforeId(firstSymbol.id);
+      const styleLayers = (map.getStyle()?.layers ?? []) as Array<{
+        id: string;
+        type: string;
+      }>;
+      let lastNonSymbolIdx = -1;
+      for (let i = styleLayers.length - 1; i >= 0; i--) {
+        if (styleLayers[i].type !== 'symbol') {
+          lastNonSymbolIdx = i;
+          break;
+        }
+      }
+      const firstTrailingSymbol = styleLayers
+        .slice(lastNonSymbolIdx + 1)
+        .find((l) => l.type === 'symbol');
+      if (firstTrailingSymbol) setLabelsBeforeId(firstTrailingSymbol.id);
     });
 
     return () => {
