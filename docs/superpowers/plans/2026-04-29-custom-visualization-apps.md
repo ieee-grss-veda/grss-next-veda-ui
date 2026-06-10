@@ -1669,3 +1669,57 @@ Stop the dev server.
 - **Placeholder scan:** No "TBD"/"TODO"/"similar to Task N" steps. Every code step has the actual code.
 - **Type consistency:** `VizKey`, `AppMeta`, `DatasetWithViz`, `VectorTilejsonLayer` defined once in Task 2 and consumed without renames in later tasks. `useTileJson` shape (`data`/`loading`/`error`/`initialViewState`) consistent between Tasks 7, 8, and 10. Canvas prop names (`layers`, `initialViewState`, `status`, `overlayChildren`) consistent between Tasks 8 and 10.
 - **One open assumption** (lenient unknown `viz`) is implemented as the spec specifies and is exercised by both the dispatch unit test (Task 3) and the manual smoke test (Task 13).
+
+---
+
+## Implementation deltas (post-merge)
+
+This section records what changed between the plan as written and what was actually shipped. The plan above is preserved verbatim for historical reference; the items below are the additions, fixes, and discoveries layered on top during and after execution. The **spec** (`docs/superpowers/specs/2026-04-29-custom-visualization-apps-design.md`) has been updated to match the shipped architecture — read it for current truth. For a hands-on guide to building a new viz app on this system, see `docs/ADDING_A_VIZ_APP.md`.
+
+### Architecture changes
+
+- **`VizAppRenderer` client wrapper (Task 11 + Task 12).** The plan had the `/explore/[app]/[dataset]` server component look up `SINGLE_APP_REGISTRY[meta.key]` and render the looked-up component directly. This fails at runtime — the React Server Components bundler can't trace client components flowing through a runtime object lookup from a server file ("Could not find the module in the React Client Manifest"). The fix: wrap the lookup in a small `VizAppRenderer` client component that takes `vizKey` + `dataset` and does the lookup itself. Server components import only `VizAppRenderer`. The two-file split (`apps-meta.ts` server-safe + `registry.tsx` client) is load-bearing for this reason.
+
+- **`packageManager` field on `package.json` (post-Task 1).** Corepack on Node 20+ defaults to yarn 4, which regenerated `yarn.lock` in yarn-4 format and installed via Plug'n'Play (`.pnp.cjs`, `.yarn/`) instead of populating `node_modules`, breaking `next dev`. Pinning `"packageManager": "yarn@1.22.22"` makes corepack use yarn 1 automatically and prevents this from happening on fresh setups.
+
+- **`@deck.gl/mesh-layers` and `@deck.gl/extensions` added as direct deps (post-Task 1).** Both are transitive peers of `@deck.gl/geo-layers` (used by `Tile3DLayer` and other layers imported by `@deck.gl/geo-layers/dist/index.js`). yarn doesn't auto-install peer deps; `next dev` failed with `Module not found: Can't resolve '@deck.gl/mesh-layers'` and similar until both were added.
+
+### Behavior changes inside the shared canvas
+
+- **Async `initialViewState` honored after mount (Task 8 fix).** The plan's canvas had a `[]`-deps mount effect that captured `initialViewState` once. When apps derive view state from an async fetch (e.g. `useTileJson`'s `bounds`-derived view), it arrives *after* mount — the canvas was stranding non-global datasets at world view. A second effect now calls `map.jumpTo(...)` exactly once when `initialViewState` transitions from the default to a real value, then locks (so user pan/zoom is preserved on subsequent prop changes).
+
+- **`AbortController` in `useTileJson` (Task 7 improvement).** The plan used only a `cancelled` boolean to ignore late results. The fetch continued and the response body was fully read regardless. Now the effect creates an `AbortController`, passes its signal to `fetch`, and `abort()`s in the cleanup. `AbortError`s are silenced (expected on unmount/url-change, not user-facing errors).
+
+- **Labels-above behavior (added post-Task 8).** The shared canvas now finds a `beforeId` so deck.gl content renders *below* MapLibre labels by default. The naive "first symbol layer" heuristic was added first, then replaced with "first symbol layer with no non-symbol layers after it" — Carto positron's early `waterway_label` symbol comes before its building fills, so picking it pushed deck.gl content under the basemap buildings. The new heuristic finds the start of the trailing label band, putting deck.gl above all basemap polygons/lines but below all labels.
+
+### Behavior changes inside the example app (`deckgl-vector-tiles`)
+
+- **`lineWidthUnits: 'pixels'` + `lineWidthMinPixels: 1`.** deck.gl's `MVTLayer` defaults `getLineWidth` to meters, which goes sub-pixel at low zooms and makes outlines invisible. Switched to pixel units with a 1-pixel floor.
+
+- **`DatasetInfoPanel` redesigned to include per-layer switches.** The plan had it as a static name/description card. It now also renders a Radix Switch per `vector-tilejson` layer, with a colored swatch matching the layer's `paint.fillColor` as a mini legend. Visibility state is keyed by layer id; toggling filters the resolved `MVTLayer` out of the canvas's layers array without rebuilding it (instant re-enable).
+
+- **`VectorTilejsonLayerLoader` callbacks stabilized with `useRef`.** The plan had `useCallback`-returning-closure callbacks. Calling `handleResolved(l.id)` in render produced a new function each render, which the loader's build effect depended on, causing an infinite re-render loop. The loader now captures `onResolved`/`onError` in refs so callback identity changes don't retrigger the build effect.
+
+- **`useMemo<VectorTilejsonLayer[]>` cast.** Type-narrowing through `Array.prototype.filter(isVectorTilejsonLayer)` doesn't survive the union with veda-ui's `DatasetLayer` in `DatasetWithViz['layers']`. A cast at the boundary is the pragmatic escape hatch.
+
+### Extra UI surface beyond the plan
+
+- **Explore button on the catalog detail page.** The plan said `app/(datasets)/data-catalog/*` would be untouched. It isn't anymore: the detail page now renders an Explore button inside the hero's `renderDetailsBlock` slot. The button's `href` is computed server-side via `resolveVizTarget` (deep-links to `/explore/<viz>/<id>` for registered single-dataset apps; falls back to `/exploration?search=<id>` otherwise). `DatasetHero` accepts an `exploreHref` prop and renders the button absolutely-positioned in the bottom-right.
+
+- **Sample MDX dataset (`ms-buildings.mdx`).** Created during Task 13 as the smoke-test target. Lives in `app/content/datasets/` as a real (not throwaway) dataset.
+
+### Testing-related discoveries
+
+- **`@testing-library/jest-dom` is not set up.** Plan-spec tests used `.toBeInTheDocument()` which isn't available. Replaced with `screen.getByText(...)` (throw-on-miss is the assertion) or `.textContent` matchers.
+- **`act` import.** Use `act` from `@testing-library/react`, not from `react`. The latter is undefined here.
+- **Mocked `maplibre-gl` Map must include `jumpTo`, `getStyle`, and capture the `load` callback** for tests that exercise async view state or labels-above behavior.
+
+### Yarn 1 / corepack note for future commands
+
+For day-to-day work, bypass corepack-hijacked `yarn` by calling tools directly:
+- `npx vitest run` instead of `yarn test`
+- `npx tsc --noEmit` instead of `yarn ts-check`
+- `npx next dev` / `npx next lint` / `npx next build`
+- `npx yarn@1.22.22 add <pkg>` for new deps
+
+With `"packageManager": "yarn@1.22.22"` in `package.json`, plain `yarn` should also work on fresh setups (corepack honors the pin) — but this only got added during implementation, and existing dev environments may still be on corepack/yarn 4. The bypass commands work regardless.
