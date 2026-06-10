@@ -144,7 +144,12 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
   );
 
   const toggleItems = useMemo(
-    () => vectorLayers.map((l) => ({ id: l.id, label: l.name ?? l.id })),
+    () =>
+      vectorLayers.map((l) => ({
+        id: l.id,
+        label: l.name ?? l.id,
+        color: l.paint?.fillColor,
+      })),
     [vectorLayers],
   );
 

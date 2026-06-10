@@ -6,6 +6,8 @@ import { Switch } from 'app/components/ui/switch';
 export interface LayerToggleItem {
   id: string;
   label: string;
+  /** Hex color (e.g. "#ff7e29") rendered as a small legend swatch. */
+  color?: string;
 }
 
 interface DatasetInfoPanelProps {
@@ -68,8 +70,28 @@ export function DatasetInfoPanel({
               >
                 <label
                   htmlFor={`viz-toggle-${l.id}`}
-                  style={{ fontSize: 12, cursor: 'pointer' }}
+                  style={{
+                    fontSize: 12,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                  }}
                 >
+                  {l.color ? (
+                    <span
+                      aria-hidden='true'
+                      style={{
+                        display: 'inline-block',
+                        width: 12,
+                        height: 12,
+                        background: l.color,
+                        border: '1px solid rgba(0,0,0,0.2)',
+                        borderRadius: 2,
+                        flex: '0 0 auto',
+                      }}
+                    />
+                  ) : null}
                   {l.label}
                 </label>
                 <Switch
