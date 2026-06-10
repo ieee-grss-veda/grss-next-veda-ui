@@ -257,7 +257,7 @@ html.dark .logo-light {
   display: none;
 }
 html.dark .logo-dark {
-  display: block;
+  display: flex;
 }
 
 /* ===== Osano cookie banner theme overrides =====
