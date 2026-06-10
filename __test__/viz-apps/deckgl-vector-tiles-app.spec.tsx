@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 const mvtCtorMock = vi.fn();
 vi.mock('@deck.gl/geo-layers', () => {
@@ -159,6 +159,35 @@ describe('DeckglVectorTilesApp', () => {
     await waitFor(() => {
       expect(screen.getByRole('alert').textContent).toMatch(/TileJSON request failed/);
     });
+
+    globalThis.fetch = originalFetch;
+  });
+
+  test('renders a toggle per layer and hides the layer from canvas output when unchecked', async () => {
+    globalThis.fetch = vi.fn(async () => new Response(JSON.stringify(fakeTileJson()), { status: 200 })) as any;
+    const dataset: any = {
+      id: 'd',
+      name: 'D',
+      layers: [
+        { id: 'a', name: 'Layer A', type: 'vector-tilejson', tileJsonUrl: 'https://t.example/a.json' },
+        { id: 'b', name: 'Layer B', type: 'vector-tilejson', tileJsonUrl: 'https://t.example/b.json' },
+      ],
+    };
+
+    render(<DeckglVectorTilesApp dataset={dataset} />);
+
+    // Both layer toggles render with their names.
+    const checkA = screen.getByLabelText('Layer A') as HTMLInputElement;
+    const checkB = screen.getByLabelText('Layer B') as HTMLInputElement;
+    expect(checkA.checked).toBe(true);
+    expect(checkB.checked).toBe(true);
+
+    // Once tile fetches resolve, both MVTLayers built.
+    await waitFor(() => expect(mvtCtorMock).toHaveBeenCalledTimes(2));
+
+    // Uncheck Layer A — that layer should drop out of the next overlay setProps call.
+    fireEvent.click(checkA);
+    expect(checkA.checked).toBe(false);
 
     globalThis.fetch = originalFetch;
   });

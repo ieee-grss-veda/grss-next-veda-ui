@@ -8,6 +8,7 @@ import {
   type InitialViewState,
 } from 'app/viz-apps/shared/deckgl-maplibre';
 import { DatasetInfoPanel } from './dataset-info-panel';
+import { LayerTogglesPanel } from './layer-toggles-panel';
 import type { VectorTilejsonLayer, DatasetWithViz } from 'app/types/viz-app';
 
 interface DeckglVectorTilesAppProps {
@@ -101,6 +102,22 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
   const [resolvedLayers, setResolvedLayers] = useState<Record<string, any>>({});
   const [firstViewState, setFirstViewState] = useState<InitialViewState | undefined>(undefined);
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
+  const [visibility, setVisibility] = useState<Record<string, boolean>>({});
+
+  // Initialize visibility=true for each new layer (preserve user-toggled state).
+  useEffect(() => {
+    setVisibility((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      vectorLayers.forEach((l) => {
+        if (next[l.id] === undefined) {
+          next[l.id] = true;
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
+    });
+  }, [vectorLayers]);
 
   const handleResolved = useCallback(
     (id: string, mvt: any, viewState: InitialViewState | undefined) => {
@@ -114,9 +131,22 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
     setErrorMsg((prev) => prev ?? msg);
   }, []);
 
+  const handleToggle = useCallback((id: string, next: boolean) => {
+    setVisibility((prev) => ({ ...prev, [id]: next }));
+  }, []);
+
   const layersArray = useMemo(
-    () => vectorLayers.map((l) => resolvedLayers[l.id]).filter(Boolean),
-    [vectorLayers, resolvedLayers],
+    () =>
+      vectorLayers
+        .filter((l) => visibility[l.id] !== false)
+        .map((l) => resolvedLayers[l.id])
+        .filter(Boolean),
+    [vectorLayers, resolvedLayers, visibility],
+  );
+
+  const toggleItems = useMemo(
+    () => vectorLayers.map((l) => ({ id: l.id, label: l.name ?? l.id })),
+    [vectorLayers],
   );
 
   return (
@@ -134,10 +164,17 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
         initialViewState={firstViewState}
         status={{ error: errorMsg }}
         overlayChildren={
-          <DatasetInfoPanel
-            name={dataset.name}
-            description={dataset.description}
-          />
+          <>
+            <DatasetInfoPanel
+              name={dataset.name}
+              description={dataset.description}
+            />
+            <LayerTogglesPanel
+              layers={toggleItems}
+              visibility={visibility}
+              onToggle={handleToggle}
+            />
+          </>
         }
       />
     </>
