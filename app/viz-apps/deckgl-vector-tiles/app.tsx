@@ -8,7 +8,6 @@ import {
   type InitialViewState,
 } from 'app/viz-apps/shared/deckgl-maplibre';
 import { DatasetInfoPanel } from './dataset-info-panel';
-import { LayerTogglesPanel } from './layer-toggles-panel';
 import type { VectorTilejsonLayer, DatasetWithViz } from 'app/types/viz-app';
 
 interface DeckglVectorTilesAppProps {
@@ -164,17 +163,13 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
         initialViewState={firstViewState}
         status={{ error: errorMsg }}
         overlayChildren={
-          <>
-            <DatasetInfoPanel
-              name={dataset.name}
-              description={dataset.description}
-            />
-            <LayerTogglesPanel
-              layers={toggleItems}
-              visibility={visibility}
-              onToggle={handleToggle}
-            />
-          </>
+          <DatasetInfoPanel
+            name={dataset.name}
+            description={dataset.description}
+            layers={toggleItems}
+            visibility={visibility}
+            onToggle={handleToggle}
+          />
         }
       />
     </>

@@ -1,13 +1,30 @@
 'use client';
 
 import React from 'react';
+import { Switch } from 'app/components/ui/switch';
+
+export interface LayerToggleItem {
+  id: string;
+  label: string;
+}
 
 interface DatasetInfoPanelProps {
   name: string;
   description?: string;
+  layers?: LayerToggleItem[];
+  visibility?: Record<string, boolean>;
+  onToggle?: (id: string, next: boolean) => void;
 }
 
-export function DatasetInfoPanel({ name, description }: DatasetInfoPanelProps) {
+export function DatasetInfoPanel({
+  name,
+  description,
+  layers,
+  visibility,
+  onToggle,
+}: DatasetInfoPanelProps) {
+  const hasToggles = !!(layers && layers.length && onToggle);
+
   return (
     <div
       style={{
@@ -27,6 +44,44 @@ export function DatasetInfoPanel({ name, description }: DatasetInfoPanelProps) {
         <p style={{ margin: '6px 0 0', fontSize: 12, lineHeight: 1.4 }}>
           {description}
         </p>
+      ) : null}
+      {hasToggles ? (
+        <div
+          style={{
+            marginTop: 10,
+            paddingTop: 10,
+            borderTop: '1px solid rgba(0,0,0,0.08)',
+          }}
+        >
+          {layers!.map((l) => {
+            const on = visibility?.[l.id] !== false;
+            return (
+              <div
+                key={l.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 8,
+                  padding: '4px 0',
+                }}
+              >
+                <label
+                  htmlFor={`viz-toggle-${l.id}`}
+                  style={{ fontSize: 12, cursor: 'pointer' }}
+                >
+                  {l.label}
+                </label>
+                <Switch
+                  id={`viz-toggle-${l.id}`}
+                  checked={on}
+                  onCheckedChange={(next) => onToggle!(l.id, next)}
+                  aria-label={l.label}
+                />
+              </div>
+            );
+          })}
+        </div>
       ) : null}
     </div>
   );

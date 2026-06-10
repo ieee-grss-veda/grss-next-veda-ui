@@ -163,7 +163,7 @@ describe('DeckglVectorTilesApp', () => {
     globalThis.fetch = originalFetch;
   });
 
-  test('renders a toggle per layer and hides the layer from canvas output when unchecked', async () => {
+  test('renders a switch per layer and hides the layer from canvas output when toggled off', async () => {
     globalThis.fetch = vi.fn(async () => new Response(JSON.stringify(fakeTileJson()), { status: 200 })) as any;
     const dataset: any = {
       id: 'd',
@@ -176,18 +176,22 @@ describe('DeckglVectorTilesApp', () => {
 
     render(<DeckglVectorTilesApp dataset={dataset} />);
 
-    // Both layer toggles render with their names.
-    const checkA = screen.getByLabelText('Layer A') as HTMLInputElement;
-    const checkB = screen.getByLabelText('Layer B') as HTMLInputElement;
-    expect(checkA.checked).toBe(true);
-    expect(checkB.checked).toBe(true);
+    // Both layer switches render with their names.
+    const switchA = screen.getByRole('switch', { name: 'Layer A' });
+    const switchB = screen.getByRole('switch', { name: 'Layer B' });
+    expect(switchA.getAttribute('data-state')).toBe('checked');
+    expect(switchB.getAttribute('data-state')).toBe('checked');
 
     // Once tile fetches resolve, both MVTLayers built.
     await waitFor(() => expect(mvtCtorMock).toHaveBeenCalledTimes(2));
 
-    // Uncheck Layer A — that layer should drop out of the next overlay setProps call.
-    fireEvent.click(checkA);
-    expect(checkA.checked).toBe(false);
+    // Toggle Layer A off.
+    fireEvent.click(switchA);
+    await waitFor(() =>
+      expect(
+        screen.getByRole('switch', { name: 'Layer A' }).getAttribute('data-state'),
+      ).toBe('unchecked'),
+    );
 
     globalThis.fetch = originalFetch;
   });
