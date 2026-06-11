@@ -252,4 +252,14 @@ html {
 /* Logo theme switching — driven by .dark on <html> so the inline script controls it before paint */
 .logo-dark { display: none; }
 html.dark .logo-light { display: none; }
-html.dark .logo-dark { display: flex; }
+html.dark .logo-dark { display: block; }
+
+/* Atlassian JSD Widget - hidden by default, shown when opened */
+#jsd-widget {
+  opacity: 0;
+  pointer-events: none;
+}
+#jsd-widget.jsd-widget-open {
+  opacity: 1;
+  pointer-events: auto;
+}

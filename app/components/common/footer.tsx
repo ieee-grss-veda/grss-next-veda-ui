@@ -1,6 +1,9 @@
+'use client';
+
 import { InternalNavLink } from '@lib';
 import Link from 'next/link';
 import React from 'react';
+import { openContactWidget } from '@lib/contact-widget';
 
 export default function Footer() {
   const navItems: InternalNavLink[] = [
@@ -65,12 +68,21 @@ export default function Footer() {
         <div className='flex flex-wrap gap-4 mb-8 text-sm'>
           {navItems.map((item, index) => (
             <div key={index} className='flex gap-4'>
-              <Link
-                href={item.to}
-                className='text-muted-foreground hover:text-primary hover:underline focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
-              >
-                {item.title}
-              </Link>
+              {item.id === 'contact-support' ? (
+                <button
+                  onClick={openContactWidget}
+                  className='text-muted-foreground hover:text-primary hover:underline focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded bg-transparent border-none p-0 font-inherit text-inherit cursor-pointer'
+                >
+                  {item.title}
+                </button>
+              ) : (
+                <Link
+                  href={item.to}
+                  className='text-muted-foreground hover:text-primary hover:underline focus:outline-2 focus:outline-ring focus:outline-offset-2 rounded'
+                >
+                  {item.title}
+                </Link>
+              )}
               {index < navItems.length - 1 && (
                 <span className='text-muted-foreground'>|</span>
               )}
