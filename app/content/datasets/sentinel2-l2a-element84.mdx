@@ -1,0 +1,78 @@
+---
+id: sentinel2-l2a-element84
+name: 'Sentinel-2 Level-2A'
+featured: true
+description: "Global Sentinel-2 Multispectral Instrument (MSI) bottom-of-atmosphere surface reflectance, served as Cloud Optimized GeoTIFFs through Element84's Earth Search STAC API on AWS Open Data."
+media:
+  src: /images/dataset/hls_20241004_true_color.jpg
+  alt: Sentinel-2 satellite imagery placeholder
+taxonomy:
+  - name: Source
+    values:
+      - ESA
+      - Copernicus
+      - Element84
+  - name: Topics
+    values:
+      - Satellite Imagery
+      - Land Cover
+      - Agriculture
+infoDescription: |
+  ::markdown
+    - Temporal Extent: June 2015 - present
+    - Temporal Resolution: 5-day revisit at the equator with Sentinel-2A and 2B combined (2-3 days at mid-latitudes)
+    - Spatial Extent: Global land surface and coastal waters between 84°N and 56°S
+    - Spatial Resolution: 10 m (visible and broad NIR), 20 m (red edge, narrow NIR, SWIR), 60 m (coastal, water vapor, cirrus)
+    - Data Units: Bottom-of-atmosphere surface reflectance (unitless, scaled by 10000)
+    - Data Type: Science-grade Level-2A product
+layers:
+  - id: sentinel-2-l2a-element84
+    stacCol: sentinel-2-l2a
+    stacApiEndpoint: https://earth-search.aws.element84.com/v1
+    tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
+    name: Sentinel-2 Level-2A - True Color
+    type: raster
+    tilingMode: cog
+    time_density: day
+    description: Pre-rendered true-color RGB composite (red / green / blue bands) from the Sentinel-2 MSI Level-2A `visual` asset at 10 m resolution.
+    zoomExtent:
+      - 7
+      - 20
+    searchLimit: 100
+    sourceParams:
+      assets: visual
+    legend:
+      type: text
+---
+
+<Block>
+  <Prose>
+    **Sentinel-2 Level-2A** is the European Space Agency's (ESA) analysis-ready, bottom-of-atmosphere (BOA) surface reflectance product derived from the **Multispectral Instrument (MSI)** flying on the Copernicus Sentinel-2 satellites. The Sentinel-2 constellation - Sentinel-2A (launched June 2015), Sentinel-2B (launched March 2017), and Sentinel-2C (launched September 2024) - delivers wide-swath, high-resolution, multispectral imagery in 13 spectral bands spanning the visible, near-infrared, and shortwave infrared. Level-2A scenes are atmospherically corrected from Level-1C top-of-atmosphere reflectance using the Sen2Cor processor and include a Scene Classification Layer (SCL) plus aerosol optical thickness (AOT) and water vapor (WVP) auxiliary products.
+
+    This catalog entry surfaces the Sentinel-2 Level-2A archive as it is hosted by **[Element84](https://element84.com/)** on the **[Earth Search](https://earth-search.aws.element84.com/v1)** SpatioTemporal Asset Catalog (STAC) API. Earth Search indexes the [Sentinel-2 AWS Open Data bucket](https://registry.opendata.aws/sentinel-2-l2a-cogs/) as Cloud Optimized GeoTIFFs (COGs), so each scene's individual band assets are directly tileable without pre-staging or download. The collection identifier on Earth Search is `sentinel-2-l2a`.
+
+    ## Dataset Details
+    - **Temporal Extent:** 27 June 2015 - present
+    - **Temporal Resolution:** 5-day revisit at the equator with Sentinel-2A and 2B combined; 2-3 day effective revisit at mid- and high latitudes due to swath overlap
+    - **Spatial Extent:** Global land surfaces, large islands, inland and coastal waters between approximately 84°N and 56°S
+    - **Spatial Resolution:** 10 m (B02 blue, B03 green, B04 red, B08 NIR); 20 m (B05/B06/B07 red edge, B8A narrow NIR, B11/B12 SWIR); 60 m (B01 coastal aerosol, B09 water vapor)
+    - **Tiling:** 100 km × 100 km tiles on the Military Grid Reference System (MGRS), in UTM / WGS84
+    - **Atmospheric Correction:** Sen2Cor (Level-1C → Level-2A)
+    - **Format:** Cloud Optimized GeoTIFF (COG), one asset per band
+
+    ## Bands and Assets
+    Each STAC item exposes the individual band assets `coastal`, `blue`, `green`, `red`, `rededge1`, `rededge2`, `rededge3`, `nir`, `nir08`, `nir09`, `swir16`, `swir22`, plus the auxiliary layers `aot` (aerosol optical thickness), `wvp` (water vapor), and `scl` (Scene Classification Layer with cloud and shadow masks). Per-band surface reflectance values are stored as 16-bit integers scaled by 10000 (divide by 10000 to recover physical reflectance in the 0-1 range). The visualization above renders the pre-rendered 8-bit `visual` asset, a three-band RGB true-color composite (red / green / blue) at 10 m resolution that is ready to display without additional stretching.
+
+    ## Common Applications
+    Sentinel-2 L2A is the workhorse for high-cadence land monitoring at high resolution: vegetation indices and crop type / condition mapping (NDVI, EVI, NDRE leveraging the red-edge bands), forest disturbance and deforestation alerts, burned-area mapping, inland and coastal water quality, urban growth, and snow / ice extent. Its combination of 10 m resolution and a sub-weekly revisit makes it complementary to Landsat for change detection where both spatial detail and timeliness matter.
+
+    ## Source and Attribution
+    Sentinel-2 data are produced by ESA under the European Union's [Copernicus Programme](https://www.copernicus.eu/) and are made freely available under the [Copernicus open data policy](https://sentinels.copernicus.eu/web/sentinel/terms-conditions). The Level-2A COG archive on AWS Open Data is processed and maintained by [Sinergise](https://www.sinergise.com/) and [Element84](https://element84.com/), with hosting provided by AWS. The STAC catalog used here is operated by Element84.
+
+    ## Learn More
+    - [ESA Sentinel-2 Mission](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-2)
+    - [Sentinel-2 Level-2A Product Specification](https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/product-types/level-2a)
+    - [Earth Search STAC API (Element84)](https://earth-search.aws.element84.com/v1)
+    - [Sentinel-2 L2A COGs on AWS Open Data Registry](https://registry.opendata.aws/sentinel-2-l2a-cogs/)
+  </Prose>
+</Block>
