@@ -2920,9 +2920,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.21.3.tgz#2977727d8fc8dfa079112d9f4d4c019110f1732c"
   integrity sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==
 
-"@teamimpact/veda-ui@git+https://github.com/NASA-IMPACT/veda-ui.git#feat/support-external-stac-installable":
-  version "6.20.6"
-  resolved "git+https://github.com/NASA-IMPACT/veda-ui.git#bc966e1a1d3c1b6bfa77ff8be41a8900a6fc1b47"
+"@teamimpact/veda-ui@6.21.0":
+  version "6.21.0"
+  resolved "https://registry.yarnpkg.com/@teamimpact/veda-ui/-/veda-ui-6.21.0.tgz#235880f1d323b946bbec08cd52dc87a120e870fc"
+  integrity sha512-a4L4agofv6QWCEz+z5F3ew52tmntiVnnBUsNtgBVe88+l7e7bYtpEr2w9KoJNCxv1Yj8SFMrlL9ydcP+zn2mdg==
   dependencies:
     "@codemirror/lang-markdown" "^6.1.1"
     "@codemirror/state" "^6.2.1"
