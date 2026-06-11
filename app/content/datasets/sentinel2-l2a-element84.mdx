@@ -30,31 +30,19 @@ layers:
     stacCol: sentinel-2-l2a
     stacApiEndpoint: https://earth-search.aws.element84.com/v1
     tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
-    name: Sentinel-2 Level-2A - Red Surface Reflectance
+    name: Sentinel-2 Level-2A - True Color
     type: raster
     tilingMode: cog
     time_density: day
-    description: Bottom-of-atmosphere surface reflectance from the Sentinel-2 MSI red band (B04, ~0.665 µm) at 10 m resolution.
+    description: Pre-rendered true-color RGB composite (red / green / blue bands) from the Sentinel-2 MSI Level-2A `visual` asset at 10 m resolution.
     zoomExtent:
       - 7
       - 20
     searchLimit: 100
     sourceParams:
-      assets: red
-      colormap_name: viridis
-      rescale:
-        - 0
-        - 10000
+      assets: visual
     legend:
-      type: gradient
-      min: "0"
-      max: "10000"
-      stops:
-        - "#440154"
-        - "#3b528b"
-        - "#21918c"
-        - "#5ec962"
-        - "#fde725"
+      type: text
 ---
 
 <Block>
@@ -73,7 +61,7 @@ layers:
     - **Format:** Cloud Optimized GeoTIFF (COG), one asset per band
 
     ## Bands and Assets
-    Each STAC item exposes the individual band assets `coastal`, `blue`, `green`, `red`, `rededge1`, `rededge2`, `rededge3`, `nir`, `nir08`, `nir09`, `swir16`, `swir22`, plus the auxiliary layers `aot` (aerosol optical thickness), `wvp` (water vapor), and `scl` (Scene Classification Layer with cloud and shadow masks). A pre-rendered 8-bit `visual` true-color asset and a `thumbnail` are also available. Surface reflectance values are stored as 16-bit integers scaled by 10000; divide by 10000 to recover physical reflectance in the 0-1 range. The visualization above renders the 10 m `red` (B04) asset.
+    Each STAC item exposes the individual band assets `coastal`, `blue`, `green`, `red`, `rededge1`, `rededge2`, `rededge3`, `nir`, `nir08`, `nir09`, `swir16`, `swir22`, plus the auxiliary layers `aot` (aerosol optical thickness), `wvp` (water vapor), and `scl` (Scene Classification Layer with cloud and shadow masks). Per-band surface reflectance values are stored as 16-bit integers scaled by 10000 (divide by 10000 to recover physical reflectance in the 0-1 range). The visualization above renders the pre-rendered 8-bit `visual` asset, a three-band RGB true-color composite (red / green / blue) at 10 m resolution that is ready to display without additional stretching.
 
     ## Common Applications
     Sentinel-2 L2A is the workhorse for high-cadence land monitoring at high resolution: vegetation indices and crop type / condition mapping (NDVI, EVI, NDRE leveraging the red-edge bands), forest disturbance and deforestation alerts, burned-area mapping, inland and coastal water quality, urban growth, and snow / ice extent. Its combination of 10 m resolution and a sub-weekly revisit makes it complementary to Landsat for change detection where both spatial detail and timeliness matter.
