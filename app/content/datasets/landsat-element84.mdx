@@ -26,22 +26,22 @@ infoDescription: |
     - Data Units: Surface reflectance (unitless, scaled) and surface temperature (Kelvin, scaled)
     - Data Type: Science-grade Level-2 product
 layers:
-  - id: landsat-c2-l2-element84
+  - id: landsat-c2-l2-element84-red
     stacCol: landsat-c2-l2
     stacApiEndpoint: https://earth-search.aws.element84.com/v1
     tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
-    name: Landsat Collection 2 Level-2 - Red Surface Reflectance
+    name: Red Surface Reflectance
     type: raster
     tilingMode: cog
     time_density: day
-    description: Surface reflectance from the Landsat Collection 2 Level-2 red band (visible ~0.64-0.67 µm), atmospherically corrected over land.
+    description: Visible red band (~0.65 µm) atmospherically corrected surface reflectance. Useful for vegetation chlorophyll absorption and as the R channel of true-color composites.
     zoomExtent:
       - 7
       - 20
     searchLimit: 100
     sourceParams:
       assets: red
-      colormap_name: viridis
+      colormap_name: reds
       rescale:
         - 0
         - 20000
@@ -50,11 +50,100 @@ layers:
       min: "0"
       max: "20000"
       stops:
-        - "#440154"
-        - "#3b528b"
-        - "#21918c"
-        - "#5ec962"
-        - "#fde725"
+        - "#fff5f0"
+        - "#fcbba1"
+        - "#fb6a4a"
+        - "#cb181d"
+        - "#67000d"
+  - id: landsat-c2-l2-element84-nir
+    stacCol: landsat-c2-l2
+    stacApiEndpoint: https://earth-search.aws.element84.com/v1
+    tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
+    name: Near-Infrared (NIR) Surface Reflectance
+    type: raster
+    tilingMode: cog
+    time_density: day
+    description: Near-infrared band (~0.86 µm) surface reflectance. Healthy vegetation is highly reflective in NIR; commonly used in NDVI / EVI vegetation indices and for delineating water bodies.
+    zoomExtent:
+      - 7
+      - 20
+    searchLimit: 100
+    sourceParams:
+      assets: nir08
+      colormap_name: greens
+      rescale:
+        - 0
+        - 30000
+    legend:
+      type: gradient
+      min: "0"
+      max: "30000"
+      stops:
+        - "#f7fcf5"
+        - "#c7e9c0"
+        - "#74c476"
+        - "#238b45"
+        - "#00441b"
+  - id: landsat-c2-l2-element84-swir16
+    stacCol: landsat-c2-l2
+    stacApiEndpoint: https://earth-search.aws.element84.com/v1
+    tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
+    name: Shortwave Infrared 1 (SWIR1) Surface Reflectance
+    type: raster
+    tilingMode: cog
+    time_density: day
+    description: Shortwave infrared band (~1.61 µm) surface reflectance. Sensitive to vegetation and soil moisture; used in burned-area mapping (NBR) and for snow / cloud discrimination.
+    zoomExtent:
+      - 7
+      - 20
+    searchLimit: 100
+    sourceParams:
+      assets: swir16
+      colormap_name: magma
+      rescale:
+        - 0
+        - 25000
+    legend:
+      type: gradient
+      min: "0"
+      max: "25000"
+      stops:
+        - "#000004"
+        - "#3b0f70"
+        - "#8c2981"
+        - "#de4968"
+        - "#fe9f6d"
+        - "#fcfdbf"
+  - id: landsat-c2-l2-element84-swir22
+    stacCol: landsat-c2-l2
+    stacApiEndpoint: https://earth-search.aws.element84.com/v1
+    tileApiEndpoint: https://api.dev.veda.grss.cloud/raster
+    name: Shortwave Infrared 2 (SWIR2) Surface Reflectance
+    type: raster
+    tilingMode: cog
+    time_density: day
+    description: Shortwave infrared band (~2.20 µm) surface reflectance. Used for burn-severity mapping (paired with NIR in NBR), geological / mineral mapping, and distinguishing dry vs. wet surfaces.
+    zoomExtent:
+      - 7
+      - 20
+    searchLimit: 100
+    sourceParams:
+      assets: swir22
+      colormap_name: inferno
+      rescale:
+        - 0
+        - 20000
+    legend:
+      type: gradient
+      min: "0"
+      max: "20000"
+      stops:
+        - "#000004"
+        - "#420a68"
+        - "#932667"
+        - "#dd513a"
+        - "#fca50a"
+        - "#fcffa4"
 ---
 
 <Block>
@@ -73,7 +162,14 @@ layers:
     - **Coordinate Reference System:** UTM, WGS84 (per scene)
 
     ## Bands and Assets
-    Each STAC item exposes individual band assets including `coastal`, `blue`, `green`, `red`, `nir08`, `swir16`, `swir22`, `lwir11` (Landsat 8/9 surface temperature), and quality layers `qa_pixel`, `qa_radsat`, and `qa_aerosol`. The visualization above renders the `red` surface reflectance asset, with values scaled by the standard Collection 2 factor (multiply by 0.0000275 and add -0.2 to recover physical reflectance in the 0-1 range).
+    Each STAC item exposes individual band assets including `coastal` (~0.44 µm), `blue` (~0.48 µm), `green` (~0.56 µm), `red` (~0.65 µm), `nir08` (~0.86 µm), `swir16` (~1.61 µm), and `swir22` (~2.20 µm), plus quality layers `qa_pixel`, `qa_radsat`, and `qa_aerosol`. Surface reflectance values are stored as scaled 16-bit integers; multiply by 0.0000275 and add -0.2 to recover physical reflectance in the 0-1 range.
+
+    This dataset entry exposes four single-band visualizations covering the bands most often used in analytical workflows:
+
+    - **Red Surface Reflectance** — visible red (~0.65 µm); part of true-color composites and an input to NDVI / EVI.
+    - **Near-Infrared (NIR) Surface Reflectance** — `nir08` (~0.86 µm); the high-reflectance band for healthy vegetation and a primary input for vegetation indices and water-body masks.
+    - **Shortwave Infrared 1 (SWIR1)** — `swir16` (~1.61 µm); sensitive to vegetation and soil moisture, and a component of the Normalized Burn Ratio (NBR).
+    - **Shortwave Infrared 2 (SWIR2)** — `swir22` (~2.20 µm); used for burn-severity mapping (NBR), geological / mineral mapping, and discriminating snow from clouds.
 
     ## Common Applications
     Surface Reflectance and Surface Temperature underpin a wide range of land-monitoring workflows: vegetation indices and crop condition (NDVI, EVI, NDWI), land cover and land use change detection, burned-area mapping, surface water dynamics, urban heat island analysis, and snow and glacier monitoring. The four-decade archive makes Landsat C2 L2 particularly well suited to long-term trend analysis where consistency of calibration matters more than revisit frequency.
