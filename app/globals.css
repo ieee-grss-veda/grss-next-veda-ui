@@ -250,9 +250,158 @@ html {
 }
 
 /* Logo theme switching — driven by .dark on <html> so the inline script controls it before paint */
-.logo-dark { display: none; }
-html.dark .logo-light { display: none; }
-html.dark .logo-dark { display: block; }
+.logo-dark {
+  display: none;
+}
+html.dark .logo-light {
+  display: none;
+}
+html.dark .logo-dark {
+  display: flex;
+}
+
+/* ===== Osano cookie banner theme overrides =====
+   Map Osano's CSS custom properties onto the site's IEEE-blue palette so the
+   banner and preferences dialog match light/dark themes. */
+.osano-cm-window,
+.osano-cm-dialog,
+.osano-cm-info-dialog {
+  /* Bar / dialog surface */
+  --osano-dialog-background-color: var(--background);
+  --osano-dialog-foreground-color: var(--foreground);
+  --osano-dialog-background-color-contrast: var(--card);
+  --osano-dialog-foreground-color-contrast: var(--foreground);
+  --osano-info-dialog-background-color: var(--card);
+  --osano-info-dialog-foreground-color: var(--card-foreground);
+  --osano-info-dialog-overlay-color: rgba(0, 0, 0, 0.45);
+
+  /* Links */
+  --osano-link-color: var(--primary);
+  --osano-link-color-hover: var(--ieee-blue-light);
+  --osano-link-color-focus: var(--ieee-blue-light);
+  --osano-link-color-contrast: var(--primary);
+  --osano-info-dialog-link-color: var(--primary);
+  --osano-info-dialog-link-color-contrast: var(--primary);
+
+  /* Primary buttons (Accept / Manage / Reject all) */
+  --osano-button-background-color: var(--primary);
+  --osano-button-foreground-color: var(--primary-foreground);
+  --osano-button-border-color: var(--primary);
+  --osano-button-background-color-hover: var(--ieee-blue-light);
+  --osano-button-foreground-color-hover: var(--primary-foreground);
+  --osano-button-background-color-focus: var(--ieee-blue-light);
+  --osano-button-foreground-color-focus: var(--primary-foreground);
+  --osano-button-background-color-contrast: var(--primary);
+  --osano-button-foreground-color-contrast: var(--primary-foreground);
+
+  --osano-button-accept-background-color: var(--primary);
+  --osano-button-accept-foreground-color: var(--primary-foreground);
+  --osano-button-accept-border-color: var(--primary);
+  --osano-button-accept-background-color-hover: var(--ieee-blue-light);
+  --osano-button-accept-foreground-color-hover: var(--primary-foreground);
+  --osano-button-accept-background-color-focus: var(--ieee-blue-light);
+  --osano-button-accept-foreground-color-focus: var(--primary-foreground);
+
+  --osano-button-deny-background-color: transparent;
+  --osano-button-deny-foreground-color: var(--primary);
+  --osano-button-deny-border-color: var(--primary);
+  --osano-button-deny-background-color-hover: var(--primary);
+  --osano-button-deny-foreground-color-hover: var(--primary-foreground);
+  --osano-button-deny-background-color-focus: var(--primary);
+  --osano-button-deny-foreground-color-focus: var(--primary-foreground);
+
+  --osano-button-reject-all-background-color: transparent;
+  --osano-button-reject-all-foreground-color: var(--primary);
+  --osano-button-reject-all-border-color: var(--primary);
+  --osano-button-reject-all-background-color-hover: var(--primary);
+  --osano-button-reject-all-foreground-color-hover: var(--primary-foreground);
+
+  --osano-button-manage-background-color: var(--primary);
+  --osano-button-manage-foreground-color: var(--primary-foreground);
+  --osano-button-manage-border-color: var(--primary);
+  --osano-button-manage-background-color-hover: var(--ieee-blue-light);
+  --osano-button-manage-foreground-color-hover: var(--primary-foreground);
+
+  --osano-info-dialog-button-background-color: var(--primary);
+  --osano-info-dialog-button-foreground-color: var(--primary-foreground);
+  --osano-info-dialog-button-border-color: var(--primary);
+  --osano-info-dialog-button-background-color-hover: var(--ieee-blue-light);
+  --osano-info-dialog-button-foreground-color-hover: var(--primary-foreground);
+
+  --osano-button-close-color: var(--foreground);
+  --osano-info-dialog-button-close-color: var(--card-foreground);
+
+  /* Toggles */
+  --osano-toggle-off-track-color: var(--muted);
+  --osano-toggle-off-thumb-color: var(--background);
+  --osano-toggle-on-track-color: var(--primary);
+  --osano-toggle-on-thumb-color: var(--primary-foreground);
+  --osano-toggle-off-track-color-hover: var(--ieee-blue-25);
+  --osano-toggle-off-thumb-color-hover: var(--background);
+  --osano-toggle-on-track-color-hover: var(--ieee-blue-light);
+  --osano-toggle-on-thumb-color-hover: var(--primary-foreground);
+  --osano-toggle-off-track-color-disabled: var(--muted);
+  --osano-toggle-off-thumb-color-disabled: var(--muted-foreground);
+  --osano-toggle-on-track-color-disabled: var(--ieee-blue-50);
+  --osano-toggle-on-thumb-color-disabled: var(--primary-foreground);
+
+  --osano-info-dialog-toggle-off-track-color: var(--muted);
+  --osano-info-dialog-toggle-off-thumb-color: var(--background);
+  --osano-info-dialog-toggle-on-track-color: var(--primary);
+  --osano-info-dialog-toggle-on-thumb-color: var(--primary-foreground);
+
+  /* Widget / floating button */
+  --osano-widget-color: var(--primary);
+  --osano-widget-fill-color: var(--primary-foreground);
+  --osano-widget-outline-color: var(--primary);
+
+  /* Focus ring */
+  --osano-focus-outline-color: var(--ring);
+
+  /* GPC indicator */
+  --osano-gpc-color: var(--primary);
+  --osano-gpc-background-color: var(--background);
+  --osano-gpc-foreground-color: var(--primary);
+  --osano-gpc-border-color: var(--primary);
+}
+
+/* Heading & toggle labels — match site primary blue.
+   `body` prefix needed to match specificity of Osano's
+   `body .osano-cm-drawer-toggle .osano-cm-label { color: #000 !important; }`. */
+.osano-cm-info-dialog-header__header.osano-cm-header {
+  color: var(--primary);
+}
+
+/* Body text inside the preferences dialog — Osano hard-codes near-black
+   colors which become unreadable on our dark-mode card background. Force
+   them onto `--card-foreground` so they flip with the theme. */
+body .osano-cm-info-dialog,
+body .osano-cm-info-dialog p,
+body .osano-cm-info-dialog__title,
+body .osano-cm-info-dialog__description,
+body .osano-cm-info-dialog__info,
+body .osano-cm-info-dialog__list,
+body .osano-cm-info-dialog__list-item,
+body .osano-cm-drawer-toggle,
+body .osano-cm-drawer-toggle__description,
+body .osano-cm-drawer-item__description,
+body .osano-cm-content__message,
+body .osano-cm-message,
+body .osano-cm-list,
+body .osano-cm-list__list-item,
+body .osano-cm-disclosure,
+body .osano-cm-disclosure__toggle,
+body .osano-cm-view-disclosures,
+body .osano-cm-link {
+  color: var(--card-foreground) !important;
+}
+
+/* Toggle labels — Osano ships an !important rule with specificity (0,2,1).
+   Doubling `.osano-cm-label` bumps ours to (0,3,1) so we win the cascade
+   regardless of which stylesheet loads last. */
+body .osano-cm-drawer-toggle .osano-cm-label.osano-cm-label {
+  color: var(--card-foreground) !important;
+}
 
 /* Atlassian JSD Widget - hidden by default, shown when opened */
 #jsd-widget {
