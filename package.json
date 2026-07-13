@@ -18,6 +18,7 @@
   "dependencies": {
     "@devseed-ui/theme-provider": "^4.1.0",
     "@emotion/react": "^11.14.0",
+    "@next/third-parties": "14.2.3",
     "@radix-ui/react-accordion": "1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "1.1.2",
