@@ -1430,6 +1430,17 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   line-height: 1.25;
 }
 
+/* Categorical legend labels. veda-ui renders each category as
+   <dt><swatch/><span>label</span></dt> and never sets a font-size or weight on
+   the span (gradient legends get an explicit 0.75rem on their dd, categorical
+   ones don't), so the labels inherit the page's large bold text. Pin them to
+   the same scale the gradient labels use. */
+[class*='layer-legend__LegendList'] dt > span {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+}
+
 /* Hide the red accent line under Browse */
 #veda-ui-root [class*='fold__FoldHeadline']::after,
 #veda-ui-root [class*='FoldHeadline']::after {
