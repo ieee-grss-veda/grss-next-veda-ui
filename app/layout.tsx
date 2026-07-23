@@ -4,6 +4,7 @@ import { ThemeProvider } from './components/common/theme-provider';
 import { WebsiteTourProvider } from './components/common/website-tour';
 import Footer from './components/common/footer';
 import CookiesBanner from './components/cookies';
+import AwsRumInit from './components/aws-rum';
 import React from 'react';
 
 export const metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <AwsRumInit />
         <ThemeProvider>
           <WebsiteTourProvider>
             <div

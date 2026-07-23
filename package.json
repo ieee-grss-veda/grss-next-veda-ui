@@ -46,6 +46,7 @@
     "@radix-ui/react-tooltip": "1.1.8",
     "@reactour/tour": "^3.8.0",
     "@teamimpact/veda-ui": "6.21.0",
+    "aws-rum-web": "^3.2.0",
     "class-variance-authority": "0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.1.1",
