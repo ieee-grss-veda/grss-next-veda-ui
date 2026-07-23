@@ -1,42 +1,71 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Alert, AlertDescription } from './ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
 import { Button } from './ui/button';
 
+const CONSENT_STORAGE_KEY = 'cookie_consent';
+
 const CookiesBanner = () => {
-  const [showBanner, setShowBanner] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookie_consent');
+    const consent = localStorage.getItem(CONSENT_STORAGE_KEY);
     if (!consent) {
-      setShowBanner(true);
+      setOpen(true);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('cookie_consent', 'true');
-    setShowBanner(false);
+    localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted');
+    setOpen(false);
   };
 
-  if (!showBanner) {
-    return null;
-  }
+  const handleDecline = () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, 'declined');
+    setOpen(false);
+  };
 
   return (
-    <div className='fixed bottom-0 left-0 right-0 z-50 p-4 bg-background border-t border-border'>
-      <div className='max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4'>
-        <Alert className='border-0 bg-transparent p-0'>
-          <AlertDescription className='text-sm text-muted-foreground'>
-            This website uses cookies to ensure you get the best experience on
-            our website.
-          </AlertDescription>
-        </Alert>
-        <Button size='sm' onClick={handleAccept}>
-          Accept
-        </Button>
-      </div>
-    </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent
+        className='sm:max-w-md [&>button[data-state]]:hidden'
+        onInteractOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
+        <DialogHeader>
+          <DialogTitle>Cookie Consent</DialogTitle>
+          <DialogDescription className='pt-2 text-sm leading-relaxed'>
+            We use cookies to enhance your browsing experience and to help us
+            understand how our website is used. These cookies allow us to
+            collect data on site usage and improve our services based on your
+            interactions. To learn more about it, see our{' '}
+            <a
+              href='https://privacy.ieee.org/policies'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-primary underline underline-offset-4 hover:no-underline'
+            >
+              Privacy Policy
+            </a>
+            .
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className='gap-2 sm:gap-2'>
+          <Button variant='outline' onClick={handleDecline}>
+            Decline Cookies
+          </Button>
+          <Button onClick={handleAccept}>Accept Cookies</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 
