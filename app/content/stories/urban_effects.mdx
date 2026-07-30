@@ -66,7 +66,7 @@ taxonomy:
 
   Mechanically, the rougher surface of cities, due to high-rise buildings and dense infrastructure, disrupts the wind flow. This can reduce wind speeds at the surface, but it can also create turbulence and vertical mixing that alter the vertical structure of temperature. Dense infrastructure can also alter moisture in the boundary layer, which is the layer of the atmosphere closest to the ground, meaning changes would affect the greater population. Additionally, the geometry of city blocks can create and change the wind patterns that affect cloud formation.
 
-  Urban areas also tend to have higher concentrations of aerosols, which can influence cloud formation. Aerosols act as cloud condensation nuclei (CCN), allowing more but smaller cloud droplets to form. This can delay precipitation by preventing droplets from growing large enough to fall as rain, a process known as the aerosol indirect effect, leading to periods of potential drought within a region.
+  Urban areas also tend to have higher concentrations of aerosols, which can influence cloud formation. Aerosols act as cloud condensation nuclei (CCN), tiny airborne particles, like dust or sea salt, upon which water vapor condenses. An increase in these aerosols allows more, but smaller, cloud droplets to form. This can delay precipitation by preventing droplets from growing large enough to fall as rain, a process known as the aerosol indirect effect, leading to periods of potential drought within a region.
 
   **Image with the Miami metro**
 
@@ -86,7 +86,7 @@ taxonomy:
     </Figure>
 </Block>
 
-  Increased temperatures, especially nighttime low temperatures, add heat stress to residents in the MMR. If increasing temperatures and atmospheric instability leads to increased rainfall or stronger thunderstorms, the risk for flash flooding increases. Even if rainfall isn’t increasing, the replacement of wetlands with impervious surfaces like pavement increases the risk of flooding from both heavy rainfall and storm surge from tropical cyclones.
+  If increasing temperatures and atmospheric instability leads to increased rainfall or stronger thunderstorms, the risk for flash flooding increases. Even if rainfall isn’t increasing, the replacement of wetlands with impervious surfaces like pavement increases the risk of flooding from both heavy rainfall and storm surge from tropical cyclones.
   </Prose>
 </Block>
 
@@ -130,9 +130,26 @@ taxonomy:
       </Caption>
     </Figure>
 
-  Urbanization, especially on the western boundary of the MMR appears to be altering cloud development. Clouds are shown to be more highly concentrated just west of Miami, according to the mean cloud frequency, while simultaneously, the year-year variability (inter-annual variability) shows a rather sharp increase along the entire outer edge of the MMR. This would suggest that there is an effect occurring due to urbanized areas, right along this border. Lastly, month-to-month changes show a relatively low variance between each month of the season (with the exception of right along the coast and to the south of the MMR). 
+  Urbanization, especially on the western boundary of the MMR appears to be altering cloud development. Clouds are shown to be more highly concentrated just west of Miami, according to the mean cloud frequency, while simultaneously, the year-year variability (inter-annual variability) shows a rather sharp increase along the entire outer edge of the MMR. This would suggest that there is an effect occurring due to urbanized areas, right along this border. Lastly, month-to-month changes show a relatively low variance between each month of the season (with the exception of right along the coast and to the south of the MMR).
 
-  During the entire day (morning to evening) there is a pattern occurring with regards to the cloud frequency. In the morning hours, there is a peak in convective initiation of clouds over the MMR in particular compared to rural areas. By the last morning hours, the sea-breeze matures and moves inland, taking the maximum cloud frequency with it. By the afternoon hours, the pattern flips from the morning, there urban zones experience less clouds, the stable maritime airmass moving over the urban areas, while the inland regions are convectively active.
+  During the entire day (morning to evening) there is a pattern occurring with regards to the cloud frequency. In the morning hours, there is a peak in convective initiation of clouds over the MMR in particular compared to rural areas. By the last morning hours, the sea-breeze matures and moves inland, taking the maximum cloud frequency with it. By the afternoon hours, the pattern flips from the morning, urban zones experience less clouds and the stable maritime airmass moves over the urban areas, while the inland regions are convectively active.
+
+  </Prose>
+</Block>
+
+<Block>
+    <Figure>
+      <Image
+        src="/stories/cloud_frequency.png"
+        alt="Diurnal mean cloud frequency over the Miami Metropolitan Area across 3 locations."
+        align='left'
+      />
+
+      <Caption>
+        Diurnal mean cloud frequency over the Miami Metropolitan Area across 3 locations.
+      </Caption>
+    </Figure>
+
   </Prose>
 </Block>
 
@@ -140,9 +157,37 @@ taxonomy:
   <Prose>
   # Numerical Modeling Case Day (August 31, 2022)
 
-  Using numerical modeling, specifically the Weather Research and Forecasting (WRF) model, provides a snapshot into how urbanization alone has affected the meteorological environment. Holding broader large scale weather patterns constant, high-resolution simulations reveal that replacing natural vegetation with urban infrastructure disrupts the surface energy budget. In these newly developed zones, sensible heat flux increased by 70.13 W/m², while latent heat flux dropped by 86.18 W/m². This change helps to drive warming trends in newly urbanized areas, especially at night time as stored radiation is emitted from the surface to the atmosphere.
+  Using numerical modeling, specifically the Weather Research and Forecasting (WRF) model, provides a snapshot into how urbanization alone has affected the meteorological environment. Holding broader large scale weather patterns constant, high-resolution simulations reveal that replacing natural vegetation with urban infrastructure disrupts the surface energy budget. In these newly developed zones, sensible heat flux increased, while latent heat flux decreased. This change helps to drive warming trends in newly urbanized areas, especially at night time as stored radiation is emitted from the surface to the atmosphere.
 
-  The transition to a highly urbanized footprint has a compounding effect on convective storm development. Increased surface roughness and the amplified Urban Heat Island (UHI) effect force increased atmospheric convergence, creating an anomalous increase in low-level convergence (1.7 x 10⁻⁴ s⁻¹) strictly within the newly urbanized boundaries. This intensified convergence forces air upward, strengthening maximum vertical updraft velocities by 0.245 m/s. Consequently, this enhanced atmospheric forcing translates to an overall spatial increase in localized precipitation of +1.007 mm across the region. Ultimately, the simulations demonstrate that as the MMR expands, the growing urban canopy helps trigger stronger localized updrafts and intensified localized rainfall. Rainfall in particular is important as increased localized rainfall has the potential to raise the risk of flash flooding in urbanized areas.
+  <Figure>
+      <Image
+        src="/stories/Combined_Heat_Flux_Diff_1330_MMR.png"
+        alt="Heat and sensible heat flux differences between 2000 and 2024."
+        align='left'
+      />
+
+      <Caption>
+        Heat and sensible heat flux differences between 2000 and 2024.
+      </Caption>
+    </Figure>
+
+</Block>
+
+<Block>
+  <Prose>
+  <Figure>
+      <Image
+        src="/stories/Tmin_Diff_MMR.png"
+        alt="Mimimum temperature differnce for this case day between 2000 and 2024."
+        align='left'
+      />
+
+      <Caption>
+        Mimimum temperature differnce for this case day between 2000 and 2024.
+      </Caption>
+    </Figure>
+
+  The transition to a highly urbanized footprint has a compounding effect on convective storm development. Increased surface roughness and the amplified Urban Heat Island (UHI) effect force increased atmospheric convergence, creating an anomalous increase in low-level convergence strictly within the newly urbanized boundaries. This intensified convergence forces air upward, strengthening maximum vertical updraft velocities. Consequently, this enhanced atmospheric forcing translates to an overall spatial increase in localized precipitation across the region. Ultimately, the simulations demonstrate that as the MMR expands, the growing urban canopy helps trigger stronger localized updrafts and intensified localized rainfall. Rainfall in particular is important as increased localized rainfall has the potential to raise the risk of flash flooding in urbanized areas.
   </Prose>
 </Block>
 
