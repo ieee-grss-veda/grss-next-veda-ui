@@ -1,0 +1,38 @@
+---
+id: ms-buildings
+name: "Microsoft Global Building Footprints"
+description: "Global building footprints derived by Microsoft from satellite imagery, served as vector tiles by the Microsoft Planetary Computer."
+viz: deckgl-vector-tiles
+media:
+  src: /images/dataset/microsoft-building-footprints.webp
+  alt: Microsoft Global Building Footprints visualization
+taxonomy:
+  - name: Topics
+    values:
+      - Built Environment
+  - name: Source
+    values:
+      - Microsoft
+infoDescription: |
+  ::markdown
+    Vector tiles published by the Microsoft Planetary Computer.
+
+    - Spatial Extent: Global
+    - Format: Mapbox Vector Tiles (MVT) via TileJSON
+layers:
+  - id: footprints
+    type: vector-tilejson
+    name: "Building footprints"
+    tileJsonUrl: "https://planetarycomputer.microsoft.com/api/data/v1/vector/collections/ms-buildings/tilesets/global-footprints/tilejson.json"
+    paint:
+      fillColor: "#ff7e29"
+      fillOpacity: 0.6
+      lineColor: "#cc4f00"
+      lineWidth: 0.5
+---
+
+<Block>
+  <Prose>
+    The Microsoft global building footprints dataset is a worldwide collection of building polygons extracted from satellite imagery using machine learning. The footprints are served as vector tiles via the Microsoft Planetary Computer.
+  </Prose>
+</Block>
