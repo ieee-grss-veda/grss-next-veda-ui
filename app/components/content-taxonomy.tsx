@@ -4,7 +4,16 @@ import React from 'react';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { glsp, themeVal } from '@devseed-ui/theme-provider';
-import type { StoryData } from '@lib';
+import type { DatasetData, StoryData } from '@lib';
+
+/** Stories and datasets share the same taxonomy shape via ContentDataBase. */
+type ContentTaxonomyList = (StoryData | DatasetData)['taxonomy'];
+
+/**
+ * Groups veda-ui treats as internal metadata rather than browsable facets;
+ * upstream's own taxonomy block hides them too.
+ */
+const HIDDEN_TAXONOMIES = ['Uncertainty', 'Grade'];
 
 /**
  * Mirrors veda-ui's internal `variableGlsp` responsive spacing helper, which
@@ -76,7 +85,7 @@ const Pill = styled(Link)`
 const TAXONOMY_FILTER_KEY = 'taxonomy';
 
 interface ContentTaxonomyProps {
-  taxonomy: StoryData['taxonomy'];
+  taxonomy: ContentTaxonomyList;
   linkBase: string;
 }
 
@@ -84,13 +93,17 @@ export default function ContentTaxonomy({
   taxonomy,
   linkBase,
 }: ContentTaxonomyProps) {
-  if (!taxonomy?.length) return null;
+  const groups = taxonomy?.filter(
+    ({ name, values }) => values?.length && !HIDDEN_TAXONOMIES.includes(name),
+  );
+
+  if (!groups?.length) return null;
 
   return (
     <TaxonomySection>
       <h2 hidden>Taxonomy</h2>
       <TaxonomyList>
-        {taxonomy.map(({ name, values }) => (
+        {groups.map(({ name, values }) => (
           <React.Fragment key={name}>
             <dt>
               <TaxonomyOverline>{name}</TaxonomyOverline>
