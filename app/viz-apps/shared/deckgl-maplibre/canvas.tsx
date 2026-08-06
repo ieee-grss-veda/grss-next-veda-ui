@@ -152,7 +152,8 @@ export function DeckglMaplibreCanvas({
             color: '#900',
             borderRadius: 4,
             fontSize: 13,
-            maxWidth: 360,
+            maxWidth: 'min(360px, calc(100% - 24px))',
+            boxSizing: 'border-box',
           }}
         >
           {status.error}

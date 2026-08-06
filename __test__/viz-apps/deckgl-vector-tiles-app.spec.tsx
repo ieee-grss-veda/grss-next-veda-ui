@@ -195,4 +195,45 @@ describe('DeckglVectorTilesApp', () => {
 
     globalThis.fetch = originalFetch;
   });
+
+  test('legend swatch matches the fill color the MVTLayer is built with', async () => {
+    globalThis.fetch = vi.fn(async () => new Response(JSON.stringify(fakeTileJson()), { status: 200 })) as any;
+    const dataset: any = {
+      id: 'd',
+      name: 'D',
+      layers: [
+        {
+          id: 'ok',
+          name: 'Parsed',
+          type: 'vector-tilejson',
+          tileJsonUrl: 'https://t.example/a.json',
+          paint: { fillColor: '#3366cc' },
+        },
+        {
+          // Not 6-digit hex, so the parser rejects it and the default applies.
+          // The swatch must show that default, not the authored string.
+          id: 'bad',
+          name: 'Unparseable',
+          type: 'vector-tilejson',
+          tileJsonUrl: 'https://t.example/b.json',
+          paint: { fillColor: 'rebeccapurple' },
+        },
+      ],
+    };
+
+    const { container } = render(<DeckglVectorTilesApp dataset={dataset} />);
+    await waitFor(() => expect(mvtCtorMock).toHaveBeenCalledTimes(2));
+
+    const swatches = Array.from(
+      container.querySelectorAll('span[aria-hidden="true"]'),
+    ).map((el) => (el as HTMLElement).style.backgroundColor);
+    expect(swatches).toEqual(['rgb(51, 102, 204)', 'rgb(255, 126, 41)']);
+
+    const fills = mvtCtorMock.mock.calls.map((c) => c[0].getFillColor.slice(0, 3));
+    expect(fills).toContainEqual([51, 102, 204]);
+    expect(fills).toContainEqual([255, 126, 41]);
+
+    globalThis.fetch = originalFetch;
+  });
+
 });

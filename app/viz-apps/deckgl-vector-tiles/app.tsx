@@ -20,12 +20,35 @@ function isVectorTilejsonLayer(layer: any): layer is VectorTilejsonLayer {
   );
 }
 
-function parseHexColor(hex?: string): [number, number, number] | undefined {
+type Rgb = [number, number, number];
+
+const DEFAULT_FILL_COLOR: Rgb = [255, 126, 41];
+const DEFAULT_LINE_COLOR: Rgb = [0, 0, 0];
+
+/**
+ * deck.gl accessors take numeric RGBA, not CSS color strings, so authored
+ * colors have to be converted. Only 6-digit hex is understood; anything else
+ * falls back to the default.
+ */
+function parseHexColor(hex?: string): Rgb | undefined {
   if (!hex) return undefined;
   const m = /^#?([0-9a-fA-F]{6})$/.exec(hex);
   if (!m) return undefined;
   const n = parseInt(m[1], 16);
   return [(n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff];
+}
+
+/**
+ * Single source of truth for a layer's fill color, so the legend swatch can't
+ * drift from what the map actually draws when the authored value is one the
+ * parser rejects (e.g. `rebeccapurple`, `#f80`).
+ */
+function resolveFillColor(layer: VectorTilejsonLayer): Rgb {
+  return parseHexColor(layer.paint?.fillColor) ?? DEFAULT_FILL_COLOR;
+}
+
+function rgbToCss([r, g, b]: Rgb): string {
+  return `rgb(${r}, ${g}, ${b})`;
 }
 
 interface LoaderProps {
@@ -57,9 +80,9 @@ function VectorTilejsonLayerLoader({ layer, onResolved, onError }: LoaderProps) 
     if (!data) return;
     const sourceLayer =
       layer.sourceLayer ?? data.vector_layers?.[0]?.id ?? undefined;
-    const fillColor = parseHexColor(layer.paint?.fillColor) ?? [255, 126, 41];
+    const fillColor = resolveFillColor(layer);
     const fillOpacity = layer.paint?.fillOpacity ?? 1;
-    const lineColor = parseHexColor(layer.paint?.lineColor) ?? [0, 0, 0];
+    const lineColor = parseHexColor(layer.paint?.lineColor) ?? DEFAULT_LINE_COLOR;
     const lineWidth = layer.paint?.lineWidth ?? 0;
 
     const mvt = new MVTLayer({
@@ -148,7 +171,7 @@ export function DeckglVectorTilesApp({ dataset }: DeckglVectorTilesAppProps) {
       vectorLayers.map((l) => ({
         id: l.id,
         label: l.name ?? l.id,
-        color: l.paint?.fillColor,
+        color: rgbToCss(resolveFillColor(l)),
       })),
     [vectorLayers],
   );

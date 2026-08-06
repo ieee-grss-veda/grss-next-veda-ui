@@ -33,7 +33,14 @@ export function DatasetInfoPanel({
         position: 'absolute',
         bottom: 60,
         left: 12,
-        maxWidth: 360,
+        // Shrink-to-fit up to 360px, but never wider than the map minus the
+        // 12px gutters — otherwise the panel runs off-screen below ~372px.
+        maxWidth: 'min(360px, calc(100% - 24px))',
+        // Leave room for the 60px bottom offset plus a 24px top gutter, and
+        // scroll internally when the description + toggles exceed that.
+        maxHeight: 'calc(100% - 84px)',
+        overflowY: 'auto',
+        boxSizing: 'border-box',
         padding: '12px 14px',
         background: 'rgba(255, 255, 255, 0.92)',
         borderRadius: 6,
