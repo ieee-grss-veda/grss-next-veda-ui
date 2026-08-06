@@ -18,7 +18,9 @@ const vglsp = (multiplier: number) => css`
 const TaxonomySection = styled.section`
   grid-column: 1 / -1;
   padding-top: ${vglsp(0.5)};
-  padding-bottom: ${vglsp(0.5)};
+  /* Keep the pills clear of the hero's bottom edge rather than sitting flush
+     against it. */
+  padding-bottom: ${vglsp(1.5)};
   box-shadow: 0 -1px 0 0 ${themeVal('color.surface-200a')};
 `;
 
