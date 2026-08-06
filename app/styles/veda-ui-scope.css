@@ -1774,8 +1774,26 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
    STORIES HUB AND DATA CATALOG DETAIL PAGE
    ===================================================== */
 
+/* Align hero content with the site header. The header centers its contents in
+   a 1400px box with 24px (48px at lg) side padding — see the container in
+   app/components/common/header.tsx — so the logo's left edge is
+   max(0, (100vw - 1400px) / 2) + padding. Applying the same constraints to the
+   hero's inner grid lines the title, description, and taxonomy up with the
+   logo at every width, while the cover image stays full-bleed. */
+#veda-ui-root [class*='page-hero__PageHeroInner'] {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 1024px) {
+  #veda-ui-root [class*='page-hero__PageHeroInner'] {
+    padding-inline: 48px;
+  }
+}
+
 #veda-ui-root [class*='page-hero__PageHeroBlockAlpha'] {
-  margin: 40px;
+  margin: 40px 0;
 }
 
 /* =====================================================
