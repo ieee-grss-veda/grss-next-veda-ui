@@ -1393,9 +1393,41 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   margin: 0 0 1rem 0;
 }
 
-.dark [class*='layer-legend__LegendContainer'],
 .dark [class*='content-block__ContentBlockProse'] {
-  color: var(--background);
+  color: var(--foreground);
+}
+
+/* Legend cards, the map message pill ("2010"), and scrollytelling chapter cards
+   keep a light/white background in both themes (veda-ui hardcodes these), so
+   their text must stay dark even in dark mode — otherwise the rule above (and
+   the inherited foreground) renders white text on a white card. The descendant
+   prose selectors re-target the inner prose element, since a direct color rule
+   beats the dark color inherited from the container. */
+.dark [class*='layer-legend__LegendContainer'],
+.dark [class*='map-message__Message'],
+.dark [class*='chapter__ChapterSelf'] [class*='content-block__ContentBlockProse'],
+.dark [class*='layer-legend__LegendContainer'] [class*='content-block__ContentBlockProse'] {
+  color: oklch(0.145 0 0);
+}
+
+/* Figure captions are hardcoded to a mid-gray (base-400) by veda-ui, which is
+   low-contrast on the dark page background. Use the muted foreground so they
+   stay subdued but readable in dark mode. */
+.dark [class*='figure__FigcaptionInner'] {
+  color: var(--muted-foreground);
+}
+
+/* Legend title overlap fix (both themes). veda-ui sizes the title with a fluid
+   font-size — calc(0.75rem + var(--base-text-increment)) — but pairs it with a
+   near-fixed line-height (~1rem). At large breakpoints the theme's text
+   increment grows the font past that line box, so a wrapped two-line title
+   collides with itself and crowds the gradient below. A proportional
+   line-height and capped size keep it readable and contained. Scoped via
+   LayerLegendSelf so specificity (0,2,0) beats veda's own rule regardless of
+   whether the legend is portaled outside #veda-ui-root. */
+[class*='layer-legend__LayerLegendSelf'] [class*='layer-legend__LayerLegendTitle'] {
+  font-size: 0.875rem;
+  line-height: 1.25;
 }
 
 /* Hide the red accent line under Browse */

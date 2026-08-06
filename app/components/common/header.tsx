@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { MetaNavigation } from './meta-navigation';
-// import { ImageWithFallback } from './figma/ImageWithFallback';
 import { InternalNavLink } from '@lib';
 import {
   DATASET_CATALOG_PATH,
@@ -17,6 +16,7 @@ import { Separator } from '../ui/separator';
 import { useTheme } from './theme-provider';
 import { usePathname } from 'next/navigation';
 import { cn } from '../ui/utils';
+import { openContactWidget } from '@lib/contact-widget';
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -60,16 +60,32 @@ export default function Header() {
                 aria-label='Go to home page'
                 data-tour='logo'
               >
-                <img
-                  src='/images/GRSS-lightmode-logo.png'
-                  alt='GRSS IEEE Logo'
-                  className='logo-light h-12'
-                />
-                <img
-                  src='/images/GRSS-darkmode-logo.png'
-                  alt='GRSS IEEE Logo'
-                  className='logo-dark h-12'
-                />
+                <div className='logo-light flex items-center gap-3 h-12'>
+                  <img
+                    src='/images/grss-logo_blue.png'
+                    alt='GRSS Logo'
+                    className='h-full'
+                  />
+                  <div className='w-px h-12 bg-gray-400' />
+                  <img
+                    src='/images/ieee_logo_blue.png'
+                    alt='IEEE Logo'
+                    className='h-8'
+                  />
+                </div>
+                <div className='logo-dark flex items-center gap-3 h-12'>
+                  <img
+                    src='/images/grss_logo_white.png'
+                    alt='GRSS Logo'
+                    className='h-full'
+                  />
+                  <div className='w-px h-12 bg-gray-400' />
+                  <img
+                    src='/images/ieee_logo_white.png'
+                    alt='IEEE Logo'
+                    className='h-8'
+                  />
+                </div>
               </Link>
               <div className='hidden md:flex items-center gap-6'>
                 {navItems.map((item) => (
@@ -165,15 +181,16 @@ export default function Header() {
                       </Button>
                     </Link>
 
-                    <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
-                      <Button
-                        className='w-full justify-center'
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Contact Us
-                        <ArrowRight className='h-4 w-4 ml-2' />
-                      </Button>
-                    </Link>
+                    <Button
+                      className='w-full justify-center'
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        openContactWidget();
+                      }}
+                    >
+                      Contact Us
+                      <ArrowRight className='h-4 w-4 ml-2' />
+                    </Button>
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -193,11 +210,14 @@ export default function Header() {
                   Sign-in
                 </Link>
               </Button>
-              <Link href='https://grss-ieee.atlassian.net/servicedesk/'>
-                <Button size='sm' className='gap-2 hidden lg:flex' data-tour='contact'>
-                  Contact Us <ArrowRight className='h-4 w-4' />
-                </Button>
-              </Link>
+              <Button
+                size='sm'
+                className='gap-2 hidden lg:flex'
+                data-tour='contact'
+                onClick={openContactWidget}
+              >
+                Contact Us <ArrowRight className='h-4 w-4' />
+              </Button>
             </div>
           </div>
         </div>
