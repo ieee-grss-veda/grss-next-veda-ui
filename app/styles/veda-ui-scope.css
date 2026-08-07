@@ -107,11 +107,11 @@
   min-width: 0;
 }
 
-/* Search button container - half width */
+/* Search submit button - hidden. Filtering runs on every keystroke, and the
+ * form has no onSubmit, so activating the button reloads the page. */
 #veda-ui-root .usa-search > div:last-child,
 [data-veda-ui-root].veda-ui-scope .usa-search > div:last-child {
-  flex: 0 0 auto;
-  max-width: 50%;
+  display: none;
 }
 
 /* Search section header */
@@ -135,8 +135,7 @@
   width: 100%;
   height: 2.75rem;
   border: 1px solid var(--border);
-  border-right: none;
-  border-radius: var(--radius) 0 0 var(--radius);
+  border-radius: var(--radius);
   background-color: var(--input-background, #f3f3f5);
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -145,26 +144,6 @@
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-/* Search button - rounded right corners only, attached to input */
-#veda-ui-root .usa-search .usa-button,
-#veda-ui-root .usa-search button[type='submit'],
-#veda-ui-root .usa-search .usa-search__submit-text,
-[data-veda-ui-root].veda-ui-scope .usa-search .usa-button,
-[data-veda-ui-root].veda-ui-scope .usa-search button[type='submit'],
-[data-veda-ui-root].veda-ui-scope .usa-search .usa-search__submit-text {
-  height: 2.75rem;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  border: 1px solid var(--primary);
-  border-left: none;
-  padding: 0 1.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin: 0;
 }
 
 /* =====================================================

@@ -48,13 +48,16 @@ export default function ExplorationAnalysis({ datasets }: { datasets: any }) {
 
   return (
     <VizAppShell datasets={datasets}>
-      <DatasetSelectorModal
-        revealed={datasetModalRevealed}
-        close={closeModal}
-        timelineDatasets={timelineDatasets}
-        setTimelineDatasets={setTimelineDatasets}
-        datasets={datasets}
-      />
+      {/* Same no-onSubmit search form as the catalog; Enter would reload. */}
+      <div onSubmit={(e) => e.preventDefault()}>
+        <DatasetSelectorModal
+          revealed={datasetModalRevealed}
+          close={closeModal}
+          timelineDatasets={timelineDatasets}
+          setTimelineDatasets={setTimelineDatasets}
+          datasets={datasets}
+        />
+      </div>
       <ExplorationAndAnalysis
         datasets={timelineDatasets}
         setDatasets={setTimelineDatasets}
