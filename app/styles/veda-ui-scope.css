@@ -442,24 +442,39 @@
 
 /* =====================================================
    PAGINATION STYLING
-   ===================================================== */
+   =====================================================
+ * veda-ui ships almost none of the USWDS pagination stylesheet, so these rules
+ * are the entire layout. Keep selectors per-class: `[class*='pagination']`
+ * also matches the <span> label inside Previous/Next, and container
+ * properties leaking onto it stacked the label below the arrow.
+ */
 
 #veda-ui-root .usa-pagination,
-#veda-ui-root [class*='pagination'],
-[data-veda-ui-root].veda-ui-scope .usa-pagination,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] {
+[data-veda-ui-root].veda-ui-scope .usa-pagination {
   margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
 }
 
+#veda-ui-root .usa-pagination__list,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* inline-flex keeps the arrow icon on the same line as its label */
 #veda-ui-root .usa-pagination__button,
-#veda-ui-root [class*='pagination'] button,
-#veda-ui-root [class*='pagination'] a,
+#veda-ui-root .usa-pagination__link,
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] button,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] a {
+[data-veda-ui-root].veda-ui-scope .usa-pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
   color: var(--foreground);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -470,27 +485,33 @@
     background-color 0.2s ease,
     border-color 0.2s ease;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 #veda-ui-root .usa-pagination__button:hover,
-#veda-ui-root [class*='pagination'] button:hover,
-#veda-ui-root [class*='pagination'] a:hover,
+#veda-ui-root .usa-pagination__link:hover,
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button:hover,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] button:hover,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] a:hover {
+[data-veda-ui-root].veda-ui-scope .usa-pagination__link:hover {
   background-color: var(--accent);
   border-color: var(--primary);
 }
 
 #veda-ui-root .usa-pagination__button.usa-current,
-#veda-ui-root [class*='pagination'] .active,
-#veda-ui-root [class*='pagination'] [aria-current='page'],
+#veda-ui-root .usa-pagination [aria-current='page'],
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button.usa-current,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] .active,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] [aria-current='page'] {
+[data-veda-ui-root].veda-ui-scope .usa-pagination [aria-current='page'] {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
+}
+
+/* Overflow ellipsis - plain text, no button box */
+#veda-ui-root .usa-pagination__overflow,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__overflow {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  color: var(--muted-foreground);
 }
 
 /* =====================================================
@@ -660,22 +681,29 @@
 
 /* Dark mode - Pagination */
 .dark #veda-ui-root .usa-pagination__button,
-.dark #veda-ui-root [class*='pagination'] button,
-.dark #veda-ui-root [class*='pagination'] a,
+.dark #veda-ui-root .usa-pagination__link,
 [data-veda-ui-root].dark .usa-pagination__button,
-[data-veda-ui-root].dark [class*='pagination'] button,
-[data-veda-ui-root].dark [class*='pagination'] a {
+[data-veda-ui-root].dark .usa-pagination__link {
   background-color: var(--card);
   border-color: var(--border);
   color: var(--foreground);
 }
 
+/* The rule above ties the light current-page rule's specificity and is
+ * declared later, so the current page must be restated here. */
+.dark #veda-ui-root .usa-pagination__button.usa-current,
+.dark #veda-ui-root .usa-pagination [aria-current='page'],
+[data-veda-ui-root].dark .usa-pagination__button.usa-current,
+[data-veda-ui-root].dark .usa-pagination [aria-current='page'] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
 .dark #veda-ui-root .usa-pagination__button:hover,
-.dark #veda-ui-root [class*='pagination'] button:hover,
-.dark #veda-ui-root [class*='pagination'] a:hover,
+.dark #veda-ui-root .usa-pagination__link:hover,
 [data-veda-ui-root].dark .usa-pagination__button:hover,
-[data-veda-ui-root].dark [class*='pagination'] button:hover,
-[data-veda-ui-root].dark [class*='pagination'] a:hover {
+[data-veda-ui-root].dark .usa-pagination__link:hover {
   background-color: var(--accent);
 }
 
