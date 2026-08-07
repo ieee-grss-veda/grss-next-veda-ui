@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import { highlight } from 'sugar-high';
 import { LegacyGlobalStyles } from '@lib';
 
@@ -110,6 +111,17 @@ export function CustomMDX(props: any) {
       <LegacyGlobalStyles />
       <MDXRemote
         {...props}
+        options={{
+          ...(props.options || {}),
+          mdxOptions: {
+            ...(props.options?.mdxOptions || {}),
+            // enable GFM so markdown pipe tables in dataset MDX render as tables
+            remarkPlugins: [
+              remarkGfm,
+              ...(props.options?.mdxOptions?.remarkPlugins || []),
+            ],
+          },
+        }}
         components={{ ...components, ...(props.components || {}) }}
       >
         {props.children}
