@@ -32,6 +32,9 @@ export default function DatasetOverviewPage({ params }: { params: any }) {
           description={dataset.metadata.description}
           coverSrc={dataset.metadata.media?.src}
           coverAlt={dataset.metadata.media?.alt}
+          attributionAuthor={dataset.metadata.media?.author?.name}
+          attributionUrl={dataset.metadata.media?.author?.url}
+          taxonomy={dataset.metadata.taxonomy}
           exploreHref={exploreHref}
         />
         <CustomMDX source={dataset.content} />

@@ -2,8 +2,9 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getStories } from 'app/content/utils/mdx';
-import { LegacyGlobalStyles, PageHero } from '@lib';
+import { LegacyGlobalStyles } from '@lib';
 import VedaUIWrapper from 'app/components/veda-ui-wrapper';
+import StoryHero from './story-hero';
 
 async function generateStaticParams() {
   const posts = getStories();
@@ -38,12 +39,7 @@ export default function StoryOverview({ params }: { params: any }) {
         <VedaUIWrapper>
           <LegacyGlobalStyles />
 
-          <PageHero
-            title={post.metadata.name}
-            description={post.metadata.description}
-            coverSrc={post.metadata.media?.src}
-            coverAlt={post.metadata.media?.alt}
-          />
+          <StoryHero story={post.metadata} />
           <CustomMDX source={post.content} />
         </VedaUIWrapper>
       </article>
