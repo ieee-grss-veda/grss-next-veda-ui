@@ -32,6 +32,10 @@ export function parseAttributes(obj) {
     ...(obj.layers
       ? {
           layers: obj.layers?.map((l) => ({
+            // veda-ui's catalog search calls `.toLowerCase()` on these without
+            // a guard, so a non-STAC layer (no stacCol) crashes the catalog.
+            stacCol: '',
+            description: '',
             ...l,
             parentDataset: { id: obj.id },
           })),
