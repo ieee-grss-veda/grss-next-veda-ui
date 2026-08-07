@@ -1,6 +1,12 @@
 const path = require('path');
 
 module.exports = {
+  // Without this, styled-components v5 derives componentIds from a module
+  // evaluation counter, so class names can differ across server/client renders
+  // and hydration fails.
+  compiler: {
+    styledComponents: true,
+  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
