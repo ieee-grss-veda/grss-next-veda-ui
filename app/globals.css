@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-@import './styles/veda-ui-scope.css';
+/* veda-ui-scope.css belongs to veda-ui-wrapper.tsx, which loads it after
+ * veda-ui's main.css. Importing it here too split it across both sides. */
 
 :root {
   --foreground: 222.2 47.4% 11.2%;

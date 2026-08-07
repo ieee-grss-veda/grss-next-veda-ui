@@ -1,12 +1,18 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getDatasets } from 'app/content/utils/mdx';
 import { resolveVizTarget } from 'app/viz-apps/dispatch';
 import type { DatasetWithViz } from 'app/types/viz-app';
-import DatasetHero from './dataset-hero';
 
 // CSS imports moved to dataset-hero.tsx (client component) to prevent global style conflicts
+
+// veda-ui cannot be part of Next's SSR pass; see app/components/mdx.tsx.
+const DatasetHero = dynamic(() => import('./dataset-hero'), {
+  ssr: false,
+  loading: () => <p className='p-8 text-center'>Loading…</p>,
+});
 
 export default function DatasetOverviewPage({ params }: { params: any }) {
   const dataset = getDatasets().find((dataset) => dataset.slug === params.slug);
