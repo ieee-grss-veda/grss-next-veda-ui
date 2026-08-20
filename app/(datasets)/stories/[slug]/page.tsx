@@ -1,9 +1,14 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getStories } from 'app/content/utils/mdx';
-import { LegacyGlobalStyles, PageHero } from '@lib';
-import VedaUIWrapper from 'app/components/veda-ui-wrapper';
+
+// veda-ui cannot be part of Next's SSR pass; see app/components/mdx.tsx.
+const StoryHero = dynamic(() => import('./story-hero'), {
+  ssr: false,
+  loading: () => <p className='p-8 text-center'>Loading…</p>,
+});
 
 async function generateStaticParams() {
   const posts = getStories();
@@ -35,17 +40,8 @@ export default function StoryOverview({ params }: { params: any }) {
         }}
       />
       <article className='prose'>
-        <VedaUIWrapper>
-          <LegacyGlobalStyles />
-
-          <PageHero
-            title={post.metadata.name}
-            description={post.metadata.description}
-            coverSrc={post.metadata.media?.src}
-            coverAlt={post.metadata.media?.alt}
-          />
-          <CustomMDX source={post.content} />
-        </VedaUIWrapper>
+        <StoryHero story={post.metadata} />
+        <CustomMDX source={post.content} />
       </article>
     </section>
   );

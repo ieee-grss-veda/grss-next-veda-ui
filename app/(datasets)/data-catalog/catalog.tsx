@@ -8,12 +8,15 @@ export default function Catalog({ datasets }: { datasets: any }) {
 
   return (
     <VedaUIWrapper>
-      <CatalogContent
-        datasets={datasets}
-        search={controlVars.search}
-        onAction={controlVars.onAction}
-        taxonomies={controlVars.taxonomies}
-      />
+      {/* veda-ui's search is a <form> with no onSubmit; Enter would reload. */}
+      <div onSubmit={(e) => e.preventDefault()}>
+        <CatalogContent
+          datasets={datasets}
+          search={controlVars.search}
+          onAction={controlVars.onAction}
+          taxonomies={controlVars.taxonomies}
+        />
+      </div>
     </VedaUIWrapper>
   );
 }

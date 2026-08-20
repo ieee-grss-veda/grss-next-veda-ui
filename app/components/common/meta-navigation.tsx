@@ -64,12 +64,12 @@ export function MetaNavigation() {
 
   return (
     <nav
-      className='sticky top-0 z-50 w-full bg-[#FBFCFF] dark:bg-black text-foreground dark:text-white min-h-[40px] md:min-h-[100px] lg:min-h-[40px]'
+      className='sticky top-0 z-50 w-full bg-[#FBFCFF] dark:bg-black text-foreground dark:text-white min-h-10'
       aria-label='IEEE Enterprise Navigation'
       role='navigation'
     >
       <div className='max-w-[1400px] mx-auto px-3 lg:px-6 h-full'>
-        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 md:gap-2 py-1 md:py-1.5 lg:py-1'>
+        <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-2 py-1 md:py-1.5 lg:py-1'>
           {/* Left-aligned core site links */}
           <div className='flex flex-wrap items-center gap-1 text-sm'>
             {navItems.map((item, index) => (

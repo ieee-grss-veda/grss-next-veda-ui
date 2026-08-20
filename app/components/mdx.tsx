@@ -1,119 +1,23 @@
 import React from 'react';
-import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { highlight } from 'sugar-high';
-import { LegacyGlobalStyles } from '@lib';
-
-import {
-  Block,
-  Prose,
-  Caption,
-  Chapter,
-  Figure,
-  Image,
-  CompareImage,
-  Chart,
-} from '@lib';
-import {
-  EnhancedMapBlock,
-  EnhancedScrollyTellingBlock,
-} from './mdx-components/block';
+import dynamic from 'next/dynamic';
+import { serialize } from 'next-mdx-remote/serialize';
+import remarkGfm from 'remark-gfm';
 import { getDatasetsMetadata } from 'app/content/utils/mdx';
-import VedaUIWrapper from 'app/components/veda-ui-wrapper';
 
-function Table({ data }: { data: any }) {
-  const headers = data.headers.map((header, index) => (
-    <th key={index}>{header}</th>
-  ));
-  const rows = data.rows.map((row, index) => (
-    <tr key={index}>
-      {row.map((cell, cellIndex) => (
-        <td key={cellIndex}>{cell}</td>
-      ))}
-    </tr>
-  ));
+// Compiled here, rendered by ./mdx-content behind `ssr: false`: veda-ui reads
+// `window.location` at module scope, so importing it into Next's SSR pass
+// throws `ReferenceError: window is not defined` and returns 500.
+const MDXContent = dynamic(() => import('./mdx-content'), {
+  ssr: false,
+  loading: () => <p className='p-8 text-center'>Loading…</p>,
+});
 
-  return (
-    <table>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </table>
-  );
-}
-
-function Code({ children, ...props }: { children: any }) {
-  const codeHTML = highlight(children);
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
-}
-
-function slugify(str) {
-  return str
-    .toString()
-    .toLowerCase()
-    .trim() // Remove whitespace from both ends of a string
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/&/g, '-and-') // Replace & with 'and'
-    .replace(/[^\w\-]+/g, '') // Remove all non-word characters except for -
-    .replace(/\-\-+/g, '-'); // Replace multiple - with single -
-}
-
-function createHeading(level) {
-  const Heading = ({ children }: { children: JSX.Element }) => {
-    const slug = slugify(children);
-    return React.createElement(
-      `h${level}`,
-      { id: slug },
-      [
-        React.createElement('a', {
-          href: `#${slug}`,
-          key: `link-${slug}`,
-          className: 'anchor',
-        }),
-      ],
-      children,
-    );
-  };
-
-  Heading.displayName = `Heading${level}`;
-
-  return Heading;
-}
-
-const components = {
-  h1: createHeading(1),
-  h2: createHeading(2),
-  h3: createHeading(3),
-  h4: createHeading(4),
-  h5: createHeading(5),
-  h6: createHeading(6),
-  code: Code,
-  Table,
-  Block: Block,
-  Prose: Prose,
-  Caption: Caption,
-  Figure: Figure,
-  Image: Image,
-  Map: EnhancedMapBlock,
-  CompareImage: CompareImage,
-  ScrollytellingBlock: EnhancedScrollyTellingBlock,
-  Link: Link,
-  Chapter: Chapter,
-  Chart: Chart,
-};
-
-export function CustomMDX(props: any) {
+export async function CustomMDX({ source }: { source: string }) {
   const datasets = getDatasetsMetadata();
-  return (
-    <VedaUIWrapper datasets={datasets}>
-      <LegacyGlobalStyles />
-      <MDXRemote
-        {...props}
-        components={{ ...components, ...(props.components || {}) }}
-      >
-        {props.children}
-      </MDXRemote>
-    </VedaUIWrapper>
-  );
+  const serialized = await serialize(source, {
+    // enable GFM so markdown pipe tables in dataset MDX render as tables
+    mdxOptions: { remarkPlugins: [remarkGfm] },
+  });
+
+  return <MDXContent serialized={serialized} datasets={datasets} />;
 }

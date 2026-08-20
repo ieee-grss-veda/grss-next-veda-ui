@@ -8,7 +8,7 @@ export default function AcknowledgementsSection() {
       <div className='max-w-[1400px] mx-auto px-6 lg:px-12 text-center'>
         <SectionHeader
           heading='Acknowledgements'
-          subheading="GRSS VEDA is made possible through a collaboration between the IEEE Geoscience and Remote Sensing Society and NASA's Interagency Implementation and Advanced Concepts Team (IMPACT). GRSS VEDA is deployed and adapted from NASA's open VEDA infrastructure."
+          subheading="GRSS VEDA is made possible through a collaboration between the IEEE Geoscience and Remote Sensing Society and NASA's Office of Data Science and Informatics (ODSI). GRSS VEDA is deployed and adapted from NASA's open VEDA infrastructure."
           overrideHeadingClassName='text-2xl mb-4'
           subheadingClassName='text-base mb-6'
         />

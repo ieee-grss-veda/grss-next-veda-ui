@@ -107,11 +107,11 @@
   min-width: 0;
 }
 
-/* Search button container - half width */
+/* Search submit button - hidden. Filtering runs on every keystroke, and the
+ * form has no onSubmit, so activating the button reloads the page. */
 #veda-ui-root .usa-search > div:last-child,
 [data-veda-ui-root].veda-ui-scope .usa-search > div:last-child {
-  flex: 0 0 auto;
-  max-width: 50%;
+  display: none;
 }
 
 /* Search section header */
@@ -135,8 +135,7 @@
   width: 100%;
   height: 2.75rem;
   border: 1px solid var(--border);
-  border-right: none;
-  border-radius: var(--radius) 0 0 var(--radius);
+  border-radius: var(--radius);
   background-color: var(--input-background, #f3f3f5);
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -145,26 +144,6 @@
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-/* Search button - rounded right corners only, attached to input */
-#veda-ui-root .usa-search .usa-button,
-#veda-ui-root .usa-search button[type='submit'],
-#veda-ui-root .usa-search .usa-search__submit-text,
-[data-veda-ui-root].veda-ui-scope .usa-search .usa-button,
-[data-veda-ui-root].veda-ui-scope .usa-search button[type='submit'],
-[data-veda-ui-root].veda-ui-scope .usa-search .usa-search__submit-text {
-  height: 2.75rem;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  border: 1px solid var(--primary);
-  border-left: none;
-  padding: 0 1.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin: 0;
 }
 
 /* =====================================================
@@ -463,24 +442,39 @@
 
 /* =====================================================
    PAGINATION STYLING
-   ===================================================== */
+   =====================================================
+ * veda-ui ships almost none of the USWDS pagination stylesheet, so these rules
+ * are the entire layout. Keep selectors per-class: `[class*='pagination']`
+ * also matches the <span> label inside Previous/Next, and container
+ * properties leaking onto it stacked the label below the arrow.
+ */
 
 #veda-ui-root .usa-pagination,
-#veda-ui-root [class*='pagination'],
-[data-veda-ui-root].veda-ui-scope .usa-pagination,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] {
+[data-veda-ui-root].veda-ui-scope .usa-pagination {
   margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
 }
 
+#veda-ui-root .usa-pagination__list,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* inline-flex keeps the arrow icon on the same line as its label */
 #veda-ui-root .usa-pagination__button,
-#veda-ui-root [class*='pagination'] button,
-#veda-ui-root [class*='pagination'] a,
+#veda-ui-root .usa-pagination__link,
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] button,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] a {
+[data-veda-ui-root].veda-ui-scope .usa-pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
   color: var(--foreground);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -491,27 +485,33 @@
     background-color 0.2s ease,
     border-color 0.2s ease;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 #veda-ui-root .usa-pagination__button:hover,
-#veda-ui-root [class*='pagination'] button:hover,
-#veda-ui-root [class*='pagination'] a:hover,
+#veda-ui-root .usa-pagination__link:hover,
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button:hover,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] button:hover,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] a:hover {
+[data-veda-ui-root].veda-ui-scope .usa-pagination__link:hover {
   background-color: var(--accent);
   border-color: var(--primary);
 }
 
 #veda-ui-root .usa-pagination__button.usa-current,
-#veda-ui-root [class*='pagination'] .active,
-#veda-ui-root [class*='pagination'] [aria-current='page'],
+#veda-ui-root .usa-pagination [aria-current='page'],
 [data-veda-ui-root].veda-ui-scope .usa-pagination__button.usa-current,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] .active,
-[data-veda-ui-root].veda-ui-scope [class*='pagination'] [aria-current='page'] {
+[data-veda-ui-root].veda-ui-scope .usa-pagination [aria-current='page'] {
   background-color: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
+}
+
+/* Overflow ellipsis - plain text, no button box */
+#veda-ui-root .usa-pagination__overflow,
+[data-veda-ui-root].veda-ui-scope .usa-pagination__overflow {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  color: var(--muted-foreground);
 }
 
 /* =====================================================
@@ -681,22 +681,29 @@
 
 /* Dark mode - Pagination */
 .dark #veda-ui-root .usa-pagination__button,
-.dark #veda-ui-root [class*='pagination'] button,
-.dark #veda-ui-root [class*='pagination'] a,
+.dark #veda-ui-root .usa-pagination__link,
 [data-veda-ui-root].dark .usa-pagination__button,
-[data-veda-ui-root].dark [class*='pagination'] button,
-[data-veda-ui-root].dark [class*='pagination'] a {
+[data-veda-ui-root].dark .usa-pagination__link {
   background-color: var(--card);
   border-color: var(--border);
   color: var(--foreground);
 }
 
+/* The rule above ties the light current-page rule's specificity and is
+ * declared later, so the current page must be restated here. */
+.dark #veda-ui-root .usa-pagination__button.usa-current,
+.dark #veda-ui-root .usa-pagination [aria-current='page'],
+[data-veda-ui-root].dark .usa-pagination__button.usa-current,
+[data-veda-ui-root].dark .usa-pagination [aria-current='page'] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
 .dark #veda-ui-root .usa-pagination__button:hover,
-.dark #veda-ui-root [class*='pagination'] button:hover,
-.dark #veda-ui-root [class*='pagination'] a:hover,
+.dark #veda-ui-root .usa-pagination__link:hover,
 [data-veda-ui-root].dark .usa-pagination__button:hover,
-[data-veda-ui-root].dark [class*='pagination'] button:hover,
-[data-veda-ui-root].dark [class*='pagination'] a:hover {
+[data-veda-ui-root].dark .usa-pagination__link:hover {
   background-color: var(--accent);
 }
 
@@ -1393,9 +1400,54 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
   margin: 0 0 1rem 0;
 }
 
-.dark [class*='layer-legend__LegendContainer'],
 .dark [class*='content-block__ContentBlockProse'] {
-  color: var(--background);
+  color: var(--foreground);
+}
+
+/* Legend cards, the map message pill ("2010"), and scrollytelling chapter cards
+   keep a light/white background in both themes (veda-ui hardcodes these), so
+   their text must stay dark even in dark mode — otherwise the rule above (and
+   the inherited foreground) renders white text on a white card. The descendant
+   prose selectors re-target the inner prose element, since a direct color rule
+   beats the dark color inherited from the container. */
+.dark [class*='layer-legend__LegendContainer'],
+.dark [class*='map-message__Message'],
+.dark [class*='chapter__ChapterSelf'] [class*='content-block__ContentBlockProse'],
+.dark [class*='layer-legend__LegendContainer'] [class*='content-block__ContentBlockProse'] {
+  color: oklch(0.145 0 0);
+}
+
+/* Figure captions are hardcoded to a mid-gray (base-400) by veda-ui, which is
+   low-contrast on the dark page background. Use the muted foreground so they
+   stay subdued but readable in dark mode. */
+.dark [class*='figure__FigcaptionInner'] {
+  color: var(--muted-foreground);
+}
+
+/* Legend title overlap fix (both themes). veda-ui sizes the title with a fluid
+   font-size — calc(0.75rem + var(--base-text-increment)) — but pairs it with a
+   near-fixed line-height (~1rem). At large breakpoints the theme's text
+   increment grows the font past that line box, so a wrapped two-line title
+   collides with itself and crowds the gradient below. A proportional
+   line-height and capped size keep it readable and contained. Scoped via
+   LayerLegendSelf so specificity (0,2,0) beats veda's own rule regardless of
+   whether the legend is portaled outside #veda-ui-root. */
+[class*='layer-legend__LayerLegendSelf'] [class*='layer-legend__LayerLegendTitle'] {
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+/* Categorical legend labels. veda-ui renders each category as
+   <dt><swatch/><span>label</span></dt> and never sets a font-size or weight on
+   the span (gradient legends get an explicit 0.75rem on their dd, categorical
+   ones don't), so the labels inherit the page's large bold text. Pin them to
+   the same scale the gradient labels use. The swatch itself is also a span
+   inside the dt and relies on font-size: 0 to hide its accessible color-stop
+   text ("rgba(...) to rgba(...)"), so it must be excluded here. */
+[class*='layer-legend__LegendList'] dt > span:not([class*='layer-legend__LegendSwatch']) {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
 }
 
 /* Hide the red accent line under Browse */
@@ -1729,8 +1781,26 @@ veda__mobile-catalog.veda-ui-scope .grid-row > .tablet\:grid-col-9,
    STORIES HUB AND DATA CATALOG DETAIL PAGE
    ===================================================== */
 
+/* Align hero content with the site header. The header centers its contents in
+   a 1400px box with 24px (48px at lg) side padding — see the container in
+   app/components/common/header.tsx — so the logo's left edge is
+   max(0, (100vw - 1400px) / 2) + padding. Applying the same constraints to the
+   hero's inner grid lines the title, description, and taxonomy up with the
+   logo at every width, while the cover image stays full-bleed. */
+#veda-ui-root [class*='page-hero__PageHeroInner'] {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 1024px) {
+  #veda-ui-root [class*='page-hero__PageHeroInner'] {
+    padding-inline: 48px;
+  }
+}
+
 #veda-ui-root [class*='page-hero__PageHeroBlockAlpha'] {
-  margin: 40px;
+  margin: 40px 0;
 }
 
 /* =====================================================

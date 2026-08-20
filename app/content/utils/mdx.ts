@@ -32,6 +32,10 @@ export function parseAttributes(obj) {
     ...(obj.layers
       ? {
           layers: obj.layers?.map((l) => ({
+            // veda-ui's catalog search calls `.toLowerCase()` on these without
+            // a guard, so a non-STAC layer (no stacCol) crashes the catalog.
+            stacCol: '',
+            description: '',
             ...l,
             parentDataset: { id: obj.id },
           })),
@@ -41,7 +45,12 @@ export function parseAttributes(obj) {
   const convert = (obj) => {
     return Object.keys(obj).reduce(
       (acc, key) => {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
+        if (obj[key] instanceof Date) {
+          // YAML parses unquoted dates (e.g. `pubDate: 2026-03-04`) into Date
+          // objects at UTC midnight. Emit a timezone-naive string so consumers
+          // formatting in local time keep the calendar date the author wrote.
+          acc[key] = obj[key].toISOString().slice(0, 16);
+        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
           acc[key] = convert(obj[key]);
         } else if (typeof obj[key] === 'string') {
           if (obj[key].includes('::markdown')) {

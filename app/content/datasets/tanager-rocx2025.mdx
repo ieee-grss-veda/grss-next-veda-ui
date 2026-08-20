@@ -1,0 +1,110 @@
+---
+id: tanager-rocx2025
+name: "Tanager-1 Core Imagery — ROCX 2025"
+description: "Orthorectified true-color imagery from Planet's Tanager-1 hyperspectral satellite, captured July–October 2025 for ROCX 2025 applications."
+media:
+  src: /images/dataset/tanager-rocx2025--dataset-cover.jpg
+  alt: Tanager-1 true-color imagery of the Lake Ontario shoreline at Rochester, New York
+  author:
+    name: Planet Labs PBC
+    url: https://www.planet.com
+taxonomy:
+  - name: Topics
+    values:
+      - Satellite Imagery
+      - Hyperspectral
+  - name: Source
+    values:
+      - Planet Labs PBC
+  - name: Platform
+    values:
+      - Tanager-1
+infoDescription: |
+  ::markdown
+    - Temporal Extent: July 4, 2025 - October 29, 2025
+    - Temporal Resolution: Discrete acquisitions
+    - Spatial Extent: Selected ROCX 2025 sites
+    - Spatial Resolution: ~30 m (visual product)
+    - Data Units: True-color RGB (uint8)
+    - License: CC-BY 4.0 (Planet Labs PBC)
+
+layers:
+  - id: tanager-rocx2025-visual
+    stacCol: tanager-rocx2025
+    name: "Tanager-1 Orthorectified Visual (True Color)"
+    type: raster
+    description: "Orthorectified, georeferenced true-color (RGB) representation of Tanager-1 core imagery."
+    time_density: day
+    initialDatetime: newest
+    zoomExtent:
+      - 6
+      - 14
+    sourceParams:
+      assets: ortho_visual
+    info:
+      source: Planet Labs PBC
+      spatialExtent: Selected ROCX 2025 sites
+      temporalResolution: Discrete acquisitions
+    media:
+      src: /images/dataset/tanager-rocx2025--dataset-cover.jpg
+      alt: Tanager-1 true-color imagery
+---
+
+<Block>
+<Prose>
+This dataset provides orthorectified true-color (RGB) imagery from **Tanager-1**, Planet's hyperspectral satellite, for the **ROCX 2025** application set. The 16 scenes were captured between July 4 and October 29, 2025 over selected sites.
+
+The displayed layer is the `ortho_visual` product — a georeferenced and projected visual representation of each acquisition (a GeoTIFF version of the scene thumbnail). The underlying Tanager-1 core imagery products (radiance, surface reflectance hyperspectral cubes, and quicklooks) are also available as assets on each STAC item.
+</Prose>
+</Block>
+
+<Block type='full'>
+<Prose>
+## The Tanager-1 Mission
+
+Tanager-1 is a hyperspectral satellite operated by Planet Labs PBC, collecting imagery across hundreds of contiguous spectral bands. The Tanager STAC catalog organizes core imagery products into application-themed collections; this dataset replicates the **ROCX 2025** collection.
+</Prose>
+<Figure>
+  <Map
+    datasetId='tanager-rocx2025'
+    layerId='tanager-rocx2025-visual'
+    dateTime='2025-09-19'
+    zoom={9}
+    center={[-77.47, 43.25]}
+  />
+  <Caption
+    attrAuthor='Planet Labs PBC'
+    attrUrl='https://www.planet.com/data/stac'
+  >
+  Tanager-1 orthorectified true-color imagery (ROCX 2025).
+  </Caption>
+</Figure>
+</Block>
+
+<Block>
+<Prose>
+## Dataset Specifications
+
+| Specification | Value |
+|--------------|-------|
+| **Displayed Product** | `ortho_visual` (orthorectified true-color RGB) |
+| **Spatial Resolution** | ~30 m |
+| **Temporal Extent** | 2025-07-04 – 2025-10-29 |
+| **Scenes** | 16 |
+| **Coordinate System** | UTM (per-scene, e.g. EPSG:32618) |
+| **Platform** | Tanager-1 |
+| **Instrument** | Hyperspectral imager |
+
+Each STAC item also carries the full Tanager-1 core imagery products as additional assets: basic and orthorectified radiance and surface-reflectance hyperspectral cubes (HDF5), usable data masks, geolocation arrays, methane quicklooks, and a recent monthly mosaic.
+</Prose>
+</Block>
+
+<Block>
+<Prose>
+## Credits & License
+
+Tanager STAC Data, available at [www.planet.com/data/stac](https://www.planet.com/data/stac) © 2025 Planet Labs PBC. All Rights Reserved.
+
+This material is made available under the [Creative Commons CC-BY 4.0 license](https://creativecommons.org/licenses/by/4.0/). Data hosted on a Google Cloud Platform storage bucket operated by Planet.
+</Prose>
+</Block>
