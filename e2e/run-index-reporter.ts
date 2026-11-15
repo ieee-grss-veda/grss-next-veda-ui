@@ -114,6 +114,8 @@ export default class RunIndexReporter implements Reporter {
     );
     this.writeIndex();
 
+    this.writeStepSummary(meta);
+
     const report = path.resolve(this.options.runDir, 'report');
     // The end-of-run summary makes tolerated problems and skips impossible to
     // miss: a green run is not a run without bugs.
@@ -141,6 +143,59 @@ export default class RunIndexReporter implements Reporter {
 
   printsToStdio() {
     return false;
+  }
+
+  /**
+   * On GitHub Actions, append a Markdown summary to $GITHUB_STEP_SUMMARY so the
+   * result, known issues and skips show on the run page, not only in the log.
+   * No-op everywhere else.
+   */
+  private writeStepSummary(meta: RunMeta) {
+    const file = process.env.GITHUB_STEP_SUMMARY;
+    if (!file) return;
+
+    const cell = (s: string) => s.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+    const ok = meta.status === 'passed' && meta.failed === 0;
+    const lines: string[] = [
+      `## E2E results ${ok ? '✅' : '❌'}${meta.strict ? ' (strict)' : ''}`,
+      '',
+      `**${meta.passed}** passed · **${meta.failed}** failed · **${meta.flaky}** flaky · **${meta.skipped}** skipped · ${(meta.durationMs / 1000).toFixed(1)}s`,
+      '',
+    ];
+
+    if (meta.knownIssues.length) {
+      lines.push(
+        `### ⚠️ Known issues (${meta.knownIssues.length})`,
+        '',
+        'Unfixed app problems the tests tolerate. A green run does not mean these are gone. ' +
+          'Run `yarn e2e:strict` to see them fail.',
+        '',
+        '| Issue | Tests |',
+        '| --- | --- |',
+        ...meta.knownIssues.map((k) => `| ${cell(k.issue)} | ${k.tests} |`),
+        '',
+      );
+    }
+    if (meta.skippedReasons.length) {
+      lines.push(
+        `### ⏭️ Skipped (${meta.skipped})`,
+        '',
+        '| Reason | Tests |',
+        '| --- | --- |',
+        ...meta.skippedReasons.map((s) => `| ${cell(s.reason)} | ${s.count} |`),
+        '',
+      );
+    }
+    lines.push(
+      'The full HTML report is in the `e2e-result` artifact of this run.',
+      '',
+    );
+
+    try {
+      fs.appendFileSync(file, lines.join('\n'));
+    } catch {
+      // Never fail the test run because the summary could not be written.
+    }
   }
 
   private writeIndex() {
