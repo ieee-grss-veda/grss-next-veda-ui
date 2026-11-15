@@ -1,7 +1,7 @@
 # This workflow performs basic checks:
 #
 #   1. run a preparation step to install and cache node modules
-#   2. once prep succeeds, run lint and ts check
+#   2. once prep succeeds, run lint, ts check, unit tests and e2e tests
 
 name: Checks
 
@@ -14,7 +14,7 @@ on:
       - ready_for_review
 
 env:
-  NODE: 20
+  NODE: 24
 
 jobs:
   prep:
@@ -122,3 +122,45 @@ jobs:
       - name: Test	
         run: yarn test	
   
+  e2e:
+    needs: prep
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+
+      - name: Install
+        run: yarn install
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Playwright builds the app (`next build`) and starts it before the tests
+      # (see webServer in playwright.config.ts). NEXT_PUBLIC_* values are
+      # inlined at build time, so they must be set on this step.
+      - name: E2E tests
+        run: yarn e2e
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+
+      - name: Upload E2E results (HTML report of this run)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-result
+          path: e2e_result/
+          retention-days: 14
