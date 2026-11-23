@@ -48,6 +48,17 @@ yarn dev
 
 The website will then be accessible at <http://localhost:3000>.
 
+### Testing
+
+Unit tests (Vitest) and end-to-end tests (Playwright) are run with:
+
+```bash
+yarn test   # unit / component tests
+yarn e2e    # builds the app and runs the browser tests
+```
+
+See the [Testing guide](./TESTING.md) for how the E2E suite works, how to add a page, and the known issues it tolerates.
+
 ### Building for production
 
 To build the project for production:

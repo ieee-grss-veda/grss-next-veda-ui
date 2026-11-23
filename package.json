@@ -9,8 +9,6 @@
     "e2e:strict": "E2E_STRICT=1 playwright test",
     "e2e:headed": "playwright test --headed",
     "e2e:ui": "playwright test --ui",
-    "build:e2e": "next build && E2E_SKIP_BUILD=1 playwright test",
-    "build:e2e:strict": "next build && E2E_SKIP_BUILD=1 E2E_STRICT=1 playwright test",
     "lint": "next lint",
     "lint:fix": "eslint . --fix",
     "ts-check": "tsc --noEmit",
