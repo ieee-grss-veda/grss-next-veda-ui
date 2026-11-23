@@ -22,8 +22,6 @@ export const ALLOWED_CONSOLE_ERRORS: RegExp[] = [
   // Requests we abort on purpose (BLOCKED_HOSTS) surface as failed loads.
   /net::ERR_FAILED/,
   /osano|cookie-consent\.ieee\.org|jsd-widget/i,
-  // External images (Unsplash hero images, dataset covers) can 404 or time out.
-  /Failed to load resource: the server responded with a status of 4\d\d/,
   // Map pages: Mapbox token, tiles, basemap style, WebGL in headless Chrome.
   /mapbox|maplibre|basemaps\.cartocdn|planetarycomputer|webgl/i,
   // STAC / raster API calls made by map blocks on dataset and story pages.
@@ -47,7 +45,11 @@ export const KNOWN_CONSOLE_ISSUES: { id: string; re: RegExp; text: string }[] =
 
 const TOUR_KEY = 'grss-veda-tour-completed';
 
-export type ConsoleProblem = { type: string; text: string };
+export type ConsoleProblem = { type: string; text: string; url?: string };
+
+/** Chrome's console text for a failed HTTP request (the URL is in `location`). */
+const FAILED_RESOURCE =
+  /^Failed to load resource: the server responded with a status of [45]\d\d/;
 
 async function prepare(page: Page, problems: ConsoleProblem[]) {
   // The website tour auto-opens 500ms after load and covers the page.
@@ -73,6 +75,7 @@ async function prepare(page: Page, problems: ConsoleProblem[]) {
     problems.push({
       type: 'console',
       text: `${msg.text()} ${location}`.trim(),
+      url: location,
     });
   });
 }
@@ -89,12 +92,24 @@ export const test = base.extend<Fixtures>({
   // `auto` so every test gets the instrumented page, even if it never asks
   // for consoleProblems explicitly.
   consoleProblems: [
-    async ({ page, allowConsoleErrors }, use, testInfo) => {
+    async ({ page, baseURL, allowConsoleErrors }, use, testInfo) => {
       const problems: ConsoleProblem[] = [];
       await prepare(page, problems);
       await use(problems);
 
       const allow = [...ALLOWED_CONSOLE_ERRORS, ...allowConsoleErrors];
+      const appOrigin = new URL(baseURL ?? 'http://localhost').origin;
+      // A 4xx/5xx from a third party (Unsplash hero images, tile servers) is
+      // noise; the same from our own app (missing image, JS chunk, API route)
+      // is a real bug and must fail the test.
+      const isExternalFailure = (p: ConsoleProblem) => {
+        if (!FAILED_RESOURCE.test(p.text) || !p.url) return false;
+        try {
+          return new URL(p.url).origin !== appOrigin;
+        } catch {
+          return false;
+        }
+      };
       const isKnown = (p: ConsoleProblem) =>
         KNOWN_CONSOLE_ISSUES.some((k) => k.re.test(p.text));
 
@@ -108,7 +123,10 @@ export const test = base.extend<Fixtures>({
       }
 
       const unexpected = problems.filter(
-        (p) => !allow.some((re) => re.test(p.text)) && (STRICT || !isKnown(p)),
+        (p) =>
+          !allow.some((re) => re.test(p.text)) &&
+          !isExternalFailure(p) &&
+          (STRICT || !isKnown(p)),
       );
       if (unexpected.length) {
         await testInfo.attach('console-errors', {

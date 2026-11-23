@@ -25,6 +25,9 @@ test.describe('every page loads and renders its main content', () => {
 });
 
 test.describe('unknown routes render the 404 page', () => {
+  // The browser logs the page's own 404 as a console error. That is the
+  // expected result here (asserted below), so allow it in this group only.
+  test.use({ allowConsoleErrors: [/status of 404 \(Not Found\)/] });
   for (const path of NOT_FOUND_PATHS) {
     test(path, async ({ page }) => {
       const response = await page.goto(path);
