@@ -7,7 +7,7 @@ test.describe('every page loads and renders its main content', () => {
   for (const spec of PAGES) {
     test(spec.name, async ({ page }) => {
       test.skip(!!spec.needsMapbox && !HAS_MAPBOX_TOKEN, NO_MAPBOX_REASON);
-      if (spec.knownBug) expectKnownBug('viz-app-500', spec.knownBug);
+      if (spec.knownBug) expectKnownBug(spec.knownBug.id, spec.knownBug.text);
 
       const response = await page.goto(spec.path);
       expect(response?.status(), `HTTP status of ${spec.path}`).toBe(200);

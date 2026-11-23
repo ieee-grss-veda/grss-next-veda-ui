@@ -4,6 +4,9 @@ import type { Locator, Page } from '@playwright/test';
  * Every UI page the suite verifies. Add new routes here and the smoke and
  * a11y specs pick them up automatically. See docs/TESTING.md.
  */
+/** A known app bug: `id` groups it in the run summary, `text` describes it. */
+export type KnownBug = { id: string; text: string };
+
 export type PageSpec = {
   name: string;
   path: string;
@@ -20,7 +23,7 @@ export type PageSpec = {
    * marked `test.fail()` so CI stays green and turns red once it is fixed:
    * then delete this field.
    */
-  knownBug?: string;
+  knownBug?: KnownBug;
 };
 
 const h1 = (name: string | RegExp) => (page: Page) =>
@@ -36,8 +39,10 @@ export const card = (page: Page, title: string | RegExp) =>
     has: page.getByRole('heading', { level: 3, name: title }),
   });
 
-export const VIZ_APP_500 =
-  'GET /explore/deckgl-vector-tiles/ms-buildings returns HTTP 500 in production builds: "ReferenceError: window is not defined" during server render (a browser-only module is imported on the server).';
+export const VIZ_APP_500: KnownBug = {
+  id: 'viz-app-500',
+  text: 'GET /explore/deckgl-vector-tiles/ms-buildings returns HTTP 500 in production builds: "ReferenceError: window is not defined" during server render (a browser-only module is imported on the server).',
+};
 
 export const PAGES: PageSpec[] = [
   {

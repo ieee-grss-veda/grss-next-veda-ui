@@ -40,7 +40,7 @@ jobs:
         id: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node${{ env.NODE }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
 
       - name: Install
         run: yarn
@@ -63,7 +63,7 @@ jobs:
         id: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node${{ env.NODE }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
 
       - name: Install
         run: yarn install
@@ -89,7 +89,7 @@ jobs:
         id: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node${{ env.NODE }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
 
       - name: Install
         run: yarn install
@@ -114,7 +114,7 @@ jobs:
         id: cache-node-modules	
         with:	
           path: node_modules	
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}	
+          key: ${{ runner.os }}-node${{ env.NODE }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}	
 
       - name: Install	
         run: yarn install	
@@ -141,7 +141,7 @@ jobs:
         id: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node${{ env.NODE }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
 
       - name: Install
         run: yarn install

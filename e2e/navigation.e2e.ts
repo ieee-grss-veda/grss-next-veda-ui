@@ -132,7 +132,7 @@ test.describe('page-to-page flows', () => {
   test('exploration search for a viz-app dataset redirects', async ({
     page,
   }) => {
-    expectKnownBug('viz-app-500', VIZ_APP_500);
+    expectKnownBug(VIZ_APP_500.id, VIZ_APP_500.text);
     await gotoHydrated(page, '/exploration?search=ms-buildings');
     await expect(page).toHaveURL(
       /\/explore\/deckgl-vector-tiles\/ms-buildings$/,
