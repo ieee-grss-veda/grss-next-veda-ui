@@ -1,4 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+// Loads the env files and, in CI, fails fast when the Mapbox token is missing.
+import './e2e/env';
 
 // A dedicated port so a running `yarn dev` on :3000 is never picked up by
 // mistake (dev mode compiles on demand and logs dev-only console errors).
