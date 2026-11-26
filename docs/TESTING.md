@@ -58,7 +58,7 @@ and open `e2e_result/index.html` for the list of runs. Use `show-report` rather 
 The exploration page and the map blocks in stories/dataset pages need `NEXT_PUBLIC_MAPBOX_TOKEN` **at build time**.
 
 - **Locally**, without it those tests are **skipped** with a message saying so (they are not silently passed). Set it in `.env.local`.
-- **In CI**, a missing token **fails the run** before the app is built, so map coverage cannot be dropped unnoticed. Add the token as the `MAPBOX_TOKEN` repository secret (Settings → Secrets and variables → Actions). Pull requests from forks cannot read secrets; set `E2E_ALLOW_NO_MAPBOX=1` to run without the map tests on purpose.
+- **In CI**, a missing token **fails the run** before the app is built, so map coverage cannot be dropped unnoticed. Add the token as the `NEXT_PUBLIC_MAPBOX_TOKEN` repository secret (Settings → Secrets and variables → Actions). Pull requests from forks cannot read secrets; set `E2E_ALLOW_NO_MAPBOX=1` to run without the map tests on purpose.
 
 ## Required verification per page
 

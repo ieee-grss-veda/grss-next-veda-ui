@@ -13,7 +13,7 @@ export const HAS_MAPBOX_TOKEN = Boolean(
 );
 
 export const NO_MAPBOX_REASON =
-  'NEXT_PUBLIC_MAPBOX_TOKEN is not set (in .env.local, or as the MAPBOX_TOKEN secret in CI), so Mapbox pages cannot render';
+  'NEXT_PUBLIC_MAPBOX_TOKEN is not set (in .env.local, or as the NEXT_PUBLIC_MAPBOX_TOKEN secret in CI), so Mapbox pages cannot render';
 
 // In CI a missing token must not silently drop the map coverage: fail the run
 // before the app is built. Set E2E_ALLOW_NO_MAPBOX=1 to opt out on purpose
@@ -25,7 +25,7 @@ if (
 ) {
   throw new Error(
     'NEXT_PUBLIC_MAPBOX_TOKEN is empty in CI, so every Mapbox page test would ' +
-      'be skipped. Add the MAPBOX_TOKEN repository secret ' +
+      'be skipped. Add the NEXT_PUBLIC_MAPBOX_TOKEN repository secret ' +
       '(Settings > Secrets and variables > Actions), or set ' +
       'E2E_ALLOW_NO_MAPBOX=1 to skip those tests on purpose.',
   );
