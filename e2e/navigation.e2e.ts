@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { test, expect } from './fixtures';
+import { test, expect, waitForHydration } from './fixtures';
 import { HAS_MAPBOX_TOKEN, NO_MAPBOX_REASON } from './env';
 import { expectKnownBug } from './known-issues';
 import { VIZ_APP_500, card } from './pages';
@@ -12,13 +12,13 @@ const MAIN_NAV = [
 ];
 
 /**
- * Go to a page and wait until client-side JS has loaded. Clicking a link that
- * VEDA-UI renders before hydration finishes is sometimes swallowed, which made
+ * Go to a page and wait until it is hydrated. Clicking a link that VEDA-UI
+ * renders before hydration finishes is sometimes swallowed, which made
  * card-click tests flaky.
  */
 async function gotoHydrated(page: Page, path: string) {
-  await page.goto(path);
-  await page.waitForLoadState('networkidle');
+  await page.goto(path, { waitUntil: 'domcontentloaded' });
+  await waitForHydration(page);
 }
 
 const isMobile = (page: Page) => (page.viewportSize()?.width ?? 1280) < 1024;
@@ -85,11 +85,17 @@ test.describe('page-to-page flows', () => {
 
   test('catalog card opens the dataset page', async ({ page }) => {
     await gotoHydrated(page, '/data-catalog');
-    await page
+    const link = page
       .getByRole('link', { name: /Microsoft Global Building Footprints/ })
-      .first()
-      .click();
-    await expect(page).toHaveURL(/\/data-catalog\/ms-buildings$/);
+      .first();
+    // The catalog re-renders its cards when its data arrives, which can drop a
+    // click that landed on the old element, so retry the click until it works.
+    await expect(async () => {
+      await link.click({ timeout: 3_000 });
+      await expect(page).toHaveURL(/\/data-catalog\/ms-buildings$/, {
+        timeout: 3_000,
+      });
+    }).toPass();
     await expect(
       page.getByRole('heading', {
         level: 1,

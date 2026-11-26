@@ -143,4 +143,28 @@ export const test = base.extend<Fixtures>({
   ],
 });
 
+/**
+ * Wait until React has hydrated the page's links and buttons. VEDA-UI renders
+ * them before hydration finishes, and a click on one that has no handler yet is
+ * swallowed. React 18 sets a `__reactProps$…` key on every DOM node it manages
+ * once the node is hydrated, so we wait for that on every link and button.
+ * Unlike `networkidle` (discouraged by Playwright), this does not depend on the
+ * network going quiet, which map pages never do (tile and API requests).
+ * Widgets React does not manage (Osano, Mapbox/MapLibre controls) are skipped.
+ */
+export async function waitForHydration(page: Page) {
+  await page.waitForFunction(() => {
+    const els = Array.from(document.querySelectorAll('a[href], button')).filter(
+      (e) =>
+        !e.closest('[class*="osano"], [class*="mapbox"], [class*="maplibre"]'),
+    );
+    return (
+      els.length > 0 &&
+      els.every((e) =>
+        Object.keys(e).some((k) => k.startsWith('__reactProps$')),
+      )
+    );
+  });
+}
+
 export { expect };
