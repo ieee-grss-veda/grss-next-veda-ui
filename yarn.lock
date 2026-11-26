@@ -18,6 +18,13 @@
     "@csstools/css-tokenizer" "^3.0.3"
     lru-cache "^10.4.3"
 
+"@axe-core/playwright@^4.14.0":
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/@axe-core/playwright/-/playwright-4.14.0.tgz#a137c84ad18cf1ec17b5458f300a6e370444fbe5"
+  integrity sha512-SGUhG5PIHd2eMdpgBF2PyQLOhX+qyDR2PT4cmoS4Qk2ak+jX/rrSvst9l0PGv5WTHolKpUMvVmoHpr4cZgf1RQ==
+  dependencies:
+    axe-core "~4.14.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.28.6", "@babel/code-frame@^7.29.0":
   version "7.29.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.29.0.tgz#7cd7a59f15b3cc0dcd803038f7792712a7d0b15c"
@@ -2226,6 +2233,13 @@
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
+
+"@playwright/test@^1.65.0":
+  version "1.65.0"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.65.0.tgz#11038333bcbe91badadbb1dbf0449d252c754f2e"
+  integrity sha512-iGURLGuKDLakSEl7Pgfv8h7f+XLT+V861Wfhz0zlEl5nyFuKUopdkFBPKqTllTUp06aOwPuH8iuUEb3yp3MpbQ==
+  dependencies:
+    playwright "1.65.0"
 
 "@popperjs/core@^2.9.0":
   version "2.11.8"
@@ -4837,6 +4851,11 @@ axe-core@^4.10.0:
   version "4.11.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.11.1.tgz#052ff9b2cbf543f5595028b583e4763b40c78ea7"
   integrity sha512-BASOg+YwO2C+346x3LZOeoovTIoTrRqEsqMa6fmfAV0P+U9mFr9NsyOEpiYvFjbc64NMrSswhV50WdXzdb/Z5A==
+
+axe-core@~4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.14.0.tgz#a9819d3932a8198fbe935d8cbd8afcdfecbcf31d"
+  integrity sha512-9WTZxEjsZ7b13TH8JPmbV2z8CHbl80/2hm3XPEG4JgNdQLK81IBRXmSxHfMAOkSqQeRxT/0dwNDz2GOm3zzpcQ==
 
 axios@^0.25.0:
   version "0.25.0"
@@ -9501,6 +9520,18 @@ pinst@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pinst/-/pinst-3.0.0.tgz#80dec0a85f1f993c6084172020f3dbf512897eec"
   integrity sha512-cengSmBxtCyaJqtRSvJorIIZXMXg+lJ3sIljGmtBGUVonMnMsVJbnzl6jGN1HkOWwxNuJynCJ2hXxxqCQrFDdw==
+
+playwright-core@1.65.0:
+  version "1.65.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.65.0.tgz#2b4671949db79c6ea47facf09f4aeffb90bc5c7f"
+  integrity sha512-vNSKgH6YqtN7cdT/L334zo0a+YwkrpicyrHJlWWPIm/Q+Nn2SWInil01oT0mbu96U4GgoRtCYQD9CzJQgju+lA==
+
+playwright@1.65.0:
+  version "1.65.0"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.65.0.tgz#d890f700bf7a04b42cbdc4baab8d0e16b1d73f41"
+  integrity sha512-F3AMWcR44qMBt4kq+6Kb6mX7bjGXshktKFOPULd7reED6ZJWevjbNRqysP7q+AATE9kdPEZBibex1BYsvpVoeA==
+  dependencies:
+    playwright-core "1.65.0"
 
 plugin-error@^1.0.1:
   version "1.0.1"
